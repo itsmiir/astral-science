@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_daylight_detector",
+  "textures": {
+    "top": "astralscience:block/starlight_collector_mica",
+    "side": "astralscience:block/starlight_collector_side"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "astralscience:limestone",
+    "astralscience:pumice",
+    "astralscience:shale",
+    "astralscience:slate",
+    "astralscience:regolith",
+    "astralscience:iron_rich_basalt",
+    "astralscience:fresh_blackstone",
+    "astralscience:magmatic_fresh_blackstone",
+    "astralscience:ancient_ice",
+    "astralscience:sylium"
+  ]
+}

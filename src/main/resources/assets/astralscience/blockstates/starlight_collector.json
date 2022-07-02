@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "rune=0": {
+      "model": "astralscience:block/starlight_collector_figma"
+    },
+    "rune=1": {
+      "model": "astralscience:block/starlight_collector_waergo"
+    },
+    "rune=2": {
+      "model": "astralscience:block/starlight_collector_physe"
+    },
+    "rune=3": {
+      "model": "astralscience:block/starlight_collector_kyter"
+    },
+    "rune=4": {
+      "model": "astralscience:block/starlight_collector_caphta"
+    },
+    "rune=5": {
+      "model": "astralscience:block/starlight_collector_pierke"
+    },
+    "rune=6": {
+      "model": "astralscience:block/starlight_collector_telos"
+    },
+    "rune=7": {
+      "model": "astralscience:block/starlight_collector_akyp"
+    },
+    "rune=8": {
+      "model": "astralscience:block/starlight_collector_elef"
+    },
+    "rune=9": {
+      "model": "astralscience:block/starlight_collector_veris"
+    },
+    "rune=10": {
+      "model": "astralscience:block/starlight_collector_mica"
+    },
+    "rune=11": {
+      "model": "astralscience:block/starlight_collector_nix"
+    },
+    "rune=12": {
+      "model": "astralscience:block/starlight_collector_plexes"
+    },
+    "rune=13": {
+      "model": "astralscience:block/starlight_collector_deimos"
+    },
+    "rune=14": {
+      "model": "astralscience:block/starlight_collector_allente"
+    },
+    "rune=15": {
+      "model": "astralscience:block/starlight_collector_ike"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "astralscience:red_petal",
+    "astralscience:blue_petal",
+    "astralscience:mint_petal",
+    "astralscience:yellow_petal",
+    "astralscience:cyan_petal",
+    "astralscience:orange_petal",
+    "astralscience:pink_petal",
+    "astralscience:peach_petal",
+    "astralscience:lavender_petal",
+    "astralscience:purple_petal",
+    "astralscience:magenta_petal",
+    "astralscience:white_petal",
+    "astralscience:black_petal"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "astralscience:bramblewood_log"
+        },
+        {
+            "item": "astralscience:bramblewood_log"
+        },
+        {
+            "item": "astralscience:bramblewood_log"
+        },
+        {
+            "item": "astralscience:bramblewood_log"
+        }
+    ],
+    "result": {
+        "item": "astralscience:bramblewood",
+        "count": 3
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "astralscience:bramblewood_log"
+        }
+    ],
+    "result": {
+        "item": "astralscience:bramblewood_planks",
+        "count": 4
+    }
+}

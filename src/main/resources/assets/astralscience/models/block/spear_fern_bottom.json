@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "astralscience:block/spear_fern_bottom"
+  }
+}

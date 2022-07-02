@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "astralscience:block/wormwood_side",
+    "side": "astralscience:block/wormwood_side"
+  }
+}

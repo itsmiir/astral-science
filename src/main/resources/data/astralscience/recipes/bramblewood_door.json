@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "##",
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "astralscience:bramblewood_planks"
+        }
+    },
+    "result": {
+        "item": "astralscience:bramblewood_door",
+        "count": 1
+    }
+}
