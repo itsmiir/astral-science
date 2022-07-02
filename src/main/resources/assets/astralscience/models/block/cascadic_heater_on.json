@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "astralscience:block/cascadic_cooler_top",
+    "front": "astralscience:block/electric_heater_animated",
+    "side": "astralscience:block/electric_heater_side"
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "astralscience:nephryll_pearl"
+        }
+    },
+    "result": {
+        "item": "astralscience:nephryll_block",
+        "count": 1
+    },
+    "group": "compressing"
+}

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#D#",
+        "GGG"
+    ],
+    "key": {
+        "#": {
+            "item": "astralscience:microcontroller"
+        },
+        "D": {
+            "item": "minecraft:netherite_boots"
+        },
+        "G": {
+            "item": "astralscience:nephryll_powder"
+        }
+    },
+    "result": {
+        "item": "astralscience:nephryll_boots",
+        "count": 1
+    }
+}

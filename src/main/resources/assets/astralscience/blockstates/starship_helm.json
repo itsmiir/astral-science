@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "astralscience:block/starship_helm", "y": 180 },
+    "facing=east":  { "model": "astralscience:block/starship_helm", "y": 270 },
+    "facing=south": { "model": "astralscience:block/starship_helm"           },
+    "facing=west":  { "model": "astralscience:block/starship_helm", "y":  90 }
+  }
+}

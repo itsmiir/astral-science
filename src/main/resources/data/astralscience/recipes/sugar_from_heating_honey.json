@@ -1,0 +1,11 @@
+{
+  "type": "astralscience:heating",
+  "ingredient": {
+    "item": "minecraft:honey_block"
+  },
+  "result": "minecraft:sugar",
+  "outputcount": 16,
+  "experience": 0.1,
+  "cookingtime": 300,
+  "group": "heating"
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "astralscience:cascadium_block"
+  }
+],
+"result": {
+  "item": "astralscience:cascadium_shard",
+  "count": 9
+}
+}

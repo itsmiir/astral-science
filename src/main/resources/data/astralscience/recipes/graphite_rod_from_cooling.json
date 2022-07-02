@@ -1,0 +1,10 @@
+{
+    "type": "astralscience:cooling",
+    "ingredient": {
+        "item": "minecraft:blaze_rod"
+    },
+    "result": "astralscience:graphite_rod",
+    "experience": 0.1,
+    "cookingtime": 300,
+    "group": "defiring"
+}

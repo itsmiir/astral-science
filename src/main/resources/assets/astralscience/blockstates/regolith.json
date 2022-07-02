@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "astralscience:block/regolith"
+      },
+      {
+        "model": "astralscience:block/regolith_mirrored"
+      },
+      {
+        "model": "astralscience:block/regolith",
+        "y": 180
+      },
+      {
+        "model": "astralscience:block/regolith_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

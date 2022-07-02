@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:stray",
+    "minecraft:snow_golem",
+    "minecraft:wither",
+    "minecraft:vex",
+    "minecraft:enderman"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#",
+        "W",
+        "g"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:quartz"
+        },
+        "W": {
+            "item": "astralscience:light_composite_sheet"
+        },
+        "g": {
+            "item": "minecraft:gold_ingot"
+        }
+    },
+    "result": {
+        "item": "astralscience:microcontroller",
+        "count": 1
+    }
+}

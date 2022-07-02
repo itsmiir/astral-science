@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:glass_pane"
+        },
+        {
+            "item": "minecraft:glass_pane"
+        },
+        {
+            "item": "minecraft:glass_pane"
+        },
+        {
+            "item": "minecraft:glass_pane"
+        },
+        {
+            "item": "minecraft:slime_ball"
+        },
+        {
+            "item": "astralscience:light_composite_sheet"
+        },
+        {
+            "item": "astralscience:light_composite_sheet"
+        },
+        {
+            "item": "astralscience:light_composite_sheet"
+        },
+        {
+            "item": "astralscience:light_composite_sheet"
+        }
+    ],
+    "result": {
+        "item": "astralscience:heavy_composite_plate",
+        "count": 1
+    }
+}

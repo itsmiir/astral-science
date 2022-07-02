@@ -1,0 +1,10 @@
+{
+  "type": "astralscience:cooling",
+  "ingredient": {
+    "item": "astralscience:magmatic_fresh_blackstone"
+  },
+  "result": "astralscience:fresh_blackstone",
+  "experience": 0.1,
+  "cookingtime": 300,
+  "group": "defiring"
+}

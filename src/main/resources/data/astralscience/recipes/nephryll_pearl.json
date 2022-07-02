@@ -1,0 +1,10 @@
+{
+    "type": "astralscience:heating",
+    "ingredient": {
+        "item": "astralscience:nephryll_powder"
+    },
+    "result": "astralscience:nephryll_pearl",
+    "experience": 0.1,
+    "cookingtime": 200,
+    "group": "firing"
+}

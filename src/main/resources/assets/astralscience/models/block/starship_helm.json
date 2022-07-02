@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "astralscience:block/starship_helm_top",
+    "front": "astralscience:block/starship_helm_front",
+    "side": "astralscience:block/starship_helm_side"
+  }
+}

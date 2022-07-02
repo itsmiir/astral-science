@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "astralscience:block/pumice"
+      },
+      {
+        "model": "astralscience:block/pumice_mirrored"
+      },
+      {
+        "model": "astralscience:block/pumice",
+        "y": 180
+      },
+      {
+        "model": "astralscience:block/pumice_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

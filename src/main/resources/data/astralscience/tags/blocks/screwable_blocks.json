@@ -1,0 +1,18 @@
+  {
+    "replace": false,
+    "values": [
+      "astralscience:machine_chassis",
+      "astralscience:cascadic_cooler",
+      "astralscience:cascadic_heater",
+
+      "minecraft:furnace",
+      "#minecraft:shulker_boxes",
+      "minecraft:trapped_chest",
+      "minecraft:chest",
+      "minecraft:barrel",
+      "minecraft:ender_chest",
+      "minecraft:hopper",
+      "#c:anvils",
+      "#c:workbench"
+    ]
+  }

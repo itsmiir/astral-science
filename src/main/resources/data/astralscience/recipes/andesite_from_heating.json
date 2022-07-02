@@ -1,0 +1,10 @@
+{
+  "type": "astralscience:heating",
+  "ingredient": {
+    "item": "minecraft:andesite"
+  },
+  "result": "minecraft:polished_andesite",
+  "experience": 0.1,
+  "cookingtime": 300,
+  "group": "heating"
+}

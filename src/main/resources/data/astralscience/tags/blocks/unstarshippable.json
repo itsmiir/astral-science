@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#c:indestructible",
+    "astralscience:nephryll_block",
+    "minecraft:air",
+    "minecraft:cave_air",
+    "minecraft:void_air"
+  ]
+}

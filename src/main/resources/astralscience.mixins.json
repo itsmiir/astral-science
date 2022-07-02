@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.miir.astralscience.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "DeepFreezeMixin",
+    "MarkBlocksAsCarvableMixin",
+    "ReentryMixin",
+    "gravity.ChickenGravityMixin",
+    "gravity.FallDamageModifier",
+    "gravity.GeneralGravityMixin",
+    "gravity.ItemGravityMixin",
+    "gravity.ParrotGravityMixin",
+    "tick.PreventElytraMixin",
+    "tick.UpdateNephryllBootsMixin",
+    "tick.UpdateOxygenMixin"
+  ],
+  "client": [
+    "render.AlwaysRenderLowerHalfOfSkyMixin",
+    "render.BetterStarsMixin",
+    "render.CullAtmosphereMixin",
+    "render.DarkenLowerHalfOfSkyMixin",
+    "render.OrbitRenderMixin",
+    "render.ReentryFogMixin",
+    "render.RenderOrbitalSkyMixin",
+    "render.SkyPropertiesOverrideMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

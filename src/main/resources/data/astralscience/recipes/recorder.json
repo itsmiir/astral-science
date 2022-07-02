@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  W",
+    " D ",
+    "W  "
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "D": {
+      "tag": "c:diamonds"
+    }
+  },
+  "result": {
+    "item": "astralscience:recorder"
+  }
+}

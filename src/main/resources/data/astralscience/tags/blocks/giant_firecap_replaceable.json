@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "astralscience:firecap",
+    "astralscience:firecap_hyphae",
+    "astralscience:firecap_gills",
+    "astralscience:firecap_scales",
+    "astralscience:bluemoss",
+    "astralscience:ghost_vines",
+    "astralscience:ghost_vines_plant",
+    "astralscience:frostfur",
+    "minecraft:snow",
+    "minecraft:powder_snow",
+    "#astralscience:giant_plant_replaceable"
+  ]
+}

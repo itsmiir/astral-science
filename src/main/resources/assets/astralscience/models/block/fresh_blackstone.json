@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "astralscience:block/fresh_blackstone_top",
+    "side": "astralscience:block/fresh_blackstone_side"
+  }
+}

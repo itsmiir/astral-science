@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "astralscience:block/cascadic_bone_top",
+    "side": "astralscience:block/cascadic_bone_side"
+  }
+}

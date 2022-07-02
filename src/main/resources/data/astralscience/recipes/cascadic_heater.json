@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "nPn",
+        "gSR",
+        "CDC"
+    ],
+    "key": {
+        "n": {
+            "item": "minecraft:copper_ingot"
+        },
+        "P": {
+            "item": "minecraft:quartz"
+        },
+        "g": {
+            "item": "minecraft:gold_ingot"
+        },
+        "S": {
+            "item": "astralscience:machine_chassis"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "C": {
+            "item": "minecraft:cobblestone"
+        },
+        "D": {
+            "item": "astralscience:cascadium_block"
+        }
+    },
+    "result": {
+        "item": "astralscience:cascadic_heater",
+        "count": 1
+    },
+    "group": "machine"
+}

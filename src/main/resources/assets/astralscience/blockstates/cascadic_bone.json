@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "astralscience:block/cascadic_bone",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "astralscience:block/cascadic_bone"
+    },
+    "axis=z": {
+      "model": "astralscience:block/cascadic_bone",
+      "x": 90
+    }
+  }
+}

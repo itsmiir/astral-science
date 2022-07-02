@@ -1,0 +1,11 @@
+{
+  "type": "astralscience:heating",
+  "ingredient": {
+    "item": "minecraft:stick"
+  },
+  "result": "minecraft:torch",
+  "outputcount": 4,
+  "experience": 0.1,
+  "cookingtime": 300,
+  "group": "smelting"
+}

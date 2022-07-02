@@ -1,0 +1,10 @@
+{
+    "type": "astralscience:heating",
+    "ingredient": {
+        "tag": "minecraft:planks"
+    },
+    "result": "minecraft:charcoal",
+    "experience": 0.1,
+    "cookingtime": 300,
+    "group": "heating"
+}

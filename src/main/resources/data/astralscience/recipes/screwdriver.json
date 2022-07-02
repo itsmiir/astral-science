@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  I",
+    " I ",
+    "Y  "
+  ],
+  "key": {
+    "Y": {
+      "tag": "c:dye_yellow"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    }
+  },
+  "result": {
+    "item": "astralscience:screwdriver"
+  }
+}

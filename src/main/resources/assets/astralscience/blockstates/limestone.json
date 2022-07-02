@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "astralscience:block/limestone"
+      },
+      {
+        "model": "astralscience:block/limestone_mirrored"
+      },
+      {
+        "model": "astralscience:block/limestone",
+        "y": 180
+      },
+      {
+        "model": "astralscience:block/limestone_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

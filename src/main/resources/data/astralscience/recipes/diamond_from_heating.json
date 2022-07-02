@@ -1,0 +1,11 @@
+{
+  "type": "astralscience:heating",
+  "ingredient": {
+    "item": "minecraft:diamond_ore"
+  },
+  "result": "minecraft:diamond",
+  "outputcount": 2,
+  "experience": 0.1,
+  "cookingtime": 300,
+  "group": "smelting"
+}

@@ -1,0 +1,11 @@
+{
+  "type": "astralscience:heating",
+  "ingredient": {
+    "item": "minecraft:copper_ore"
+  },
+  "result": "minecraft:copper_ingot",
+  "outputcount": 2,
+  "experience": 0.1,
+  "cookingtime": 300,
+  "group": "smelting"
+}

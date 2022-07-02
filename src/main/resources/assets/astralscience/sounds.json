@@ -1,0 +1,18 @@
+{
+  "phosphoric_jungle": {
+    "sounds": [
+      "astralscience:phosphoric_jungle"
+    ]
+  },
+  "low_hum": {
+    "sounds": [
+      "astralscience:low_hum"
+    ]
+  },
+  "subterranean_lake": {
+    "sounds": [
+      "astralscience:subterranean_lake"
+    ]
+  }
+}
+
