@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -62,33 +63,21 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
         this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
         this.propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
-                switch(index) {
-                    case 0:
-                        return CascadicCoolerBlockEntity.this.burnTime;
-                    case 1:
-                        return CascadicCoolerBlockEntity.this.fuelTime;
-                    case 2:
-                        return CascadicCoolerBlockEntity.this.cookTime;
-                    case 3:
-                        return CascadicCoolerBlockEntity.this.cookTimeTotal;
-                    default:
-                        return 0;
-                }
+                return switch (index) {
+                    case 0 -> CascadicCoolerBlockEntity.this.burnTime;
+                    case 1 -> CascadicCoolerBlockEntity.this.fuelTime;
+                    case 2 -> CascadicCoolerBlockEntity.this.cookTime;
+                    case 3 -> CascadicCoolerBlockEntity.this.cookTimeTotal;
+                    default -> 0;
+                };
             }
 
             public void set(int index, int value) {
-                switch(index) {
-                    case 0:
-                        CascadicCoolerBlockEntity.this.burnTime = value;
-                        break;
-                    case 1:
-                        CascadicCoolerBlockEntity.this.fuelTime = value;
-                        break;
-                    case 2:
-                        CascadicCoolerBlockEntity.this.cookTime = value;
-                        break;
-                    case 3:
-                        CascadicCoolerBlockEntity.this.cookTimeTotal = value;
+                switch (index) {
+                    case 0 -> CascadicCoolerBlockEntity.this.burnTime = value;
+                    case 1 -> CascadicCoolerBlockEntity.this.fuelTime = value;
+                    case 2 -> CascadicCoolerBlockEntity.this.cookTime = value;
+                    case 3 -> CascadicCoolerBlockEntity.this.cookTimeTotal = value;
                 }
 
             }
@@ -97,7 +86,7 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
                 return 4;
             }
         };
-        this.recipesUsed = new Object2IntOpenHashMap();
+        this.recipesUsed = new Object2IntOpenHashMap<>();
         this.recipeType = com.miir.astralscience.recipe.Recipe.COOLING;
     }
 
@@ -161,8 +150,8 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
             --cascadicCoolerBlockEntity.burnTime;
         }
 
-        ItemStack itemStack = (ItemStack)cascadicCoolerBlockEntity.inventory.get(1);
-        if (cascadicCoolerBlockEntity.isBurning() || !itemStack.isEmpty() && !((ItemStack)cascadicCoolerBlockEntity.inventory.get(0)).isEmpty()) {
+        ItemStack itemStack = cascadicCoolerBlockEntity.inventory.get(1);
+        if (cascadicCoolerBlockEntity.isBurning() || !itemStack.isEmpty() && !cascadicCoolerBlockEntity.inventory.get(0).isEmpty()) {
             Recipe recipe = world.getRecipeManager().getFirstMatch(cascadicCoolerBlockEntity.recipeType, cascadicCoolerBlockEntity, world).orElse(null);
             int i = cascadicCoolerBlockEntity.getMaxCountPerStack();
             if (!cascadicCoolerBlockEntity.isBurning() && canAcceptRecipeOutput(recipe, cascadicCoolerBlockEntity.inventory, i)) {
@@ -201,7 +190,7 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
 
         if (bl != cascadicCoolerBlockEntity.isBurning()) {
             bl2 = true;
-            blockState = (BlockState)blockState.with(AbstractFurnaceBlock.LIT, cascadicCoolerBlockEntity.isBurning());
+            blockState = blockState.with(AbstractFurnaceBlock.LIT, cascadicCoolerBlockEntity.isBurning());
             world.setBlockState(blockPos, blockState, 3);
         }
 
@@ -212,12 +201,12 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
     }
 
     private static boolean canAcceptRecipeOutput(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
-        if (!((ItemStack)defaultedList.get(0)).isEmpty() && recipe != null) {
+        if (!defaultedList.get(0).isEmpty() && recipe != null) {
             ItemStack itemStack = recipe.getOutput();
             if (itemStack.isEmpty()) {
                 return false;
             } else {
-                ItemStack itemStack2 = (ItemStack)defaultedList.get(2);
+                ItemStack itemStack2 = defaultedList.get(2);
                 if (itemStack2.isEmpty()) {
                     return true;
                 } else if (!itemStack2.isItemEqualIgnoreDamage(itemStack)) {
@@ -235,9 +224,9 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
 
     private static boolean craftRecipe(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
         if (recipe != null && canAcceptRecipeOutput(recipe, defaultedList, i)) {
-            ItemStack itemStack = (ItemStack)defaultedList.get(0);
+            ItemStack itemStack = defaultedList.get(0);
             ItemStack itemStack2 = recipe.getOutput();
-            ItemStack itemStack3 = (ItemStack)defaultedList.get(2);
+            ItemStack itemStack3 = defaultedList.get(2);
             if (itemStack3.isEmpty()) {
                 defaultedList.set(2, itemStack2.copy());
             } else if (itemStack3.isOf(itemStack2.getItem())) {
@@ -369,13 +358,11 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
 
     public List<Recipe<?>> method_27354(ServerWorld serverWorld, Vec3d vec3d) {
         List<Recipe<?>> list = Lists.newArrayList();
-        ObjectIterator var4 = this.recipesUsed.object2IntEntrySet().iterator();
 
-        while(var4.hasNext()) {
-            Object2IntMap.Entry<Identifier> entry = (Object2IntMap.Entry)var4.next();
-            serverWorld.getRecipeManager().get((Identifier)entry.getKey()).ifPresent((recipe) -> {
+        for (Object2IntMap.Entry<Identifier> identifierEntry : this.recipesUsed.object2IntEntrySet()) {
+            serverWorld.getRecipeManager().get(((Object2IntMap.Entry<Identifier>) (Object2IntMap.Entry) identifierEntry).getKey()).ifPresent((recipe) -> {
                 list.add(recipe);
-                dropExperience(serverWorld, vec3d, entry.getIntValue(), ((AbstractCookingRecipe)recipe).getExperience());
+                dropExperience(serverWorld, vec3d, ((Object2IntMap.Entry<Identifier>) (Object2IntMap.Entry) identifierEntry).getIntValue(), ((AbstractCookingRecipe) recipe).getExperience());
             });
         }
 
@@ -386,6 +373,7 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
         int j = MathHelper.floor((float)i * f);
         float g = MathHelper.fractionalPart((float)i * f);
         if (g != 0.0F && Math.random() < (double)g) {
+
             ++j;
         }
 
@@ -394,10 +382,8 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
 
     @Override
     public void provideRecipeInputs(RecipeMatcher finder) {
-        Iterator var2 = this.inventory.iterator();
 
-        while(var2.hasNext()) {
-            ItemStack itemStack = (ItemStack)var2.next();
+        for (ItemStack itemStack : this.inventory) {
             finder.addInput(itemStack);
         }
 

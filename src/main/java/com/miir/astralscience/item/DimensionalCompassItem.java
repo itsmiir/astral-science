@@ -1,5 +1,6 @@
 package com.miir.astralscience.item;
 
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -11,6 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -26,11 +28,11 @@ public class DimensionalCompassItem extends Item {
         if (playerEntity.isSneaking()) {
             if (world instanceof ServerWorld) {
                 if (world.getRegistryKey() == World.END) {
-                    server.getCommandManager().execute(serverCommandSource, "/execute in minecraft:overworld run tp @p ~ 256 ~");
+                    FabricDimensions.teleport(playerEntity, server.getOverworld(), new TeleportTarget(playerEntity.getPos(), playerEntity.getVelocity(), playerEntity.getYaw(), playerEntity.getPitch()));
                 } else if (world.getRegistryKey() == World.NETHER) {
-                    server.getCommandManager().execute(serverCommandSource, "/execute in minecraft:the_end run tp @p ~ 256 ~");
+                    FabricDimensions.teleport(playerEntity, server.getWorld(World.END), new TeleportTarget(playerEntity.getPos(), playerEntity.getVelocity(), playerEntity.getYaw(), playerEntity.getPitch()));
                 } else {
-                    server.getCommandManager().execute(serverCommandSource, "/execute in minecraft:the_nether run tp @p ~ 256 ~");
+                    FabricDimensions.teleport(playerEntity, server.getWorld(World.NETHER), new TeleportTarget(playerEntity.getPos(), playerEntity.getVelocity(), playerEntity.getYaw(), playerEntity.getPitch()));
                 }
                 return new TypedActionResult<>(ActionResult.SUCCESS, playerEntity.getStackInHand(hand));
             } else {
@@ -39,11 +41,11 @@ public class DimensionalCompassItem extends Item {
         } else {
             if (world instanceof ServerWorld) {
                 if (world.getRegistryKey() == World.END) {
-                    server.getCommandManager().execute(serverCommandSource, "/execute in minecraft:overworld run tp @p ~ ~ ~");
+                    FabricDimensions.teleport(playerEntity, server.getOverworld(), new TeleportTarget(playerEntity.getPos(), playerEntity.getVelocity(), playerEntity.getYaw(), playerEntity.getPitch()));
                 } else if (world.getRegistryKey() == World.NETHER) {
-                    server.getCommandManager().execute(serverCommandSource, "/execute in minecraft:the_end run tp @p ~ ~ ~");
+                    FabricDimensions.teleport(playerEntity, server.getWorld(World.END), new TeleportTarget(playerEntity.getPos(), playerEntity.getVelocity(), playerEntity.getYaw(), playerEntity.getPitch()));
                 } else {
-                    server.getCommandManager().execute(serverCommandSource, "/execute in minecraft:the_nether run tp @p ~ ~ ~");
+                    FabricDimensions.teleport(playerEntity, server.getWorld(World.NETHER), new TeleportTarget(playerEntity.getPos(), playerEntity.getVelocity(), playerEntity.getYaw(), playerEntity.getPitch()));
                 }
                 return new TypedActionResult<>(ActionResult.SUCCESS, playerEntity.getStackInHand(hand));
             } else {

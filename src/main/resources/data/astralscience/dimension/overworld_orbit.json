@@ -1,0 +1,12 @@
+{
+  "type": "astralscience:orbit",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "astralscience:orbit",
+      "lakes": false,
+      "features": true,
+      "layers": []
+    }
+  }
+}

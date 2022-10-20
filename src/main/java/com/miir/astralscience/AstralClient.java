@@ -1,18 +1,27 @@
 package com.miir.astralscience;
 
+import com.miir.astralscience.client.render.AstralSkyEffects;
+import com.miir.astralscience.client.render.Render;
+import com.miir.astralscience.screen.AstralScreens;
 import com.miir.astralscience.util.Text;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
+import net.fabricmc.fabric.impl.screenhandler.client.ClientNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
-//this class sounds like the name of a "utility" clientside mod
-public abstract class AstralClient implements ClientModInitializer {
+//this class sounds like the name of a "utility" client
+public class AstralClient implements ClientModInitializer {
 
     public static Identifier renderBody(String path) {
         return AstralScience.id("textures/environment/body/" + path + ".png");
@@ -54,36 +63,19 @@ public abstract class AstralClient implements ClientModInitializer {
         if (AstralDimensions.isOrbit(world)) {
             worldname = Text.deorbitify(worldname);
         }
-        switch (worldname) {
-            case "halyus":
-            case "ermis":
-            case "sylene":
-            case "aere":
-            case "iris":
-            case "hydes":
-                return false;
-            case "phosphor":
-            case "overworld":
-            case "zu":
-            case "kronos":
-            case "ouran":
-            case "psidon":
-            case "cyri":
-            case "omeia":
-            default:
-                return true;
-        }
+        return switch (worldname) {
+            case "halyus", "ermis", "sylene", "aere", "iris", "hydes" -> false;
+            case "phosphor", "overworld", "zu", "kronos", "ouran", "psidon", "cyri", "omeia" -> true;
+            default -> true;
+        };
     }
 
     public static boolean isLuminescent(World world) {
         if (AstralDimensions.isOrbit(world)) {
-            switch (Text.deorbitify(world.getRegistryKey().getValue().getPath())) {
-                case "cyri":
-                case "halyus":
-                    return true;
-                default:
-                    return false;
-            }
+            return switch (Text.deorbitify(world.getRegistryKey().getValue().getPath())) {
+                case "cyri", "halyus" -> true;
+                default -> false;
+            };
         }
         return false;
     }
@@ -99,6 +91,7 @@ public abstract class AstralClient implements ClientModInitializer {
                 }
 
             } else {
+                // no if statement here for later expansion
                 switch (world.getRegistryKey().getValue().getPath()) {
                     case "sylene":
                         return renderMoon("overworld");
@@ -108,13 +101,25 @@ public abstract class AstralClient implements ClientModInitializer {
         return renderMoon("none");
     }
 
+    public static boolean shouldMultiplyStars() {
+        return true;
+    }
+
+    public static int multiplyStars() {
+        return 10;
+    }
+
     @Override
     public void onInitializeClient() {
 //        ClientNetworking.register();
-//        Render.register();
-//        AstralScreens.register();
+        Render.register();
+        AstralScreens.registerClient();
         LAST_MAP_FOCUS = new Vec2f(0f, 0f);
         LAST_MAP_ZOOM = 0;
-        AstralScience.LOGGER.info("Successfully initialized Miir's Interstellar version " + AstralScience.VERSION + " in client mode!");
+        DimensionEffects.BY_IDENTIFIER.putAll(AstralSkyEffects.BY_IDENTIFIER);
+        AstralScience.LOGGER.info("Successfully initialized Astral Science version " + AstralScience.VERSION + " in client mode!");
+        DimensionRenderingRegistry.registerSkyRenderer(
+                RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("overworld_orbit")),
+                Render::renderOrbitalSky);
     }
 }

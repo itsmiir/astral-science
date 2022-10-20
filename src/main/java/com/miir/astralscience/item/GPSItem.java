@@ -24,9 +24,6 @@ public class GPSItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (world instanceof ClientWorld) {
-            user.sendMessage(Text.of(world.getRegistryKey().toString()), false);
-        }
         if (world instanceof ServerWorld) {
             if (!world.getRegistryKey().getValue().getNamespace().equals(AstralScience.MOD_ID)) {
                 switch (world.getRegistryKey().getValue().getPath()) {

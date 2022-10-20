@@ -15,16 +15,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class StarshipBedRespawningMixin {
-    @Shadow public abstract ServerWorld getServerWorld();
+//    @Shadow public abstract ServerWorld getServerWorld();
+
+    @Shadow public abstract ServerWorld getWorld();
 
     @Inject(
             method = "setSpawnPoint",
             at = @At("HEAD")
     )
     private void mixin(RegistryKey<World> dimension, BlockPos pos, float angle, boolean spawnPointSet, boolean bl, CallbackInfo ci) {
-        if (this.getServerWorld().getBlockState(pos).isIn(BlockTags.BEDS)) {
-            if (this.getServerWorld().getBlockEntity(pos) != null) {
-                if (this.getServerWorld().getBlockEntity(pos) instanceof BedBlockEntity) {
+        if (this.getWorld().getBlockState(pos).isIn(BlockTags.BEDS)) {
+            if (this.getWorld().getBlockEntity(pos) != null) {
+                if (this.getWorld().getBlockEntity(pos) instanceof BedBlockEntity) {
 //                    ((BedBlockEntity)this.getServerWorld().getBlockEntity(pos)).addSleeper((ServerPlayerEntity)(Object)this).getUUID();
                 }
             }

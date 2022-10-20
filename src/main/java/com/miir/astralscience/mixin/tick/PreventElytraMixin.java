@@ -22,7 +22,7 @@ public class PreventElytraMixin {
     )
     public void mixin(ClientCommandC2SPacket packet, CallbackInfo ci) {
         if (this.player.world != null) {
-            if (!AstralDimensions.hasAtmosphere(this.player.world)) {
+            if (!AstralDimensions.hasAtmosphere(this.player.world, false)) {
                 this.player.stopFallFlying();
             }
         }

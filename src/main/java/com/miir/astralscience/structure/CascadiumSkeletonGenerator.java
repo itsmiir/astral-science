@@ -1,5 +1,17 @@
 package com.miir.astralscience.structure;
 
+import com.miir.astralscience.AstralScience;
+import com.miir.astralscience.world.gen.feature.AstralFeatures;
+import net.minecraft.structure.SimpleStructurePiece;
+import net.minecraft.structure.StructurePiece;
+import net.minecraft.structure.StructureTemplateManager;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.ChunkRandom;
+
+import java.util.List;
+
 public class CascadiumSkeletonGenerator {
 //    private static final Identifier[] SKELETONS = new Identifier[]{
 //            AstralScience.id("cascadium_skeleton/curved_ribcage"),

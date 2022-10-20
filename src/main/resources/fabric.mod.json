@@ -21,6 +21,9 @@
     "main": [
       "com.miir.astralscience.AstralScience"
     ],
+    "client": [
+      "com.miir.astralscience.AstralClient"
+    ],
     "preLaunch": [
       "com.miir.astralscience.Prelaunch"
     ]
@@ -35,5 +38,6 @@
     "minecraft": "1.19.x"
   },
   "suggests": {
-  }
+  },
+  "accessWidener" : "astralscience.accesswidener"
 }

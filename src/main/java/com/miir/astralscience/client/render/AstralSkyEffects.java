@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AstralSkyEffects extends DimensionEffects {
 
     public static final Object2ObjectMap<Identifier, ? extends AstralSkyEffects> BY_IDENTIFIER = Util.make(new Object2ObjectArrayMap(), (object2ObjectArrayMap) -> {
-            object2ObjectArrayMap.put(AstralScience.id("airless"), new Airless());
+            object2ObjectArrayMap.put(AstralScience.id("orbit"), new Airless());
             object2ObjectArrayMap.put(AstralScience.id("cyri"), new Cyri());
         object2ObjectArrayMap.put(AstralScience.id("phosphor"), new Phosphor());
 

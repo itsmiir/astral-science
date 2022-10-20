@@ -13,7 +13,7 @@ import net.minecraft.util.Lazy;
 
 import java.util.function.Supplier;
 
-public enum AstralScienceArmorMaterials implements ArmorMaterial {
+public enum AstralMaterials implements ArmorMaterial {
     LIGHT_COMPOSITE("light_composite", 15, new int[]{2, 5, 6, 2}, 9, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
         return Ingredient.ofItems(AstralItems.LIGHT_COMPOSITE_SHEET);
     }),
@@ -31,7 +31,7 @@ public enum AstralScienceArmorMaterials implements ArmorMaterial {
     private final float knockbackResistance;
     private final Lazy<Ingredient> repairIngredientSupplier;
 
-    AstralScienceArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredientSupplier) {
+    AstralMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredientSupplier) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protectionAmounts = protectionAmounts;

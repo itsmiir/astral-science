@@ -1,5 +1,6 @@
 package com.miir.astralscience;
 
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,9 +15,7 @@ public class Prelaunch implements PreLaunchEntrypoint {
             "#buffinhale",
             ":pineapple:",
             ":tiny_potato:",
-            "Ad Astra!",
-            "Allente physe! Kyter elef! Figma caphta! Plexes veris!",
-            "Arguably improved!",
+            "Improved!",
             "Certified!",
             "Guaranteed!",
             "Assured!",
@@ -24,11 +23,10 @@ public class Prelaunch implements PreLaunchEntrypoint {
             "Insured!",
             "(with a dark side :3)",
             "Not an attack surface!",
-            "Powerful wands!",
+            "You will not go to space today!",
             "Powerful rocks!",
             "Powerful flowers!",
             "Powerful stars!",
-            "join my discord!!!1!",
             "Better, Higher, Faster!",
             "Did I mention the recorder?",
             "Get your snacks!",
@@ -38,7 +36,6 @@ public class Prelaunch implements PreLaunchEntrypoint {
             "In memory of Zombie Pigmen!",
             "It was me all along!",
             "It's the crust!",
-            "Let's get right into the news!",
             "Lots of open space!",
             "Made with Fabric!",
             "Nice!",
@@ -56,8 +53,10 @@ public class Prelaunch implements PreLaunchEntrypoint {
             "Only a fraction of my true power!",
             "Over 4 confirmed downloads!",
             "Subscribe to my podcast!",
+            "Follow my Twitter!",
+            "Subscribe to my subreddit!",
+            "Join my discord!",
             "The Final Frontier!",
-            "The runes mean something!",
             "This was a triumph!",
             "Time to go all out!",
             "To infinity and beyond!",
@@ -66,12 +65,12 @@ public class Prelaunch implements PreLaunchEntrypoint {
             "Yare yare daze...",
             "Yeah, that tracks!",
             "Zzz...",
-            "gorg",
             "if this is a crash report, i didn't do it!"
     };
 
     @Override
     public void onPreLaunch() {
+        MixinExtrasBootstrap.init();
         LOGGER.info("Astral Science: " + STARTUP_MESSAGES[new Random().nextInt(STARTUP_MESSAGES.length)]);
 
     }

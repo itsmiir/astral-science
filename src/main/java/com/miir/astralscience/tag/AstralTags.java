@@ -19,6 +19,7 @@ public class AstralTags {
     public static TagKey<Item> CASCADIC_FUEL;
     public static TagKey<Block> DEEP_COLD;
     public static TagKey<EntityType<?>> DEEP_FREEZE_IMMUNE;
+    public static TagKey<EntityType<?>> ANAEROBIC;
     public static TagKey<Block> GIANT_FIRECAP_REPLACEABLE;
     public static TagKey<Block> BASE_STONE_SYLENE;
     public static TagKey<Block> INDESTRUCTIBLE;
@@ -35,14 +36,16 @@ public class AstralTags {
         SCREWABLE_BLOCKS = TagKey.of(Registry.BLOCK_KEY, AstralScience.id("screwable_blocks"));
         UNSTARSHIPPABLE = TagKey.of(Registry.BLOCK_KEY, AstralScience.id("unstarshippable"));
         STARSHIP_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, AstralScience.id("starship_replaceable"));
-        DEEP_FREEZE_IMMUNE = TagKey.of(Registry.ENTITY_TYPE_KEY, AstralScience.id("deep_freeze_immune"));
         DEEP_COLD = TagKey.of(Registry.BLOCK_KEY, AstralScience.id("deep_cold"));
-        CASCADIC_FUEL = TagKey.of(Registry.ITEM_KEY, AstralScience.id("cascadic_fuel"));
         BASE_STONE_SYLENE = TagKey.of(Registry.BLOCK_KEY, AstralScience.id("base_stone_sylene"));
         GIANT_FIRECAP_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, AstralScience.id("giant_firecap_replaceable"));
         NEPHRUM_GROWABLES = TagKey.of(Registry.BLOCK_KEY, AstralScience.id("nephrum_growables"));
 
+        CASCADIC_FUEL = TagKey.of(Registry.ITEM_KEY, AstralScience.id("cascadic_fuel"));
         GRAVITY_AGNOSTIC = TagKey.of(Registry.ITEM_KEY, AstralScience.id("gravity_agnostic"));
         WARP_FUEL = TagKey.of(Registry.ITEM_KEY, AstralScience.id("warp_fuel"));
+
+        DEEP_FREEZE_IMMUNE = TagKey.of(Registry.ENTITY_TYPE_KEY, AstralScience.id("deep_freeze_immune"));
+        ANAEROBIC = TagKey.of(Registry.ENTITY_TYPE_KEY, AstralScience.id("anaerobic"));
     }
 }

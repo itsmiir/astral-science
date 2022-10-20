@@ -2,7 +2,7 @@ package com.miir.astralscience.item;
 
 import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.block.AstralBlocks;
-import com.miir.astralscience.material.LightCompositeMaterial;
+import com.miir.astralscience.material.AstralMaterials;
 import com.miir.astralscience.material.NephryllMaterial;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
@@ -35,9 +35,9 @@ public class AstralItems {
 
 //    ARMOR
 //    light composite
-    public static final ArmorMaterial LIGHT_COMPOSITE = new LightCompositeMaterial();
+//    public static final ArmorMaterial LIGHT_COMPOSITE = new LightCompositeMaterial();
     public static final ArmorMaterial NEPHRYLL = new NephryllMaterial();
-    public static final Item FLIGHT_HELMET = new ArmorItem(LIGHT_COMPOSITE, EquipmentSlot.HEAD, new Item.Settings().rarity(Rarity.COMMON).group(ItemGroup.COMBAT));
+//    public static final Item FLIGHT_HELMET = new ArmorItem(AstralMaterials.LIGHT_COMPOSITE, EquipmentSlot.HEAD, new Item.Settings().rarity(Rarity.COMMON).group(ItemGroup.COMBAT));
 //    public static final Item FLIGHT_SUIT = new ArmorItem(LIGHT_COMPOSITE, EquipmentSlot.CHEST, new Item.Settings().rarity(Rarity.COMMON));
 //    public static final Item FLIGHT_SUIT_PANTS = new ArmorItem(LIGHT_COMPOSITE, EquipmentSlot.LEGS, new Item.Settings().rarity(Rarity.COMMON));
     public static final Item NEPHRYLL_BOOTS = new ArmorItem(NEPHRYLL, EquipmentSlot.FEET, new Item.Settings().rarity(Rarity.UNCOMMON).group(ItemGroup.COMBAT).fireproof());
@@ -64,7 +64,7 @@ public class AstralItems {
         Registry.register(Registry.ITEM, AstralScience.id("graphite_rod"), GRAPHITE_ROD);
         Registry.register(Registry.ITEM, AstralScience.id("thermal_composite_sheet"), THERMAL_COMPOSITE_SHEET);
 
-        Registry.register(Registry.ITEM, AstralScience.id("flight_helmet"), FLIGHT_HELMET);
+//        Registry.register(Registry.ITEM, AstralScience.id("flight_helmet"), FLIGHT_HELMET);
 //        Registry.register(Registry.ITEM, AstralScience.id("flight_suit"), FLIGHT_SUIT);
 //        Registry.register(Registry.ITEM, AstralScience.id("flight_suit_pants"), FLIGHT_SUIT_PANTS);
         Registry.register(Registry.ITEM, AstralScience.id("nephryll_boots"), NEPHRYLL_BOOTS);

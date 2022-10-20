@@ -3,6 +3,7 @@ package com.miir.astralscience.world;
 import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.WorldAccess;
@@ -83,24 +84,24 @@ public class BlockArray implements Iterable<BlockPos> {
     }
 
     /**
-     * generates a square centered around the center param. can also be used to generate lines, cubes, and
+     * generates a cuboid centered around the center param. can also be used to generate lines, cubes, and
      * rectangles. the resulting cuboid will always have an odd diameter (one block will be the center).
      *
-     * @return a blockArray of the square
+     * @return a blockArray of the cuboid
      */
-    public static BlockArray square(BlockPos center, int rx) {
-        return square(center, rx, rx, 0, 0);
+    public static BlockArray cuboid(BlockPos center, int rx) {
+        return cuboid(center, rx, rx, 0, 0);
     }
 
-    public static BlockArray square(BlockPos center, int rx, int rz) {
-        return square(center, rx, rz, 0, 0);
+    public static BlockArray cuboid(BlockPos center, int rx, int rz) {
+        return cuboid(center, rx, rz, 0, 0);
     }
 
-    public static BlockArray square(BlockPos center, int rx, int rz, int ry) {
-        return square(center, rx, rz, ry, 0);
+    public static BlockArray cuboid(BlockPos center, int rx, int rz, int ry) {
+        return cuboid(center, rx, rz, ry, 0);
     }
 
-    public static BlockArray square(BlockPos center, int rx, int rz, int ry, int flags) {
+    public static BlockArray cuboid(BlockPos center, int rx, int rz, int ry, int flags) {
         BlockArray array = new BlockArray(center);
         BlockPos pos = new BlockPos(center.getX(), center.getY(), center.getZ());
         pos = pos.subtract(new Vec3i(rx, ry, rz));
@@ -148,7 +149,7 @@ public class BlockArray implements Iterable<BlockPos> {
      * @return a blockArray of the sphere/circle
      */
     public static BlockArray circle(BlockPos center, int r, int flags) {
-        BlockArray array = square(center, r, r, 0, flags);
+        BlockArray array = cuboid(center, r, r, 0, flags);
         Vec3d middle = Vec3d.ofCenter(center);
         array.removeIf((Predicate<BlockPos>) element -> {
             Vec3d testPos = Vec3d.ofCenter(element);
@@ -162,7 +163,7 @@ public class BlockArray implements Iterable<BlockPos> {
     }
 
     public static BlockArray sphere(BlockPos center, int r, int flags) {
-        BlockArray array = square(center, r, r, r, flags);
+        BlockArray array = cuboid(center, r, r, r, flags);
         Vec3d middle = Vec3d.ofCenter(center);
         array.removeIf((Predicate<BlockPos>) element -> {
             Vec3d testPos = Vec3d.ofCenter(element);
@@ -306,7 +307,7 @@ public class BlockArray implements Iterable<BlockPos> {
     public int getFlags(BlockPos pos) {
 //            the possibilities are limitless! each flag could represent a different blockstate, or whatever you specify
 //            in the AdvancedBlockStateProvider
-        if (this.blocks.keySet().contains(pos.toImmutable())) {
+        if (this.blocks.containsKey(pos.toImmutable())) {
             return this.blocks.get(pos.toImmutable());
         }
         return 0;
@@ -369,19 +370,32 @@ public class BlockArray implements Iterable<BlockPos> {
         return highest;
     }
 
-    public BlockPos getCenter() {
+    public BlockPos center() {
 //            it'd be cool to implement some feature that maybe gets the center of "mass" of the array at some point
 //            todo i guess ^^
-        BlockPos min = this.getMinPos();
-        BlockPos max = this.getMaxPos();
+        BlockPos min = this.min();
+        BlockPos max = this.max();
         BlockPos delta = max.subtract(min);
-        return new BlockPos(delta.getX() / 2, delta.getY() / 2, delta.getZ() / 2).add(min);
+        return new BlockPos(delta.getX() / 2.0, delta.getY() / 2.0, delta.getZ() / 2.0).add(min);
+    }
+    public BlockPos centerOfMass() {
+        double x = 0;
+        double y = 0;
+        double z = 0;
+        int n = 0;
+        for (BlockPos pos : this) {
+            x = x * n + pos.getX() / (n + 1.0);
+            y = y * n + pos.getY() / (n + 1.0);
+            z = z * n + pos.getZ() / (n + 1.0);
+            n++;
+        }
+        return new BlockPos(((int) Math.round(x)), ((int) Math.round(y)), ((int) Math.round(z)));
     }
 
-    public BlockPos getMinPos() {
-        int minX = 30000000;
-        int minY = 30000000;
-        int minZ = 30000000;
+    public BlockPos min() {
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int minZ = Integer.MAX_VALUE;
         for (BlockPos pos :
                 this.blocks.keySet()) {
             if (pos.getX() < minX) {
@@ -397,10 +411,10 @@ public class BlockArray implements Iterable<BlockPos> {
         return new BlockPos(minX, minY, minZ);
     }
 
-    public BlockPos getMaxPos() {
-        int maxX = -30000000;
-        int maxY = -30000000;
-        int maxZ = -30000000;
+    public BlockPos max() {
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        int maxZ = Integer.MIN_VALUE;
         for (BlockPos pos :
                 this.blocks.keySet()) {
             if (pos.getX() > maxX) {
@@ -434,11 +448,20 @@ public class BlockArray implements Iterable<BlockPos> {
         }
     }
 
-    public void fill() {
-//            todo
-//            ooh, this is one i want to do for sure. idea being it takes a thin line-like BlockArray and kinda fattens
-//            it up a bit. useful for ore veins, thicc trees, etc
-//            float majorAxis = BlockPos.iterateOutwards()
+    public void fill(int dist) {
+/*            todo
+            ooh, this is one i want to do for sure. idea being it takes a thin line-like BlockArray and kinda fattens
+            it up a bit. useful for ore veins, thicc trees, etc
+            float majorAxis = BlockPos.iterateOutwards()
+            */
+        BlockPos min = this.min().subtract(new Vec3i(dist, dist, dist));
+        BlockPos max = this.max().add(dist, dist, dist);
+        BlockArray test = BlockArray.cuboid(min, max);
+        for (BlockPos pos :
+                test) {
+//            if (pos.isWithinDistance())
+//            how to do this in a non-resource intensive way?
+        }
     }
 
     public int size() {

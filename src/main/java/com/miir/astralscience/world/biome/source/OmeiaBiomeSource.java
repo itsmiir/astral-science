@@ -20,8 +20,8 @@ public class OmeiaBiomeSource extends BiomeSource {
 //    private static Supplier<Biome> biomePoints;
 //    public static final Codec<? extends BiomeSource> CODEC = MultiNoiseBiomeSource.CODEC;
 //
-//    public OmeiaBiomeSource(List<Biome> biomes) {
-//        super(biomes);
+//    public OmeiaBiomeSource(List<Biome> biome) {
+//        super(biome);
 //    }
 //
 //

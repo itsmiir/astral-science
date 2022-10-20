@@ -2,11 +2,14 @@ package com.miir.astralscience.item;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -26,6 +29,8 @@ public class RecorderItem extends Item {
         playerEntity.playSound(SoundEvents.BLOCK_NOTE_BLOCK_FLUTE, 1.0F, NOTE);
         return new TypedActionResult<>(ActionResult.SUCCESS, playerEntity.getStackInHand(hand));
     }
+
+
 
     @Override
     public void appendTooltip(ItemStack itemstack, World world, List <Text> tooltip, TooltipContext tooltipContext) {

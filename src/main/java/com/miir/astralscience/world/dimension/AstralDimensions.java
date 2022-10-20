@@ -12,22 +12,46 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
 public class AstralDimensions {
-    public static final RegistryKey<World> HALYUS = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("halyus"));
+    /**
+     * ranked in progression order, the planets are
+     * -overworld
+     * -sylene
+     * -aere
+     * -mekemek
+     * -cyri (moon of phosphor)
+     * -phosphor
+     * -hydes
+     * -iris
+     * -zu
+     * -ouran/psidon
+     * -
+     */
+    public static final RegistryKey<World> HALYUS = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("halyus")); // star
+
     public static final RegistryKey<World> ERMIS = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("ermis"));
+
     public static final RegistryKey<World> PHOSPHOR = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("phosphor"));
+    public static final RegistryKey<World> CYRI = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("cyri"));
+
     public static final RegistryKey<World> OVERWORLD_ORBIT = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("overworld" + AstralScience.ORBIT_SUFFIX));
     public static final RegistryKey<World> SYLENE = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("sylene"));
+
     public static final RegistryKey<World> AERE = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("aere"));
-    public static final RegistryKey<World> ZU = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("zu"));
-    public static final RegistryKey<World> KRONOS = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("kronos"));
-    public static final RegistryKey<World> OURAN = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("ouran"));
-    public static final RegistryKey<World> PSIDON = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("psidon"));
-    public static final RegistryKey<World> HYDES = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("hydes"));
-    public static final RegistryKey<World> CYRI = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("cyri"));
-    public static final RegistryKey<World> IRIS = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("iris"));
     public static final RegistryKey<World> MEKEMEK = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("mekemek"));
+
+    public static final RegistryKey<World> ZU = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("zu"));
+    public static final RegistryKey<World> IRIS = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("iris"));
+    public static final RegistryKey<World> HYDES = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("hydes"));
+
+    public static final RegistryKey<World> PSIDON = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("psidon"));
+    public static final RegistryKey<World> OURAN = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("ouran")); // binary planetary system; not moon
+
+    public static final RegistryKey<World> KRONOS = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("kronos")); // cool and exotic
     public static final RegistryKey<World> OMEIA = RegistryKey.of(Registry.WORLD_KEY, AstralScience.id("omeia"));
 
+    public static RegistryKey<World> orbit(RegistryKey<World> key) {
+        return RegistryKey.of(Registry.WORLD_KEY, AstralScience.id(key.getValue().getPath()+AstralScience.ORBIT_SUFFIX));
+    }
     public static boolean isOrbit(World world) {
         return isOrbit(world.getRegistryKey());
     }
@@ -39,12 +63,10 @@ public class AstralDimensions {
         if (multiplier == 1.0) {
             return 1;
         }
-        return (
-                2E-5 * Math.pow(multiplier, 4) +
-                        0.0015 * Math.pow(multiplier, 3) -
-                        0.0479 * Math.pow(multiplier, 2) +
-                        1.0053 * multiplier + 0.2765
-        );
+        return (2E-5 * Math.pow(multiplier, 4) +
+                0.0015 * Math.pow(multiplier, 3) -
+                0.0479 * Math.pow(multiplier, 2) +
+                1.0053 * multiplier + 0.2765);
     }
 
     public static boolean isAstralDimension(World world) {
@@ -59,13 +81,16 @@ public class AstralDimensions {
         if (world.getBlockState(pos).isIn(AstralTags.DEEP_COLD)) {
             return true;
         } else {
-            return !hasAtmosphere(world);
+            return !hasAtmosphere(world, false);
         }
     }
 
-    public static boolean hasAtmosphere(World world) {
+    public static boolean hasOrbitalDimension(World world) {
+        return ((isAstralDimension(world) && !isOrbit(world)) || world.getRegistryKey().equals(World.OVERWORLD));
+    }
+    public static boolean hasAtmosphere(World world, boolean getHost) {
         if (world.getRegistryKey().getValue().getNamespace().equals(AstralScience.MOD_ID)) {
-            if (isOrbit(world)) {
+            if (isOrbit(world) && !getHost) {
                 return false;
             } else {
                 switch (Text.deorbitify(world.getRegistryKey().getValue().getPath())) {

@@ -82,7 +82,7 @@ public abstract class ReentryMixin {
     )
     private void orbit(CallbackInfo ci) {
         if (this.world != null) {
-            if (this.world instanceof ServerWorld && this.canUsePortals() && !AstralDimensions.isOrbit(this.world)) {
+            if (this.world instanceof ServerWorld && this.canUsePortals() && AstralDimensions.hasOrbitalDimension(this.world)) {
                 if (this.getBlockPos().getY() >= Config.ORBIT_HEIGHT) {
                     String path = this.world.getRegistryKey().getValue().getPath();
                     String orbitalPath = path + AstralScience.ORBIT_SUFFIX;

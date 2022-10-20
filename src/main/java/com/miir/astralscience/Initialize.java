@@ -28,9 +28,6 @@ public class Initialize {
         Worldgen.register();
 //        AstralFeatures.register();
 
-//        render
-        Render.register();
-
 //        sounds
         AstralSounds.register();
 

@@ -50,6 +50,9 @@
     "facing=north,half=upper,hinge=left,open=true": {
       "model": "astralscience:block/bramblewood_door_top_hinge"
     },
+    "facing=north,half=upper,hinge=left,open=true,powered=true": {
+      "model": "astralscience:block/bramblewood_door_top_hinge"
+    },
     "facing=north,half=upper,hinge=right,open=false": {
       "model": "astralscience:block/bramblewood_door_top_hinge",
       "y": 270

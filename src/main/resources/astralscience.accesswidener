@@ -1,2 +1,3 @@
 accessWidener   v1  named
 accessible  method  net/minecraft/world/gen/stateprovider/SimpleBlockStateProvider  <init>  (Lnet/minecraft/block/BlockState;)V
+accessible    field    net/minecraft/client/render/DimensionEffects    BY_IDENTIFIER    Lit/unimi/dsi/fastutil/objects/Object2ObjectMap;
