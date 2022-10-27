@@ -2,17 +2,14 @@ package com.miir.astralscience.mixin.render;
 
 
 import com.miir.astralscience.AstralClient;
-import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.Config;
 import com.miir.astralscience.client.render.Render;
-import com.miir.astralscience.util.Text;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
-import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.Identifier;

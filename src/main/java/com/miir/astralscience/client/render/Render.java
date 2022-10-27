@@ -4,41 +4,36 @@ import com.miir.astralscience.AstralClient;
 import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.Config;
 import com.miir.astralscience.block.AstralBlocks;
-import com.miir.astralscience.util.Text;
+import com.miir.astralscience.client.render.block.entity.StarshipHelmBlockEntityRenderer;
+import com.miir.astralscience.util.AstralText;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientChunkEvents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-
-import java.util.List;
-import java.util.Random;
-
+@Environment(EnvType.CLIENT)
 public class Render {
 
+
+
     public static void register() {
+        BlockEntityRendererRegistry.register(AstralBlocks.STARSHIP_HELM_TYPE, StarshipHelmBlockEntityRenderer::new);
+
+
+
 //        BlockRenderLayerMap.INSTANCE.putBlock(AstralBlocks.STARSHIP_CONSTRUCTION_BLOCK, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(AstralBlocks.GHOST_VINES_PLANT, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(AstralBlocks.GHOST_VINES, RenderLayer.getCutout());
@@ -130,10 +125,9 @@ public class Render {
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableTexture();
             RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-//            RenderSystem.setShaderTexture(0, AstralClient.renderBody("cyri"));
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferBuilder = tessellator.getBuffer();
-
+            float d = 50;
             for (int i = 0; i < 6; ++i) {
                 matrices.push();
                 if (i == 0) {
@@ -166,21 +160,18 @@ public class Render {
                 Matrix4f matrix4f = matrices.peek().getPositionMatrix();
                 int alpha = (int)(0xFF * (opacity*.9+.1));
                 bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
-                bufferBuilder.vertex(matrix4f, -150.0F, -150.0F, -150.0F).texture(0.0F, 0.0F).color(255, 255, 255, alpha).next();
-                bufferBuilder.vertex(matrix4f, -150.0F, -150.0F, 150.0F).texture(0.0F, 1.0F).color(255, 255, 255, alpha).next();
-                bufferBuilder.vertex(matrix4f, 150.0F, -150.0F, 150.0F).texture(1.0F, 1.0F).color(255, 255, 255, alpha).next();
-                bufferBuilder.vertex(matrix4f, 150.0F, -150.0F, -150.0F).texture(1.0F, 0.0F).color(255, 255, 255, alpha).next();
+                bufferBuilder.vertex(matrix4f, -d, -d, -d).texture(0.0F, 0.0F).color(255, 255, 255, alpha).next();
+                bufferBuilder.vertex(matrix4f, -d, -d, d).texture(0.0F, 1.0F).color(255, 255, 255, alpha).next();
+                bufferBuilder.vertex(matrix4f, d, -d, d).texture(1.0F, 1.0F).color(255, 255, 255, alpha).next();
+                bufferBuilder.vertex(matrix4f, d, -d, -d).texture(1.0F, 0.0F).color(255, 255, 255, alpha).next();
                 tessellator.draw();
                 matrices.pop();
             }
-//            RenderSystem.enableTexture();
             RenderSystem.enableDepthTest();
         } catch (NullPointerException e) {
             AstralScience.LOGGER.warn("Error rendering cosmic background!");
             e.printStackTrace();
         }
-//        RenderSystem.depthMask(true);
-//        RenderSystem.disableBlend();
     }
 
     public static void drawFloorBody(MatrixStack matrices, float light, double playerHeight, float opacity, double tickDelta) {
@@ -204,8 +195,8 @@ public class Render {
         } else {
             l = (int) (200 * light);
         }
-        float height = 50;
-        String renderPath = Text.deorbitify(world.getRegistryKey().getValue().getPath());
+        float height = 12.5f/2;
+        String renderPath = AstralText.deorbitify(world.getRegistryKey().getValue().getPath());
         Identifier planet = AstralClient.renderBody(renderPath);
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.disableDepthTest();
@@ -252,7 +243,7 @@ public class Render {
 
         // draw clouds
         if (AstralClient.hasClouds(world)) {
-            Identifier clouds = AstralClient.renderClouds(Text.deorbitify(world.getRegistryKey().getValue().getPath()));
+            Identifier clouds = AstralClient.renderClouds(AstralText.deorbitify(world.getRegistryKey().getValue().getPath()));
             float cloudHeight = (float) (-height * (h - (fogHeight / ((float) Config.ORBIT_DROP_HEIGHT))));
             RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
             RenderSystem.setShaderTexture(0, clouds);
@@ -268,7 +259,7 @@ public class Render {
             double r = 1;
             double g = 1;
             double b = 1;
-            Identifier atmos = AstralClient.renderAtmos(Text.deorbitify(world.getRegistryKey().getValue().getPath()));
+            Identifier atmos = AstralClient.renderAtmos(AstralText.deorbitify(world.getRegistryKey().getValue().getPath()));
             RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
             RenderSystem.setShaderTexture(0, atmos);
             Matrix4f matrix4f2 = matrices.peek().getPositionMatrix();
@@ -311,8 +302,6 @@ public class Render {
         RenderSystem.depthMask(false);
         RenderSystem.setShaderColor(f, g, h, 1.0f);
         Shader shader = RenderSystem.getShader();
-//        this.lightSkyBuffer.bind();
-//        this.lightSkyBuffer.draw(matrices.peek().getPositionMatrix(), projectionMatrix, shader);
         VertexBuffer.unbind();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -346,6 +335,7 @@ public class Render {
         matrices.push();
         i = 1.0f - world.getRainGradient(tickDelta);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, i);
+
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90.0f));
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(world.getSkyAngle(tickDelta) * 360.0f));
         Matrix4f matrix4f2 = matrices.peek().getPositionMatrix();
@@ -375,28 +365,11 @@ public class Render {
         bufferBuilder.vertex(matrix4f2, -k, -100.0f, -k).texture(p, o).next();
         BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.disableTexture();
-//        float u = world.method_23787(tickDelta) * i;
-//        if (u > 0.0f) {
-//            RenderSystem.setShaderColor(u, u, u, u);
-//            BackgroundRenderer.clearFog();
-//            renderer.starsBuffer.bind();
-//            renderer.starsBuffer.draw(matrices.peek().getPositionMatrix(), projectionMatrix, GameRenderer.getPositionShader());
-//            VertexBuffer.unbind();
-//        }
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.disableBlend();
         matrices.pop();
         RenderSystem.disableTexture();
         RenderSystem.setShaderColor(0.0f, 0.0f, 0.0f, 1.0f);
-//        double d = client.player.getCameraPosVec(tickDelta).y - world.getLevelProperties().getSkyDarknessHeight(world);
-//        if (d < 0.0) {
-//            matrices.push();
-//            matrices.translate(0.0, 12.0, 0.0);
-//            renderer.darkSkyBuffer.bind();
-//            renderer.darkSkyBuffer.draw(matrices.peek().getPositionMatrix(), projectionMatrix, shader);
-//            VertexBuffer.unbind();
-//            matrices.pop();
-//        }
         if (world.getDimensionEffects().isAlternateSkyColor()) {
             RenderSystem.setShaderColor(f * 0.2f + 0.04f, g * 0.2f + 0.04f, h * 0.6f + 0.1f, 1.0f);
         } else {

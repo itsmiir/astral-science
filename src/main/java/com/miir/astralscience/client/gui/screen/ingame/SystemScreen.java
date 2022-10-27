@@ -13,7 +13,7 @@
 //import net.minecraft.client.render.*;
 //import net.minecraft.client.util.math.MatrixStack;
 //import net.minecraft.item.ItemStack;
-//import net.minecraft.text.Text;
+//import net.minecraft.text.AstralText;
 //import net.minecraft.util.Identifier;
 //import net.minecraft.util.math.Vec2f;
 //
@@ -34,7 +34,7 @@
 //    private int a;
 //
 //    public SystemScreen(ItemStack map, StarshipHelmBlockEntity helm, HandledScreen<StarshipHelmScreenHandler> parent, PlanetInfo hostStar) {
-//        super(Text.of(NameGen.fromId(hostStar.toString()) + " System"), helm);
+//        super(AstralText.of(NameGen.fromId(hostStar.toString()) + " System"), helm);
 //        this.map = map;
 //        this.parent = parent;
 //        this.x = 0;

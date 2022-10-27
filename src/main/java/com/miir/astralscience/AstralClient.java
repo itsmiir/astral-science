@@ -1,17 +1,20 @@
 package com.miir.astralscience;
 
+import com.miir.astralscience.block.entity.StarshipHelmBlockEntity;
+import com.miir.astralscience.client.entity.HologramEntityRenderer;
 import com.miir.astralscience.client.render.AstralSkyEffects;
 import com.miir.astralscience.client.render.Render;
+import com.miir.astralscience.entity.InteractableHologramEntity;
 import com.miir.astralscience.screen.AstralScreens;
-import com.miir.astralscience.util.Text;
+import com.miir.astralscience.util.AstralText;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
-import net.fabricmc.fabric.impl.screenhandler.client.ClientNetworking;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.DimensionEffects;
+import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec2f;
@@ -24,6 +27,7 @@ import net.minecraft.world.World;
 public class AstralClient implements ClientModInitializer {
 
     public static Identifier renderBody(String path) {
+//        if (path.equals("sylene")) return
         return AstralScience.id("textures/environment/body/" + path + ".png");
     }
     public static Identifier renderClouds(String path) {
@@ -37,13 +41,6 @@ public class AstralClient implements ClientModInitializer {
     }
     public static final Identifier COSMIC_BACKGROUND = AstralScience.id("textures/environment/galactic_background.png");
 
-//    public static final Identifier SKYBOX_UP = AstralScience.id("textures/environment/skybox_up.png");
-//    public static final Identifier SKYBOX_DOWN = AstralScience.id("textures/environment/skybox_down.png");
-//    public static final Identifier SKYBOX_LEFT = AstralScience.id("textures/environment/skybox_left.png");
-//    public static final Identifier SKYBOX_RIGHT = AstralScience.id("textures/environment/skybox_right.png");
-//    public static final Identifier SKYBOX_FRONT = AstralScience.id("textures/environment/skybox_front.png");
-//    public static final Identifier SKYBOX_BACK = AstralScience.id("textures/environment/skybox_back.png");
-
     public static final Identifier SKYBOX_UP = AstralScience.id("textures/environment/1skybox.png");
     public static final Identifier SKYBOX_DOWN = AstralScience.id("textures/environment/2skybox.png");
     public static final Identifier SKYBOX_LEFT = AstralScience.id("textures/environment/3skybox.png");
@@ -55,13 +52,15 @@ public class AstralClient implements ClientModInitializer {
     public static final Identifier MOON_ORBIT = AstralScience.id("textures/environment/orbit_moon_phases.png");
     public static final Identifier REENTRY_MOON = AstralScience.id("textures/environment/reentry_moon_phases.png");
 
+    public static BlockEntityRenderer<StarshipHelmBlockEntity> STARSHIP_HELM_RENDERER;
+
     public static Vec2f LAST_MAP_FOCUS;
     public static float LAST_MAP_ZOOM;
 
     public static boolean hasClouds(World world) {
         String worldname = world.getRegistryKey().getValue().getPath();
         if (AstralDimensions.isOrbit(world)) {
-            worldname = Text.deorbitify(worldname);
+            worldname = AstralText.deorbitify(worldname);
         }
         return switch (worldname) {
             case "halyus", "ermis", "sylene", "aere", "iris", "hydes" -> false;
@@ -72,7 +71,7 @@ public class AstralClient implements ClientModInitializer {
 
     public static boolean isLuminescent(World world) {
         if (AstralDimensions.isOrbit(world)) {
-            return switch (Text.deorbitify(world.getRegistryKey().getValue().getPath())) {
+            return switch (AstralText.deorbitify(world.getRegistryKey().getValue().getPath())) {
                 case "cyri", "halyus" -> true;
                 default -> false;
             };
@@ -113,6 +112,7 @@ public class AstralClient implements ClientModInitializer {
     public void onInitializeClient() {
 //        ClientNetworking.register();
         Render.register();
+        EntityRendererRegistry.register(InteractableHologramEntity.HOLOGRAM, HologramEntityRenderer::new);
         AstralScreens.registerClient();
         LAST_MAP_FOCUS = new Vec2f(0f, 0f);
         LAST_MAP_ZOOM = 0;

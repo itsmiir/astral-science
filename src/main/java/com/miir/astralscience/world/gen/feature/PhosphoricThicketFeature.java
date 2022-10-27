@@ -10,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 public class PhosphoricThicketFeature extends AbstractBranchingPlantFeature {
     public PhosphoricThicketFeature() {

@@ -37,7 +37,7 @@ public class GalacticMapItem extends Item {
 //            int i = tag.getInt("dimensions");
 //            for (int j = 1; j < i; j++) {
 //               user.sendMessage(
-//                       Text.of(tag.getString(Integer.toString(j))),
+//                       AstralText.of(tag.getString(Integer.toString(j))),
 //                       false);
 //            }
         }

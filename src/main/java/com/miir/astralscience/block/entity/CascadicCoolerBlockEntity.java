@@ -2,17 +2,14 @@ package com.miir.astralscience.block.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.block.AstralBlocks;
 import com.miir.astralscience.item.AstralItems;
 import com.miir.astralscience.screen.CascadicCoolerScreenHandler;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -59,7 +56,7 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
     private final RecipeType<? extends AbstractCookingRecipe> recipeType;
 
     public CascadicCoolerBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(AstralScience.CASCADIC_COOLER, blockPos, blockState);
+        super(AstralBlocks.CASCADIC_COOLER_TYPE, blockPos, blockState);
         this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
         this.propertyDelegate = new PropertyDelegate() {
             public int get(int index) {

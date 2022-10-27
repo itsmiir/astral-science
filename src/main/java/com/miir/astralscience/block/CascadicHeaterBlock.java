@@ -1,6 +1,5 @@
 package com.miir.astralscience.block;
 
-import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.block.entity.CascadicHeaterBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -149,7 +148,7 @@ public class CascadicHeaterBlock extends BlockWithEntity {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return method_31617(world, type, AstralScience.CASCADIC_HEATER);
+        return method_31617(world, type, AstralBlocks.CASCADIC_HEATER_TYPE);
     }
 
 }

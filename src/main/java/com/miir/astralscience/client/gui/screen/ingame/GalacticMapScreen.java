@@ -21,7 +21,7 @@
 //import net.minecraft.item.ItemStack;
 //import net.minecraft.nbt.CompoundTag;
 //import net.minecraft.network.PacketByteBuf;
-//import net.minecraft.text.Text;
+//import net.minecraft.text.AstralText;
 //import net.minecraft.text.TranslatableText;
 //import net.minecraft.util.Identifier;
 //import net.minecraft.util.math.Vec2f;
@@ -77,7 +77,7 @@
 //    }
 //
 //    @Override
-//    public Text getTitle() {
+//    public AstralText getTitle() {
 //        return new TranslatableText("gui.ntrstlr.galactic_map");
 //    }
 //
@@ -106,8 +106,8 @@
 //        this.drawBackgroundElements(matrices);
 //        this.drawPlanets();
 //        MinecraftClient.getInstance().textRenderer.draw(matrices, new TranslatableText("gui.ntrstlr.destination"), x + 5, y + 5, 0x90ff00);
-//        MinecraftClient.getInstance().textRenderer.draw(matrices, Text.of(NameGen.fromId(this.parent.getScreenHandler().getHelm().getDestination().name)), x + 5, y + 15, 0x90ff00);
-//        MinecraftClient.getInstance().textRenderer.draw(matrices, Text.of(coords), x + 5, y + 25, 0x90ff00);
+//        MinecraftClient.getInstance().textRenderer.draw(matrices, AstralText.of(NameGen.fromId(this.parent.getScreenHandler().getHelm().getDestination().name)), x + 5, y + 15, 0x90ff00);
+//        MinecraftClient.getInstance().textRenderer.draw(matrices, AstralText.of(coords), x + 5, y + 25, 0x90ff00);
 //    }
 //
 //    protected void drawBackgroundElements(MatrixStack matrices) {

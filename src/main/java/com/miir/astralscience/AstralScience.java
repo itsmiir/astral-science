@@ -9,23 +9,28 @@ import com.miir.astralscience.world.dimension.AstralDimensions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// made with tenacity by miir
+// made (finally) by miir
 public class AstralScience implements ModInitializer {
 
     public static final String MOD_ID = "astralscience";
     public static final String ORBIT_SUFFIX = "_orbit";
     public static final Logger LOGGER = LogManager.getLogger("Astral Science");
     public static final String VERSION = "0.0.2";
+    public static final BlockState STARSHIP_VOID = Blocks.AIR.getDefaultState();
+    public static final BlockPos INVALID = new BlockPos(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
     public static Identifier id(String path) {
         return new Identifier(MOD_ID, path);
@@ -80,7 +85,7 @@ public class AstralScience implements ModInitializer {
 //machines
                 stacks.add(new ItemStack(AstralBlocks.MACHINE_CHASSIS));
 //                stacks.add(new ItemStack(AstralBlocks.STARSHIP_CONSTRUCTION_BLOCK));
-//                stacks.add(new ItemStack(AstralBlocks.STARSHIP_HELM));
+                stacks.add(new ItemStack(AstralBlocks.STARSHIP_HELM));
                 stacks.add(new ItemStack(AstralBlocks.CASCADIC_COOLER));
                 stacks.add(new ItemStack(AstralBlocks.CASCADIC_HEATER));
 //plants
@@ -114,10 +119,6 @@ public class AstralScience implements ModInitializer {
                 stacks.add(new ItemStack(AstralBlocks.BLACK_PETAL));
             })
             .build();
-
-    //block entities
-    public static BlockEntityType<CascadicHeaterBlockEntity> CASCADIC_HEATER;
-    public static BlockEntityType<CascadicCoolerBlockEntity> CASCADIC_COOLER;
 
     public static boolean isSuffocating(LivingEntity entity, World world) {
         return (!entity.getType().isIn(AstralTags.ANAEROBIC)) && (!hasAir(world, entity.getPos())) || false;

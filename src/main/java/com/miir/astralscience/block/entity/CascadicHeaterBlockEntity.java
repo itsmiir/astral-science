@@ -2,7 +2,6 @@ package com.miir.astralscience.block.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.block.AstralBlocks;
 import com.miir.astralscience.item.AstralItems;
 import com.miir.astralscience.screen.CascadicHeaterScreenHandler;
@@ -58,7 +57,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
     private final RecipeType<? extends AbstractCookingRecipe> recipeType;
 
     public CascadicHeaterBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(AstralScience.CASCADIC_HEATER, blockPos, blockState);
+        super(AstralBlocks.CASCADIC_HEATER_TYPE, blockPos, blockState);
         this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
         this.propertyDelegate = new PropertyDelegate() {
             public int get(int index) {

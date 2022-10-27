@@ -2,7 +2,7 @@ package com.miir.astralscience.mixin;
 
 import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.Config;
-import com.miir.astralscience.util.Text;
+import com.miir.astralscience.util.AstralText;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.entity.Entity;
@@ -62,7 +62,7 @@ public abstract class ReentryMixin {
                     if (world.getRegistryKey().getValue().equals(AstralScience.id("overworld_orbit"))) {
                         hostPath = new Identifier("overworld");
                     } else {
-                        hostPath = AstralScience.id(Text.deorbitify(this.world.getRegistryKey().getValue().getPath()));
+                        hostPath = AstralScience.id(AstralText.deorbitify(this.world.getRegistryKey().getValue().getPath()));
                     }
                     ServerWorld destination = this.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, hostPath));
                     FabricDimensions.teleport((Entity) (Object) this, destination, new TeleportTarget(this.pos.add(0, Config.ORBIT_DROP_HEIGHT + 64, 0), this.velocity, this.yaw, this.pitch));

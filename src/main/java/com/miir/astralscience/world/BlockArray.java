@@ -1,9 +1,8 @@
 package com.miir.astralscience.world;
 
 import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.WorldAccess;
@@ -28,12 +27,12 @@ import java.util.function.Predicate;
  * probably a lot more efficient and intuitive, but i don't want to learn it. you will find that this is my
  * approach to modding, programming, and life in general. DRY can go fuck itself
  */
-public class BlockArray implements Iterable<BlockPos> {
+public class BlockArray implements Iterable<BlockPos>, Cloneable {
 
-    private final Object2ObjectArrayMap<BlockPos, Integer> blocks;
+    private final Object2IntArrayMap<BlockPos> blocks;
 
     public BlockArray() {
-        this.blocks = new Object2ObjectArrayMap<>();
+        this.blocks = new Object2IntArrayMap<>();
     }
 
     public BlockArray(BlockPos pos) {
@@ -41,7 +40,7 @@ public class BlockArray implements Iterable<BlockPos> {
     }
 
     public BlockArray(BlockPos pos, int flags) {
-        this.blocks = new Object2ObjectArrayMap<>();
+        this.blocks = new Object2IntArrayMap<>();
         this.blocks.put(pos, flags);
     }
 
@@ -115,7 +114,7 @@ public class BlockArray implements Iterable<BlockPos> {
         return array;
     }
 
-    //        creates a cuboid cornered from the blockpos start to the end, inclusive
+//    creates a cuboid cornered from the blockpos start to the end, inclusive
     public static BlockArray cuboid(BlockPos start, BlockPos end) {
         BlockArray array = new BlockArray();
         BlockPos min = new BlockPos(
@@ -161,7 +160,6 @@ public class BlockArray implements Iterable<BlockPos> {
         });
         return array;
     }
-
     public static BlockArray sphere(BlockPos center, int r, int flags) {
         BlockArray array = cuboid(center, r, r, r, flags);
         Vec3d middle = Vec3d.ofCenter(center);
@@ -181,8 +179,7 @@ public class BlockArray implements Iterable<BlockPos> {
     public boolean removeIf(Predicate<BlockPos> filter) {
         boolean removed = false;
         BlockArray test = this.copy();
-        for (BlockPos pos :
-                test) {
+        for (BlockPos pos : test) {
             if (filter.test(pos)) {
                 this.remove(pos);
                 removed = true;
@@ -190,12 +187,10 @@ public class BlockArray implements Iterable<BlockPos> {
         }
         return removed;
     }
-
     public boolean removeIf(IntPredicate filter) {
         boolean removed = false;
         BlockArray test = this.copy();
-        for (BlockPos pos :
-                test) {
+        for (BlockPos pos : test) {
             if (filter.test(this.getFlags(pos))) {
                 this.remove(pos);
                 removed = true;
@@ -207,8 +202,7 @@ public class BlockArray implements Iterable<BlockPos> {
     public boolean retainIf(Predicate<BlockPos> filter) {
         boolean removed = false;
         BlockArray test = this.copy();
-        for (BlockPos pos :
-                test) {
+        for (BlockPos pos : test) {
             if (!filter.test(pos)) {
                 this.remove(pos);
                 removed = true;
@@ -216,12 +210,10 @@ public class BlockArray implements Iterable<BlockPos> {
         }
         return removed;
     }
-
     public boolean retainIf(IntPredicate filter) {
         boolean removed = false;
         BlockArray test = this.copy();
-        for (BlockPos pos :
-                test) {
+        for (BlockPos pos : test) {
             if (!filter.test(this.getFlags(pos))) {
                 this.remove(pos);
                 removed = true;
@@ -231,8 +223,7 @@ public class BlockArray implements Iterable<BlockPos> {
     }
 
     public boolean check(Predicate<BlockPos> filter) {
-        for (BlockPos pos :
-                this) {
+        for (BlockPos pos : this) {
             if (!filter.test(pos)) {
                 return false;
             }
@@ -245,8 +236,7 @@ public class BlockArray implements Iterable<BlockPos> {
     }
     public BlockArray offset(Vec3i offset) {
         BlockArray newArray = new BlockArray();
-        for (BlockPos pos :
-                this) {
+        for (BlockPos pos : this) {
             newArray.add(pos.add(offset), this.getFlags(pos));
         }
         return newArray;
@@ -256,10 +246,8 @@ public class BlockArray implements Iterable<BlockPos> {
         this.blocks.putAll(blocks.blocks);
         return this;
     }
-
     public BlockArray add(ArrayList<BlockPos> blocks) {
-        for (BlockPos block :
-                blocks) {
+        for (BlockPos block : blocks) {
             this.add(block);
         }
         return this;
@@ -271,25 +259,20 @@ public class BlockArray implements Iterable<BlockPos> {
         }
         return this;
     }
-
     public BlockArray add(BlockPos blockPos) {
         this.add(blockPos.toImmutable(), 0);
         return this;
     }
 
     public BlockArray remove(BlockArray blocks) {
-        for (BlockPos pos :
-                blocks) {
-            if (this.contains(pos)) {
-                this.blocks.remove(pos.toImmutable());
-            }
+        for (BlockPos pos : blocks) {
+            this.remove(pos);
         }
         return this;
     }
-
     public BlockArray remove(BlockPos blockPos) {
         if (this.contains(blockPos)) {
-            this.blocks.remove(blockPos.toImmutable());
+            this.blocks.removeInt(blockPos.toImmutable());
         }
         return this;
     }
@@ -297,16 +280,14 @@ public class BlockArray implements Iterable<BlockPos> {
     public BlockArray setFlags(int flags) {
         BlockArray copy = this.copy();
         this.clear();
-        for (BlockPos pos :
-                copy) {
+        for (BlockPos pos : copy) {
             this.blocks.put(pos, flags);
         }
         return this;
     }
 
     public int getFlags(BlockPos pos) {
-//            the possibilities are limitless! each flag could represent a different blockstate, or whatever you specify
-//            in the AdvancedBlockStateProvider
+//        the possibilities are limitless! each flag could represent a different blockstate, or whatever you specify
         if (this.blocks.containsKey(pos.toImmutable())) {
             return this.blocks.get(pos.toImmutable());
         }
@@ -319,10 +300,7 @@ public class BlockArray implements Iterable<BlockPos> {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof BlockArray) {
-            return this.blocks.equals(((BlockArray) o).blocks);
-        }
-        return false;
+        return o instanceof BlockArray && this.blocks.equals(((BlockArray) o).blocks);
     }
 
     @Override
@@ -337,14 +315,12 @@ public class BlockArray implements Iterable<BlockPos> {
     public BlockArray getLowest() {
         BlockArray lowest = new BlockArray();
         int lowestY = Integer.MAX_VALUE;
-        for (BlockPos pos :
-                this.blocks.keySet()) {
+        for (BlockPos pos : this.blocks.keySet()) {
             if (pos.getY() < lowestY) {
                 lowestY = pos.getY();
             }
         }
-        for (BlockPos pos :
-                this.blocks.keySet()) {
+        for (BlockPos pos : this.blocks.keySet()) {
             if (pos.getY() == lowestY) {
                 lowest.add(pos, this.blocks.get(pos));
             }
@@ -355,14 +331,12 @@ public class BlockArray implements Iterable<BlockPos> {
     public BlockArray getHighest() {
         BlockArray highest = new BlockArray();
         int highestY = Integer.MIN_VALUE;
-        for (BlockPos pos :
-                this.blocks.keySet()) {
+        for (BlockPos pos : this.blocks.keySet()) {
             if (pos.getY() > highestY) {
                 highestY = pos.getY();
             }
         }
-        for (BlockPos pos :
-                this.blocks.keySet()) {
+        for (BlockPos pos : this.blocks.keySet()) {
             if (pos.getY() == highestY) {
                 highest.add(pos, this.blocks.get(pos));
             }
@@ -371,14 +345,14 @@ public class BlockArray implements Iterable<BlockPos> {
     }
 
     public BlockPos center() {
-//            it'd be cool to implement some feature that maybe gets the center of "mass" of the array at some point
-//            todo i guess ^^
+//        it'd be cool to implement some feature that maybe gets the center of "mass" of the array at some point
         BlockPos min = this.min();
         BlockPos max = this.max();
         BlockPos delta = max.subtract(min);
         return new BlockPos(delta.getX() / 2.0, delta.getY() / 2.0, delta.getZ() / 2.0).add(min);
     }
     public BlockPos centerOfMass() {
+//        whoa i actually did it
         double x = 0;
         double y = 0;
         double z = 0;
@@ -396,8 +370,7 @@ public class BlockArray implements Iterable<BlockPos> {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
         int minZ = Integer.MAX_VALUE;
-        for (BlockPos pos :
-                this.blocks.keySet()) {
+        for (BlockPos pos : this.blocks.keySet()) {
             if (pos.getX() < minX) {
                 minX = pos.getX();
             }
@@ -410,13 +383,11 @@ public class BlockArray implements Iterable<BlockPos> {
         }
         return new BlockPos(minX, minY, minZ);
     }
-
     public BlockPos max() {
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
         int maxZ = Integer.MIN_VALUE;
-        for (BlockPos pos :
-                this.blocks.keySet()) {
+        for (BlockPos pos : this.blocks.keySet()) {
             if (pos.getX() > maxX) {
                 maxX = pos.getX();
             }
@@ -435,11 +406,10 @@ public class BlockArray implements Iterable<BlockPos> {
     }
 
     public void build(WorldAccess world, BlockStateProvider provider) {
-//            this is one i'm really excited about. basically you can do anything you want here, and with a robust
-//            enough BlockStateProvider i am that much further along on my quest to reimplement half of the codebase of
-//            minecraft in a less efficient way so i never have to learn how to make stuff like "carvers" (blegh)
-        for (BlockPos block :
-                this.blocks.keySet()) {
+//        this is one i'm really excited about. basically you can do anything you want here, and with a robust
+//        enough BlockStateProvider i am that much further along on my quest to reimplement half of the codebase of
+//        minecraft in a less efficient way so i never have to learn how to make stuff like "carvers" (blegh)
+        for (BlockPos block : this.blocks.keySet()) {
             if (provider instanceof AdvancedBlockStateProvider) {
                 world.setBlockState(block, ((AdvancedBlockStateProvider) provider).getBlockState(world.getRandom(), block, this), 3);
             } else {
@@ -448,35 +418,38 @@ public class BlockArray implements Iterable<BlockPos> {
         }
     }
 
-    public void fill(int dist) {
-/*            todo
-            ooh, this is one i want to do for sure. idea being it takes a thin line-like BlockArray and kinda fattens
-            it up a bit. useful for ore veins, thicc trees, etc
-            float majorAxis = BlockPos.iterateOutwards()
-            */
+    public BlockArray fill(int dist) {
+//        todo
+//        ooh, this is one i want to do for sure. idea being it takes a thin line-like BlockArray and kinda fattens
+//        it up a bit. useful for ore veins, thicc trees, etc
+//        float majorAxis = BlockPos.iterateOutwards()
         BlockPos min = this.min().subtract(new Vec3i(dist, dist, dist));
         BlockPos max = this.max().add(dist, dist, dist);
         BlockArray test = BlockArray.cuboid(min, max);
-        for (BlockPos pos :
-                test) {
+        for (BlockPos pos : test) {
 //            if (pos.isWithinDistance())
 //            how to do this in a non-resource intensive way?
         }
+        System.err.println("unimplemented function ");
+        return this;
     }
+
 
     public int size() {
         return this.blocks.size();
     }
-
     public boolean isEmpty() {
         return this.blocks.isEmpty();
     }
+    public BlockArray copy() {
+        BlockArray clone = new BlockArray();
+        clone.add(this);
+        return clone;
+    }
+
 
     public boolean contains(Object o) {
-        if (o instanceof BlockPos) {
-            return this.blocks.containsKey(o);
-        }
-        return false;
+        return o instanceof BlockPos && this.blocks.containsKey(o);
     }
 
     @NotNull
@@ -489,8 +462,7 @@ public class BlockArray implements Iterable<BlockPos> {
     public String toString() {
 //            no class is complete without a fancy toString method
         StringBuilder str = new StringBuilder("BlockArray of ");
-        for (BlockPos pos :
-                this.blocks.keySet()) {
+        for (BlockPos pos : this.blocks.keySet()) {
             str.append("[")
                     .append(pos.toShortString())
                     .append("], ")
@@ -498,12 +470,5 @@ public class BlockArray implements Iterable<BlockPos> {
                     .append("\n              ");
         }
         return str.toString();
-    }
-
-    public BlockArray copy() {
-//            no idea how mutables work but this should stop them from existing >:(
-        BlockArray copy = new BlockArray();
-        copy.add(this);
-        return copy;
     }
 }

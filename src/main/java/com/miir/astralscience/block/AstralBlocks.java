@@ -3,11 +3,13 @@ package com.miir.astralscience.block;
 import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.block.entity.CascadicCoolerBlockEntity;
 import com.miir.astralscience.block.entity.CascadicHeaterBlockEntity;
-import com.miir.astralscience.world.gen.feature.AstralFeatures;
+import com.miir.astralscience.block.entity.StarshipHelmBlockEntity;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricMaterialBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.sound.BlockSoundGroup;
@@ -17,6 +19,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 
 public class AstralBlocks {
+    private static final Object2ObjectArrayMap<Block, String> BLOCKS = new Object2ObjectArrayMap<>();
+
     private static final Material METAL_CLONE = new FabricMaterialBuilder(MapColor.GRAY).build();
     //    ore blocks
     public static final Block CASCADIUM_BLOCK = new Block(FabricBlockSettings.of(METAL_CLONE).strength(10.0F, 20.0F).sounds(BlockSoundGroup.GLASS).requiresTool());
@@ -27,12 +31,18 @@ public class AstralBlocks {
 
     //    machine blocks
     public static final Block MACHINE_CHASSIS = new Block(FabricBlockSettings.of(METAL_CLONE).hardness(5.0F).sounds(BlockSoundGroup.NETHERITE).nonOpaque().requiresTool());
+
     public static final Block CASCADIC_HEATER = new CascadicHeaterBlock(FabricBlockSettings.of(METAL_CLONE).nonOpaque().sounds(BlockSoundGroup.NETHERITE).requiresTool().strength(1.5F, 6.0F).requiresTool());
+    public static BlockEntityType<CascadicHeaterBlockEntity> CASCADIC_HEATER_TYPE;
+
     public static final Block CASCADIC_COOLER = new CascadicCoolerBlock(FabricBlockSettings.of(METAL_CLONE).requiresTool().nonOpaque().sounds(BlockSoundGroup.NETHERITE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static BlockEntityType<CascadicCoolerBlockEntity> CASCADIC_COOLER_TYPE;
+
     public static final Block STARLIGHT_COLLECTOR = new StarlightCollectorBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5f, 6.0f).requiresTool().sounds(BlockSoundGroup.STONE).nonOpaque().luminance((state) -> state.get(StarlightCollectorBlock.LIT) ? 14 : 0));
 
-//    public static final Block STARSHIP_CONSTRUCTION_BLOCK = new StarshipConstructionBlock(FabricBlockSettings.of(METAL_CLONE).requiresTool().nonOpaque().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
-//    public static final Block STARSHIP_HELM = new StarshipHelmBlock(FabricBlockSettings.of(METAL_CLONE).nonOpaque().requiresTool().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
+    public static final Block STARSHIP_HELM = new StarshipHelmBlock(FabricBlockSettings.of(METAL_CLONE).nonOpaque().requiresTool().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
+    public static BlockEntityType<StarshipHelmBlockEntity> STARSHIP_HELM_TYPE;
+    public static final Block STARSHIP_CONSTRUCTION_BLOCK = new StarshipConstructionBlock(FabricBlockSettings.of(METAL_CLONE).requiresTool().nonOpaque().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
 
     //    natural blocks
     public static final Block ANCIENT_ICE = new IceBlock(FabricBlockSettings.of(Material.ICE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
@@ -42,7 +52,7 @@ public class AstralBlocks {
     public static final Block PUMICE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
     public static final Block IRON_RICH_BASALT = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
     public static final Block FRESH_BLACKSTONE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block MAGMATIC_FRESH_BLACKSTONE = new MagmaBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.0F, 4.5F).sounds(BlockSoundGroup.STONE).luminance((state) -> 5));
+    public static final Block MAGMATIC_FRESH_BLACKSTONE = new MagmaBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.0F, 4.5F).sounds(BlockSoundGroup.STONE).luminance((state) -> 5).emissiveLighting((state, world, pos) -> true));
     public static final Block REGOLITH = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
     public static final Block SYLIUM = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
     public static final Block STALE_CHEESE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.FUNGUS));
@@ -87,14 +97,14 @@ public class AstralBlocks {
     public static final Block FIRECAP_GILLS = new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC).sounds(BlockSoundGroup.FUNGUS).strength(0.2F).mapColor(MapColor.LICHEN_GREEN));
     public static final Block FIRECAP_HYPHAE = new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC).sounds(BlockSoundGroup.FUNGUS).strength(0.2F).mapColor(MapColor.LICHEN_GREEN));
 
-    public static final Block ANGLER_KELP = new AnglerKelpBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance((state) -> 15).noCollision());
+    public static final Block ANGLER_KELP = new AnglerKelpBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance((state) -> 15).noCollision().emissiveLighting((state, world, pos) -> true));
     public static final Block ANGLER_KELP_PLANT = new AnglerKelpPlantBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().noCollision());
     public static final Block PINK_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
     public static final Block PURPLE_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
     public static final Block PEACH_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
     public static final Block BLACK_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
     public static final Block WHITE_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block NEPHRUM = new NephrumBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).noCollision().mapColor(MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance(NephrumBlock::getLuminance));
+    public static final Block NEPHRUM = new NephrumBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).noCollision().mapColor(MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance(NephrumBlock::getLuminance).emissiveLighting((state, world, pos) -> NephrumBlock.getLuminance(state) > 0));
     public static final Block BRAMBLEWOOD = new PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BLACK).strength(2.0F).sounds(BlockSoundGroup.WOOD));
     public static final Block BRAMBLEWOOD_LOG = new PillarBlock(FabricBlockSettings.of(Material.WOOD, (state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.BLACK : MapColor.LIGHT_GRAY).strength(2.0F).sounds(BlockSoundGroup.WOOD));
     public static final Block BRAMBLEWOOD_PLANKS = new Block(FabricBlockSettings.of(Material.WOOD, MapColor.LICHEN_GREEN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
@@ -105,9 +115,46 @@ public class AstralBlocks {
     public static final Block WORMWOOD_LOG = new PillarBlock(FabricBlockSettings.of(Material.WOOD).strength(1.5f, 6.0f).sounds(BlockSoundGroup.WOOD));
 
 
+    private static void registerSimpleBlock(Block block, String path) {
+        Registry.register(Registry.BLOCK, AstralScience.id(path), block);
+        Registry.register(Registry.ITEM, AstralScience.id(path), new BlockItem(block, new Item.Settings()));
+    }
+
 
     public static void register() {
+//        BLOCKS.put(CASCADIUM_BLOCK, "cascadium_block");
+//        BLOCKS.put(CASCADIUM_ORE, "cascadium_ore");
+//        BLOCKS.put(CASCADIC_BONE, "cascadic_bone");
+//        BLOCKS.put(NEPHRYLL_BLOCK, "nephryll_block");
+//        BLOCKS.put(MACHINE_CHASSIS, "machine_chassis");
+//        BLOCKS.put(CASCADIC_HEATER, "cascadic_heater");
+//        BLOCKS.put(CASCADIC_COOLER, "cascadic_cooler");
+//        BLOCKS.put(STARLIGHT_COLLECTOR, "starlight_collector");
+//        BLOCKS.put(STARSHIP_HELM, "starship_helm");
+//        BLOCKS.put(ANCIENT_ICE, "ancient_ice");
+//        BLOCKS.put(LIMESTONE, "limestone");
+//        BLOCKS.put(POLISHED_LIMESTONE, "polished_limestone");
+//        BLOCKS.put(SHALE, "shale");
+//        BLOCKS.put(POLISHED_SHALE, "polished_shale");
+//        BLOCKS.put(SLATE, "slate");
+//        BLOCKS.put(POLISHED_SLATE, "polished_slate");
+//        BLOCKS.put(PUMICE, "pumice");
+//        BLOCKS.put(POLISHED_PUMICE, "polished_pumice");
+//        BLOCKS.put(IRON_RICH_BASALT, "iron_rich_basalt");
+//        BLOCKS.put(IRON_RICH_BASALT_BRICKS, "iron_rich_basalt_bricks");
+//        BLOCKS.put(MAGMATIC_FRESH_BLACKSTONE, "magmatic_fresh_blackstone");
+//        BLOCKS.put(REGOLITH, "regolith");
+//        BLOCKS.put(SYLIUM, "sylium");
+//        BLOCKS.put(PHOSPHORITE, "phosphorite");
+//        BLOCKS.put(BLACK_SAND, "black_sand");
+//        BLOCKS.put(PSIONIC_SAND, "psionic_sand");
+//        BLOCKS.put(FROST_MYCELIUM,"frost_mycelium");
 
+
+//        for (Block block :
+//                BLOCKS.keySet()) {
+//            registerSimpleBlock(block, BLOCKS.get(block));
+//        }
 //        ore blocks
         Registry.register(Registry.BLOCK, AstralScience.id("cascadium_block"), CASCADIUM_BLOCK);
         Registry.register(Registry.ITEM, AstralScience.id("cascadium_block"), new BlockItem(CASCADIUM_BLOCK, new Item.Settings().rarity(Rarity.UNCOMMON)));
@@ -127,10 +174,10 @@ public class AstralBlocks {
         Registry.register(Registry.ITEM, AstralScience.id("cascadic_cooler"), new BlockItem(CASCADIC_COOLER, new Item.Settings()));
         Registry.register(Registry.BLOCK, AstralScience.id("starlight_collector"), STARLIGHT_COLLECTOR);
         Registry.register(Registry.ITEM, AstralScience.id("starlight_collector"), new BlockItem(STARLIGHT_COLLECTOR, new Item.Settings()));
-//        Registry.register(Registry.BLOCK, AstralScience.id("starship_construction_block"), STARSHIP_CONSTRUCTION_BLOCK);
-//        Registry.register(Registry.ITEM, AstralScience.id("starship_construction_block"), new BlockItem(STARSHIP_CONSTRUCTION_BLOCK, new Item.Settings().rarity(Rarity.COMMON)));
-//        Registry.register(Registry.BLOCK, AstralScience.id("starship_helm"), STARSHIP_HELM);
-//        Registry.register(Registry.ITEM, AstralScience.id("starship_helm"), new BlockItem(STARSHIP_HELM, new Item.Settings().rarity(Rarity.COMMON)));
+        Registry.register(Registry.BLOCK, AstralScience.id("starship_construction_block"), STARSHIP_CONSTRUCTION_BLOCK);
+        Registry.register(Registry.ITEM, AstralScience.id("starship_construction_block"), new BlockItem(STARSHIP_CONSTRUCTION_BLOCK, new Item.Settings().rarity(Rarity.COMMON)));
+        Registry.register(Registry.BLOCK, AstralScience.id("starship_helm"), STARSHIP_HELM);
+        Registry.register(Registry.ITEM, AstralScience.id("starship_helm"), new BlockItem(STARSHIP_HELM, new Item.Settings().rarity(Rarity.COMMON)));
 //        natural blocks
         Registry.register(Registry.BLOCK, AstralScience.id("ancient_ice"), ANCIENT_ICE);
         Registry.register(Registry.ITEM, AstralScience.id("ancient_ice"), new BlockItem(ANCIENT_ICE, new Item.Settings()));
@@ -258,9 +305,9 @@ public class AstralBlocks {
 
 
 //        block entities
-        AstralScience.CASCADIC_COOLER = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_cooler"), FabricBlockEntityTypeBuilder.create(CascadicCoolerBlockEntity::new, CASCADIC_COOLER).build());
-        AstralScience.CASCADIC_HEATER = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_heater"), FabricBlockEntityTypeBuilder.create(CascadicHeaterBlockEntity::new, CASCADIC_HEATER).build());
-//        AstralScience.STARSHIP_HELM = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ntrstlr:starship_helm", FabricBlockEntityTypeBuilder.create(StarshipHelmBlockEntity::new, STARSHIP_HELM).build());
+        CASCADIC_COOLER_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_cooler"), FabricBlockEntityTypeBuilder.create(CascadicCoolerBlockEntity::new, CASCADIC_COOLER).build());
+        CASCADIC_HEATER_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_heater"), FabricBlockEntityTypeBuilder.create(CascadicHeaterBlockEntity::new, CASCADIC_HEATER).build());
+        STARSHIP_HELM_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("starship_helm"), FabricBlockEntityTypeBuilder.create(StarshipHelmBlockEntity::new, STARSHIP_HELM).build());
     }
 
 }

@@ -4,7 +4,7 @@
 //import com.miir.interstellar.dimension.PlanetInfo;
 //import com.miir.interstellar.generation.NameGen;
 //import net.minecraft.client.gui.screen.AstralScreens;
-//import net.minecraft.text.Text;
+//import net.minecraft.text.AstralText;
 //import net.minecraft.util.Identifier;
 //
 //public class PlanetDestinationButton extends InterstellarTexturedButton {
@@ -17,7 +17,7 @@
 //                    ((StarshipHelmScreen) parent).getScreenHandler().getHelm().setDestination(PlanetInfo.getPlanetInfo(NameGen.deorbitify(pathOrbital)));
 //                    Interstellar.LOGGER.info("Set destination to " + NameGen.fromId(NameGen.deorbitify(pathOrbital)) + "!");
 //                },
-//                Text.of(NameGen.fromId(pathOrbital)),
+//                AstralText.of(NameGen.fromId(pathOrbital)),
 //                parent);
 //    }
 //}

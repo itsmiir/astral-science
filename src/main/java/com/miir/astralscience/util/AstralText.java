@@ -3,7 +3,7 @@ package com.miir.astralscience.util;
 import com.miir.astralscience.AstralScience;
 import net.minecraft.util.Identifier;
 
-public abstract class Text {
+public abstract class AstralText {
     public static Identifier deorbitify(Identifier original) {
         if (original.getNamespace().equals(AstralScience.MOD_ID)) {
             String[] splits = original.getPath().split("_");

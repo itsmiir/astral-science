@@ -4,13 +4,13 @@
 //import net.minecraft.client.MinecraftClient;
 //import net.minecraft.client.gui.screen.AstralScreens;
 //import net.minecraft.client.util.math.MatrixStack;
-//import net.minecraft.text.Text;
+//import net.minecraft.text.AstralText;
 //
 //public abstract class InterstellarScreen extends AstralScreens {
 //    protected int x;
 //    protected int y;
 //    public StarshipHelmBlockEntity helm;
-//    protected InterstellarScreen(Text title, StarshipHelmBlockEntity helm) {
+//    protected InterstellarScreen(AstralText title, StarshipHelmBlockEntity helm) {
 //        super(title);
 //        this.helm = helm;
 //    }

@@ -47,10 +47,10 @@ public class GPSItem extends Item {
 //                PlanetInfo planet = Interstellar.getCurrentPlanets().getFlags(NameGen.deorbitify(world.getRegistryKey().getValue().getPath()));
 //                double gravity = planet.gravity;
                 if (world.getRegistryKey().getValue().getPath().contains("_orbit")) {
-//                    user.sendMessage(Text.of("[§6GPS§r] You are at " + planet.type + " §6" + NameGen.fromId(world.getRegistryKey().getValue().getPath()) + "§r."), false);
+//                    user.sendMessage(AstralText.of("[§6GPS§r] You are at " + planet.type + " §6" + NameGen.fromId(world.getRegistryKey().getValue().getPath()) + "§r."), false);
                 } else {
-//                    user.sendMessage(Text.of("[§6GPS§r] You are on " + planet.type + " §6" + NameGen.fromId(world.getRegistryKey().getValue().getPath()) + "§r."), false);
-//                    user.sendMessage(Text.of("[§6GPS§r] Local gravity: §6" + AstralMath.round(gravity * AstralMath.pow(10, 2)) / 100.0 + " §rm/s^2."), false); // yes, i'm truncating the number. Ping me in the discord if you have complaints
+//                    user.sendMessage(AstralText.of("[§6GPS§r] You are on " + planet.type + " §6" + NameGen.fromId(world.getRegistryKey().getValue().getPath()) + "§r."), false);
+//                    user.sendMessage(AstralText.of("[§6GPS§r] Local gravity: §6" + AstralMath.round(gravity * AstralMath.pow(10, 2)) / 100.0 + " §rm/s^2."), false); // yes, i'm truncating the number. Ping me in the discord if you have complaints
                 }
             }
             return new TypedActionResult<>(ActionResult.SUCCESS, user.getStackInHand(hand));

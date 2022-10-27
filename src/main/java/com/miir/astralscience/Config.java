@@ -23,5 +23,5 @@ public class Config {
     //    how high to render thick fog on reentry
     public static final int ATMOSPHERIC_FOG_HEIGHT = (int)ATMOSPHERIC_CULL_HEIGHT / 2;
     public static final int IRIS_SURFACE_HEIGHT = 150;
-    public static final int PLANET_SIZE = 512;
+    public static final int PLANET_SIZE = 64;
 }
