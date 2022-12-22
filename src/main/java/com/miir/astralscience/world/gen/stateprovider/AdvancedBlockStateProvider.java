@@ -7,20 +7,28 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.BlockStateProviderType;
 
-public abstract class AdvancedBlockStateProvider extends BlockStateProvider {
-//    allows for BlockState provision given a BlockArray, so you can (for example) set all the blocks at the top of
-//    a particular feature to a certain blockstate or whatever
+/**
+ * a more powerful version of <code>BlockStateProvider</code>. Uses BlockArrays to allow for context-dependent
+ * blockstate providing.
+ */
+public class AdvancedBlockStateProvider extends BlockStateProvider {
+    public BlockStateProviderFunction f;
+
+    public AdvancedBlockStateProvider(BlockStateProviderFunction f) {
+
+    }
+
     @Override
     protected BlockStateProviderType<?> getType() {
         return BlockStateProviderType.SIMPLE_STATE_PROVIDER;
     }
 
     @Override
-    public BlockState getBlockState(net.minecraft.util.math.random.Random random, BlockPos pos) {
-        return this.getBlockState(random, pos, new BlockArray(pos));
+    public BlockState get(Random random, BlockPos pos) {
+        return this.get(random, pos, new BlockArray(pos));
     }
 
-    public abstract BlockState getBlockState(Random random, BlockPos pos, BlockArray array);
-
-
+    public BlockState get(Random random, BlockPos pos, BlockArray array) {
+        return this.f.apply(random, pos, array);
+    }
 }

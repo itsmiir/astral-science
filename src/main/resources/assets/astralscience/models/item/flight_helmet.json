@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "astralscience:items/flight_helmet"
+    "layer0": "astralscience:item/flight_helmet"
   }
 }

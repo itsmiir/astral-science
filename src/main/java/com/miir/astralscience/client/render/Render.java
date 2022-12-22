@@ -4,7 +4,6 @@ import com.miir.astralscience.AstralClient;
 import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.Config;
 import com.miir.astralscience.block.AstralBlocks;
-import com.miir.astralscience.client.render.block.entity.StarshipHelmBlockEntityRenderer;
 import com.miir.astralscience.util.AstralText;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -12,7 +11,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
@@ -21,16 +19,21 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import org.joml.Matrix4f;
+
 @Environment(EnvType.CLIENT)
 public class Render {
 
 
 
     public static void register() {
-        BlockEntityRendererRegistry.register(AstralBlocks.STARSHIP_HELM_TYPE, StarshipHelmBlockEntityRenderer::new);
 
 
 
@@ -124,7 +127,7 @@ public class Render {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableTexture();
-            RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+            RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferBuilder = tessellator.getBuffer();
             float d = 50;
@@ -132,27 +135,27 @@ public class Render {
                 matrices.push();
                 if (i == 0) {
                     RenderSystem.setShaderTexture(0, AstralClient.SKYBOX_LEFT);
-                    matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0F));
+                    matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0F));
                 }
 
                 if (i == 1) {
                     RenderSystem.setShaderTexture(0, AstralClient.SKYBOX_RIGHT);
-                    matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0F));
+                    matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-90.0F));
                 }
 
                 if (i == 2) {
                     RenderSystem.setShaderTexture(0, AstralClient.SKYBOX_UP);
-                    matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(180.0F));
+                    matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0F));
                 }
 
                 if (i == 3) {
                     RenderSystem.setShaderTexture(0, AstralClient.SKYBOX_FRONT);
-                    matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(90.0F));
+                    matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90.0F));
                 }
 
                 if (i == 4) {
                     RenderSystem.setShaderTexture(0, AstralClient.SKYBOX_BACK);
-                    matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-90.0F));
+                    matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-90.0F));
                 }
                 if (i == 5) {
                     RenderSystem.setShaderTexture(0, AstralClient.SKYBOX_DOWN);
@@ -177,6 +180,7 @@ public class Render {
     public static void drawFloorBody(MatrixStack matrices, float light, double playerHeight, float opacity, double tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientWorld world = client.world;
+        RegistryKey<World> key = world.getRegistryKey();
         Entity cameraEntity = client.getCameraEntity();
         int alpha = (int) (0xFF * (opacity*.9+.1));
         int planetSize = Config.PLANET_SIZE;
@@ -196,8 +200,8 @@ public class Render {
             l = (int) (200 * light);
         }
         float height = 12.5f/2;
-        String renderPath = AstralText.deorbitify(world.getRegistryKey().getValue().getPath());
-        Identifier planet = AstralClient.renderBody(renderPath);
+        String renderPath = AstralText.deorbitify(key.getValue().getPath());
+        Identifier planet = AstralClient.renderAsFloorBody(renderPath);
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
@@ -217,8 +221,8 @@ public class Render {
             int r = clr.getX();//(int)color[0]*255;
             int g = clr.getY();//(int)color[1]*255;
             int b = clr.getZ();//(int)color[2]*255;
-            RenderSystem.setShaderTexture(0, AstralClient.renderAtmos(world.getRegistryKey().getValue().getPath()));
-            RenderSystem.setShader(GameRenderer::getPositionTexLightmapColorShader);
+            RenderSystem.setShaderTexture(0, AstralClient.renderAtmos(key.getValue().getPath()));
+            RenderSystem.setShader(GameRenderer::getPositionTexLightmapColorProgram);
             Matrix4f positionMatrix1 = matrices.peek().getPositionMatrix();
             bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_LIGHT_COLOR);
             float hMask = -height * h-1;
@@ -226,11 +230,11 @@ public class Render {
             bufferBuilder.vertex(positionMatrix1, -planetSize, hMask, planetSize).texture(0.0F, 1.0F).light(lightmapCoords).color(r, g, b, 255).next();
             bufferBuilder.vertex(positionMatrix1, planetSize, hMask, planetSize).texture(1.0F, 1.0F).light(lightmapCoords).color(r, g, b, 255).next();
             bufferBuilder.vertex(positionMatrix1, planetSize, hMask, -planetSize).texture(1.0F, 0.0F).light(lightmapCoords).color(r, g, b, 255).next();
-            BufferRenderer.drawWithShader(bufferBuilder.end());
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         }
 
         // draw body
-        RenderSystem.setShader(GameRenderer::getPositionTexLightmapColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexLightmapColorProgram);
         RenderSystem.setShaderTexture(0, planet);
         Matrix4f positionMatrix = matrices.peek().getPositionMatrix();
 
@@ -239,13 +243,13 @@ public class Render {
         bufferBuilder.vertex(positionMatrix, -planetSize, -height * h, planetSize).texture(0.0F, 1.0F).light(lightmapCoords).color(l + 10, l + 10, l + 10, alpha).next();
         bufferBuilder.vertex(positionMatrix, planetSize, -height * h, planetSize).texture(1.0F, 1.0F).light(lightmapCoords).color(l + 10, l + 10, l + 10, alpha).next();
         bufferBuilder.vertex(positionMatrix, planetSize, -height * h, -planetSize).texture(1.0F, 0.0F).light(lightmapCoords).color(l + 10, l + 10, l + 10, alpha).next();
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
         // draw clouds
         if (AstralClient.hasClouds(world)) {
-            Identifier clouds = AstralClient.renderClouds(AstralText.deorbitify(world.getRegistryKey().getValue().getPath()));
+            Identifier clouds = AstralClient.renderClouds(AstralText.deorbitify(key.getValue().getPath()));
             float cloudHeight = (float) (-height * (h - (fogHeight / ((float) Config.ORBIT_DROP_HEIGHT))));
-            RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+            RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
             RenderSystem.setShaderTexture(0, clouds);
             Matrix4f matrix4f2 = matrices.peek().getPositionMatrix();
             bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
@@ -253,14 +257,14 @@ public class Render {
             bufferBuilder.vertex(matrix4f2, -planetSize, cloudHeight, planetSize).texture(0.0F, 1.0F).color((int) (200 * light) + 50, (int) (200 * light) + 50, (int) (200 * light) + 50, (int) (128 * opacity)).next();
             bufferBuilder.vertex(matrix4f2, planetSize, cloudHeight, planetSize).texture(1.0F, 1.0F).color((int) (200 * light) + 50, (int) (200 * light) + 50, (int) (200 * light) + 50, (int) (128 * opacity)).next();
             bufferBuilder.vertex(matrix4f2, planetSize, cloudHeight, -planetSize).texture(1.0F, 0.0F).color((int) (200 * light) + 50, (int) (200 * light) + 50, (int) (200 * light) + 50, (int) (128 * opacity)).next();
-            BufferRenderer.drawWithShader(bufferBuilder.end());
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         }
         if (AstralDimensions.hasAtmosphere(world, true)) {
             double r = 1;
             double g = 1;
             double b = 1;
-            Identifier atmos = AstralClient.renderAtmos(AstralText.deorbitify(world.getRegistryKey().getValue().getPath()));
-            RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+            Identifier atmos = AstralClient.renderAtmos(AstralText.deorbitify(key.getValue().getPath()));
+            RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
             RenderSystem.setShaderTexture(0, atmos);
             Matrix4f matrix4f2 = matrices.peek().getPositionMatrix();
             bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
@@ -269,19 +273,16 @@ public class Render {
             bufferBuilder.vertex(matrix4f2, -planetSize, atmosphereHeight, planetSize).texture(0.0F, 1.0F).color((int) (180 * light * r) + 20, (int) (200 * light * g) + 20, (int) (220 * light * b) + 20, (int) (64 * opacity)).next();
             bufferBuilder.vertex(matrix4f2, planetSize, atmosphereHeight, planetSize).texture(1.0F, 1.0F).color((int) (180 * light * r) + 20, (int) (200 * light * g) + 20, (int) (220 * light * b) + 20, (int) (64 * opacity)).next();
             bufferBuilder.vertex(matrix4f2, planetSize, atmosphereHeight, -planetSize).texture(1.0F, 0.0F).color((int) (180 * light * r) + 20, (int) (200 * light * g) + 20, (int) (220 * light * b) + 20, (int) (64 * opacity)).next();
-            BufferRenderer.drawWithShader(bufferBuilder.end());
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         }
         RenderSystem.depthMask(true);
     }
 
-    public static void renderOrbitalSky(WorldRenderContext context) {
-        WorldRenderer renderer = context.worldRenderer();
+    public static void renderPermaNightSky(WorldRenderContext context) {
         Camera camera = context.camera();
-        MinecraftClient client = MinecraftClient.getInstance();
         ClientWorld world = context.world();
         float tickDelta = context.tickDelta();
         MatrixStack matrices = context.matrixStack();
-        Matrix4f projectionMatrix = context.projectionMatrix();
         float q;
         float p;
         float o;
@@ -293,7 +294,7 @@ public class Render {
             return;
         }
         RenderSystem.disableTexture();
-        Vec3d vec3d = Vec3d.ZERO; // world.getSkyColor(client.gameRenderer.getCamera().getPos(), tickDelta);
+        Vec3d vec3d = /*Vec3d.ZERO; */world.getSkyColor(context.camera().getPos(), tickDelta);
         float f = (float) vec3d.x;
         float g = (float) vec3d.y;
         float h = (float) vec3d.z;
@@ -301,20 +302,19 @@ public class Render {
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.depthMask(false);
         RenderSystem.setShaderColor(f, g, h, 1.0f);
-        Shader shader = RenderSystem.getShader();
         VertexBuffer.unbind();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         float[] fs = world.getDimensionEffects().getFogColorOverride(world.getSkyAngle(tickDelta), tickDelta);
         if (fs != null) {
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
             RenderSystem.disableTexture();
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             matrices.push();
-            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0f));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
             i = MathHelper.sin(world.getSkyAngleRadians(tickDelta)) < 0.0f ? 180.0f : 0.0f;
-            matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(i));
-            matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(90.0f));
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(i));
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90.0f));
             float j = fs[0];
             k = fs[1];
             float l = fs[2];
@@ -327,7 +327,7 @@ public class Render {
                 q = MathHelper.cos(o);
                 bufferBuilder.vertex(matrix4f, p * 120.0f, q * 120.0f, -q * 40.0f * fs[3]).color(fs[0], fs[1], fs[2], 0.0f).next();
             }
-            BufferRenderer.drawWithShader(bufferBuilder.end());
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
             matrices.pop();
         }
         RenderSystem.enableTexture();
@@ -336,21 +336,28 @@ public class Render {
         i = 1.0f - world.getRainGradient(tickDelta);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, i);
 
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90.0f));
-        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(world.getSkyAngle(tickDelta) * 360.0f));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90.0f));
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(world.getSkyAngle(tickDelta) * 360.0f));
         Matrix4f matrix4f2 = matrices.peek().getPositionMatrix();
         k = 30.0f;
-        drawStarfield(matrices, 1);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, AstralClient.SUN_ORBIT);
+        long time = context.world().getTimeOfDay();
+        boolean hasAtmosphere = AstralDimensions.hasAtmosphere(context.world(), false);
+        if (!hasAtmosphere || time > 12000) {
+            float opacity = hasAtmosphere ?
+                    MathHelper.clamp((6000 - Math.abs(time - 18000)) / 6000f,0,1) :
+                    1;
+            drawStarfield(matrices, opacity);
+        }
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+        RenderSystem.setShaderTexture(0, AstralClient.getSun(world));
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         bufferBuilder.vertex(matrix4f2, -k, 100.0f, -k).texture(0.0f, 0.0f).next();
         bufferBuilder.vertex(matrix4f2, k, 100.0f, -k).texture(1.0f, 0.0f).next();
         bufferBuilder.vertex(matrix4f2, k, 100.0f, k).texture(1.0f, 1.0f).next();
         bufferBuilder.vertex(matrix4f2, -k, 100.0f, k).texture(0.0f, 1.0f).next();
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         k = 20.0f;
-        RenderSystem.setShaderTexture(0, AstralClient.REENTRY_MOON);
+        RenderSystem.setShaderTexture(0, AstralClient.getMoon(world));
         int r = world.getMoonPhase();
         int s = r % 4;
         m = r / 4 % 2;
@@ -363,7 +370,7 @@ public class Render {
         bufferBuilder.vertex(matrix4f2, k, -100.0f, k).texture(t, q).next();
         bufferBuilder.vertex(matrix4f2, k, -100.0f, -k).texture(t, o).next();
         bufferBuilder.vertex(matrix4f2, -k, -100.0f, -k).texture(p, o).next();
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.disableTexture();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.disableBlend();

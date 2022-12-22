@@ -1,7 +1,7 @@
 package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.block.AstralBlocks;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;

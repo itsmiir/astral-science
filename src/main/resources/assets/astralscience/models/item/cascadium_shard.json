@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "astralscience:items/cascadium_shard"
+    "layer0": "astralscience:item/cascadium_shard"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "astralscience:items/light_composite_sheet"
+    "layer0": "astralscience:item/light_composite_sheet"
   }
 }

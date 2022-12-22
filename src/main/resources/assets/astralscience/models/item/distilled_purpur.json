@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "astralscience:items/distilled_purpur"
+    "layer0": "astralscience:item/distilled_purpur"
   }
 }

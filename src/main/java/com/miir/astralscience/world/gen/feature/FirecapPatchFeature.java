@@ -3,7 +3,7 @@ package com.miir.astralscience.world.gen.feature;
 import com.miir.astralscience.block.AstralBlocks;
 import com.miir.astralscience.tag.AstralTags;
 import net.minecraft.block.Blocks;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;

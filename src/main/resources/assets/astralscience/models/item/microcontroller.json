@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "astralscience:items/microcontroller"
+    "layer0": "astralscience:item/microcontroller"
   }
 }

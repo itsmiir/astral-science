@@ -1,77 +1,45 @@
 package com.miir.astralscience.world.gen.feature;
 
+import com.miir.astralscience.AstralScience;
+import com.miir.astralscience.block.AstralBlocks;
+import com.miir.astralscience.tag.AstralTags;
 import com.miir.astralscience.world.BlockArray;
+import com.mojang.serialization.Codec;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
-//    because screw trees
-
-//    future em here, trees are fine, i was having a bit of a moment, sorry ~em
-
+public abstract class AbstractBranchingPlantFeature extends AbstractFeature<BranchingPlantFeatureConfig> {
+//    because fuck trees
+//    future miir here, trees are fine, i was having a bit of a moment, sorry
+//    even more future miir here, i think first miir had a point. trees suck
 //    todo: properly implement branches
     private ArrayList<TreeTip> tips = new ArrayList<>();
     private BlockArray unbakedMap = new BlockArray();
     private BlockArray roots = new BlockArray();
     private BlockPos origin;
-    private final BlockStateProvider trunkProvider;
-    private final BlockStateProvider canopyProvider;
-    private final BlockStateProvider decorationProvider;
-    private final BlockStateProvider rootProvider;
 
-    private final int maxBranches;
-    private final int maxTrunkSize;
-    private final int avgTrunkSize;
-    private final float branchChance;
-    private final int minTrunkHeight;
-    private final boolean canBend;
-    private final float bendChance;
-    private final float tallness;
-    private final TagKey<Block> replaceable;
-    private final boolean adjacentAllowed;
-
-    private final int avgRootSize;
-    private final int maxRootSize;
-    private final float rootBranchiness;
-    public AbstractBranchingPlantFeature(int maxBranches, int maxTrunkSize, int avgTrunkSize, float branchChance, int minTrunkHeight, boolean canBend, float bendChance, float tallness, BlockStateProvider trunkProvider, BlockStateProvider canopyProvider, BlockStateProvider decorationProvider, TagKey<Block> replaceable, boolean adjacentAllowed) {
-        this(maxBranches, maxTrunkSize, avgTrunkSize, branchChance, minTrunkHeight, canBend, bendChance, tallness, trunkProvider, canopyProvider, decorationProvider, replaceable, null, 0, 0, 0, adjacentAllowed);
-    }
-
-    public AbstractBranchingPlantFeature(int maxBranches, int maxTrunkSize, int avgTrunkSize, float branchChance, int minTrunkHeight, boolean canBend, float bendChance, float tallness, BlockStateProvider trunkProvider, BlockStateProvider canopyProvider, BlockStateProvider decorationProvider, TagKey<Block> replaceable, BlockStateProvider rootProvider, int maxRoots, int avgRoots, float rootBranchiness, boolean adjacentAllowed) {
-        super();
-        this.trunkProvider = trunkProvider;
-        this.canopyProvider = canopyProvider;
-        this.decorationProvider = decorationProvider;
-        this.rootProvider = rootProvider;
-        this.maxBranches = maxBranches;
-        this.maxTrunkSize = maxTrunkSize;
-        this.avgRootSize = avgRoots;
-        this.maxRootSize = maxRoots;
-        this.rootBranchiness = rootBranchiness;
-        this.avgTrunkSize = avgTrunkSize;
-        this.branchChance = branchChance;
-        this.minTrunkHeight = minTrunkHeight;
-        this.canBend = canBend;
-        this.bendChance = bendChance;
-        this.tallness = tallness;
-        this.replaceable = replaceable;
-        this.adjacentAllowed = adjacentAllowed;
+    public AbstractBranchingPlantFeature(Codec<BranchingPlantFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+    public boolean generate(FeatureContext context) {
+        BranchingPlantFeatureConfig config = (BranchingPlantFeatureConfig) context.getConfig();
         this.origin = this.start(context).toImmutable();
-        if (!this.adjacentAllowed) {
+        if (!config.adjacentAllowed()) {
             for (BlockPos pos:
                  BlockArray.surrounding(this.origin, false, true, false)) {
                 if (!context.getWorld().getBlockState(pos).isOf(Blocks.AIR)) {
@@ -86,49 +54,49 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
         this.tips.add(new TreeTip(this.origin, context.getRandom()));
         this.unbakedMap.add(this.origin);
 
-        for (int i = 0; i < Math.min(random.nextInt(this.avgTrunkSize) * 2 + this.minTrunkHeight, this.maxTrunkSize); i++) {
+        for (int i = 0; i < Math.min(random.nextInt(config.avgTrunkSize()) * 2 + config.minTrunkHeight(), config.maxTrunkSize()); i++) {
             this.step(context);
         }
         BlockArray canopy = this.buildCanopy(context);
         for (BlockPos pos :
                 this.unbakedMap) {
-            if (!canPlaceAt(context, pos, replaceable)) {
+            if (cannotPlaceAt(context, pos, AstralTags.GIANT_PLANT_REPLACEABLE)) {
                 return false;
             }
         }
-        this.unbakedMap.build(context, this.trunkProvider);
+        this.unbakedMap.build(context, new SimpleBlockStateProvider(Registries.BLOCK.get(config.trunkProvider()).getDefaultState()));
         BlockArray canopyCopy = canopy.copy();
         for (BlockPos pos :
                 canopy) {
-            if (!canPlaceAt(context, pos, replaceable)) {
+            if (cannotPlaceAt(context, pos, AstralTags.GIANT_PLANT_REPLACEABLE)) {
                 canopyCopy.remove(pos);
             }
         }
         canopy = canopyCopy.copy();
 
-        canopy.build(context, canopyProvider);
+        canopy.build(context, new SimpleBlockStateProvider(Registries.BLOCK.get(config.canopyProvider()).getDefaultState()));
         this.buildRoots(context);
-        this.decorate(context, this.decorationProvider, this.unbakedMap, canopy);
+        this.decorate(context, new SimpleBlockStateProvider(Registries.BLOCK.get(config.decorationProvider()).getDefaultState()), this.unbakedMap, canopy);
         return true;
     }
 
-    protected void buildRoots(FeatureContext<DefaultFeatureConfig> context) {
+    protected abstract void buildRoots(FeatureContext<BranchingPlantFeatureConfig> context);
+
+    protected void decorate(FeatureContext<BranchingPlantFeatureConfig> context, BlockStateProvider decorationProvider, BlockArray stem, BlockArray canopy) {
     }
 
-    protected void decorate(FeatureContext<DefaultFeatureConfig> context, BlockStateProvider decorationProvider, BlockArray stem, BlockArray canopy) {
-    }
+    protected abstract BlockPos start(FeatureContext<BranchingPlantFeatureConfig> context);
 
-    protected abstract BlockPos start(FeatureContext<DefaultFeatureConfig> context);
-
-    public boolean step(FeatureContext<DefaultFeatureConfig> context) {
+    protected void step(FeatureContext<BranchingPlantFeatureConfig> context) {
+        BranchingPlantFeatureConfig config = context.getConfig();
         net.minecraft.util.math.random.Random random = context.getRandom();
-        if (this.tips.size() == 1 && this.unbakedMap.size() <= minTrunkHeight) {
+        if (this.tips.size() == 1 && this.unbakedMap.size() <= config.minTrunkHeight()) {
             ArrayList<TreeTip> newTips = new ArrayList<>();
             for (TreeTip tip :
                     this.tips) {
                 BlockPos newTip = tip.getPos().offset(Direction.UP).toImmutable();
                 Direction direction = Direction.random(random);
-                if (canBend && random.nextFloat() < bendChance) {
+                if (config.canBend() && random.nextFloat() < config.bendChance()) {
                     while (direction.equals(Direction.DOWN) || direction.equals(Direction.UP)) {
                         direction = Direction.random(random);
                     }
@@ -140,14 +108,13 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
                 this.unbakedMap.add(newTip.toImmutable());
             }
             this.tips = newTips;
-            return true;
-        } else if (!(this.unbakedMap.size() >= maxTrunkSize)) {
-            if (!(this.tips.size() >= maxBranches) && context.getRandom().nextFloat() < branchChance) {
+        } else if (!(this.unbakedMap.size() >= config.maxTrunkSize())) {
+            if (!(this.tips.size() >= config.maxBranches()) && context.getRandom().nextFloat() < config.branchChance()) {
                 TreeTip budTip = this.tips.get(random.nextInt(this.tips.size()));
                 BlockPos budPos = budTip.getPos();
 
 //                generate a blockPos one block in a cardinal direction away from the origin
-                BlockPos offset = this.pushOut(random, budTip, false).toImmutable();
+                BlockPos offset = this.pushOut(random, budTip, false, config.tallness()).toImmutable();
                 if (!(this.unbakedMap.contains(budPos.add(offset)))) {
                     this.unbakedMap.add(budPos.add(offset).toImmutable());
                 }
@@ -163,7 +130,7 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
                 ArrayList<TreeTip> newTips = new ArrayList<>();
                 for (TreeTip tip :
                         this.tips) {
-                    BlockPos offset = this.pushOut(random, tip, true);
+                    BlockPos offset = this.pushOut(random, tip, true, config.tallness());
                     BlockPos newTip = tip.getPos().add(offset);
                     this.unbakedMap.add(newTip);
                     newTips.add(new TreeTip(newTip, Direction.fromVector(offset)));
@@ -171,11 +138,10 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
                 this.tips = newTips;
             }
         }
-        return true;
     }
 
     @NotNull
-    private BlockPos pushOut(Random random, TreeTip treeTip, boolean canGrowUp) {
+    private BlockPos pushOut(Random random, TreeTip treeTip, boolean canGrowUp, float tallness) {
         BlockPos budTip = treeTip.getPos();
         BlockPos offset = budTip.subtract(this.origin);
         int x;
@@ -199,12 +165,16 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
                 offset = new BlockPos(0, 1, 0);
             }
         } else {
-            offset = BlockPos.ORIGIN.offset(treeTip.getDirection());
+            Direction direction;
+            do {
+                direction = Direction.random(random);
+            } while (direction == Direction.DOWN || direction == Direction.UP);
+            offset = BlockPos.ORIGIN.offset(direction);
         }
         return offset.toImmutable();
     }
 
-    public BlockArray buildCanopy(FeatureContext<DefaultFeatureConfig> context) {
+    private BlockArray buildCanopy(FeatureContext<BranchingPlantFeatureConfig> context) {
         BlockArray canopy = new BlockArray();
         for (TreeTip tip :
                 this.tips) {
@@ -212,9 +182,9 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
         }
         return canopy;
     }
-    protected abstract BlockArray buildCanopy(FeatureContext<DefaultFeatureConfig> context, BlockPos tip, BlockArray stem);
+    protected abstract BlockArray buildCanopy(FeatureContext<BranchingPlantFeatureConfig> context, BlockPos tip, BlockArray stem);
 
-    public static class TreeTip {
+    protected static class TreeTip {
         private BlockPos pos;
         private final Direction direction;
 
@@ -238,5 +208,8 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature {
             return direction;
         }
     }
-
+    public static final Object2ObjectArrayMap<Identifier, BlockStateProvider> STATE_PROVIDER_MAP = new Object2ObjectArrayMap<Identifier, BlockStateProvider>(
+            new Identifier[]{AstralScience.id("wormwood_log")},
+            new BlockStateProvider[]{BlockStateProvider.of(AstralBlocks.WORMWOOD_LOG)}
+    );
 }

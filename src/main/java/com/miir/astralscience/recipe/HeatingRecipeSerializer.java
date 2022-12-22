@@ -9,9 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public class HeatingRecipeSerializer implements RecipeSerializer<HeatingRecipe> {
     public static HeatingRecipeSerializer INSTANCE = new HeatingRecipeSerializer();
@@ -27,7 +28,7 @@ public class HeatingRecipeSerializer implements RecipeSerializer<HeatingRecipe> 
         Ingredient input = Ingredient.fromJson(inputIngredient);
         String result = JsonHelper.getString(json, "result");
         int outputAmount = JsonHelper.getInt(json, "outputcount", 1);
-        Item outputItem = Registry.ITEM.getOrEmpty(new Identifier(result))
+        Item outputItem = Registries.ITEM.getOrEmpty(new Identifier(result))
                 .orElseThrow(() -> new JsonSyntaxException("No such item " + result));
         ItemStack output = new ItemStack(outputItem, outputAmount);
         float experience = JsonHelper.getFloat(json, "experience", 0.0F);

@@ -411,9 +411,9 @@ public class BlockArray implements Iterable<BlockPos>, Cloneable {
 //        minecraft in a less efficient way so i never have to learn how to make stuff like "carvers" (blegh)
         for (BlockPos block : this.blocks.keySet()) {
             if (provider instanceof AdvancedBlockStateProvider) {
-                world.setBlockState(block, ((AdvancedBlockStateProvider) provider).getBlockState(world.getRandom(), block, this), 3);
+                world.setBlockState(block, ((AdvancedBlockStateProvider) provider).get(world.getRandom(), block, this), 3);
             } else {
-                world.setBlockState(block, provider.getBlockState(world.getRandom(), block), 3);
+                world.setBlockState(block, provider.get(world.getRandom(), block), 3);
             }
         }
     }

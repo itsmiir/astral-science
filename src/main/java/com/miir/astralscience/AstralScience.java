@@ -1,20 +1,17 @@
 package com.miir.astralscience;
 
 import com.miir.astralscience.block.AstralBlocks;
-import com.miir.astralscience.block.entity.CascadicCoolerBlockEntity;
-import com.miir.astralscience.block.entity.CascadicHeaterBlockEntity;
 import com.miir.astralscience.item.AstralItems;
 import com.miir.astralscience.tag.AstralTags;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -36,28 +33,29 @@ public class AstralScience implements ModInitializer {
         return new Identifier(MOD_ID, path);
     }
 
-    public static final ItemGroup ASTRAL_SCIENCE = FabricItemGroupBuilder.create(
+    public static final ItemGroup ASTRAL_SCIENCE = FabricItemGroup.builder(
             id("astralscience"))
+            .displayName(Text.of("Astral Science"))
             .icon(() -> new ItemStack(AstralItems.RECORDER))
-            .appendItems(stacks -> {
+            .entries((enabledFeatures, stacks, operatorEnabled) -> {
 //tools
                 stacks.add(new ItemStack(AstralItems.RECORDER));
-                stacks.add(new ItemStack(AstralItems.SCREWDRIVER));
+//                stacks.add(new ItemStack(AstralItems.SCREWDRIVER));
                 stacks.add(new ItemStack(AstralItems.GPS));
                 stacks.add(new ItemStack(AstralItems.GALACTIC_MAP));
 
 //                stacks.add(new ItemStack(AstralItems.FLIGHT_HELMET));
                 stacks.add(new ItemStack(AstralItems.NEPHRYLL_BOOTS));
-//items
-                stacks.add(new ItemStack(AstralItems.GRAPHITE_ROD));
+//item
+//                stacks.add(new ItemStack(AstralItems.GRAPHITE_ROD));
                 stacks.add(new ItemStack(AstralItems.STARDUST));
                 stacks.add(new ItemStack(AstralItems.CASCADIUM_SHARD));
                 stacks.add(new ItemStack(AstralItems.NEPHRYLL_POWDER));
                 stacks.add(new ItemStack(AstralItems.NEPHRYLL_PEARL));
                 stacks.add(new ItemStack(AstralItems.SPEAR_SEED));
-                stacks.add(new ItemStack(AstralItems.LIGHT_COMPOSITE_SHEET));
-                stacks.add(new ItemStack(AstralItems.THERMAL_COMPOSITE_SHEET));
-                stacks.add(new ItemStack(AstralItems.HEAVY_COMPOSITE_PLATE));
+//                stacks.add(new ItemStack(AstralItems.LIGHT_COMPOSITE_SHEET));
+//                stacks.add(new ItemStack(AstralItems.THERMAL_COMPOSITE_SHEET));
+//                stacks.add(new ItemStack(AstralItems.HEAVY_COMPOSITE_PLATE));
 
 //blocks
                 stacks.add(new ItemStack(AstralBlocks.CASCADIC_BONE));

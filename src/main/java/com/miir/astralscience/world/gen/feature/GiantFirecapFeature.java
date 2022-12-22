@@ -1,11 +1,10 @@
 package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.block.AstralBlocks;
-import com.miir.astralscience.tag.AstralTags;
 import com.miir.astralscience.world.BlockArray;
-import com.miir.astralscience.world.gen.stateprovider.FirecapCanopyProvider;
-import com.miir.astralscience.world.gen.stateprovider.FirecapDecorationProvider;
-import com.miir.astralscience.world.gen.stateprovider.SimpleStateProvider;
+import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
+import com.mojang.serialization.Codec;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MultifaceGrowthBlock;
 import net.minecraft.util.math.BlockPos;
@@ -14,22 +13,25 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 public class GiantFirecapFeature extends AbstractBranchingPlantFeature {
     public static float VINE_CHANCE = 0.95F;
+    private static final BlockState CROWN = AstralBlocks.FIRECAP_SCALES.getDefaultState();
+    private static final BlockState MIDDLE = AstralBlocks.FIRECAP_GILLS.getDefaultState();
+    private static final BlockState TRUNK = AstralBlocks.FIRECAP_HYPHAE.getDefaultState();
+    private static final BlockState BLUEMOSS = AstralBlocks.BLUEMOSS.getDefaultState();
 
-    public GiantFirecapFeature() {
-        super(1, 15, 10, 0.25F, 3, true, 0.5F, 0.15F, new SimpleStateProvider(AstralBlocks.FIRECAP_HYPHAE.getDefaultState()), new FirecapCanopyProvider(), new FirecapDecorationProvider(), AstralTags.GIANT_FIRECAP_REPLACEABLE, true);
+    public GiantFirecapFeature(Codec<BranchingPlantFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    protected BlockPos start(FeatureContext<DefaultFeatureConfig> context) {
+    protected BlockPos start(FeatureContext<BranchingPlantFeatureConfig> context) {
         return AstralFeatures.findNextFloor(context.getWorld(), context.getOrigin(), 100);
     }
 
     @Override
-    protected BlockArray buildCanopy(FeatureContext<DefaultFeatureConfig> context, BlockPos tip, BlockArray stem) {
+    protected BlockArray buildCanopy(FeatureContext<BranchingPlantFeatureConfig> context, BlockPos tip, BlockArray stem) {
         Random random = context.getRandom();
         int x = tip.getX();
         int y = tip.getY() + 1;
@@ -79,7 +81,10 @@ public class GiantFirecapFeature extends AbstractBranchingPlantFeature {
     }
 
     @Override
-    protected void decorate(FeatureContext<DefaultFeatureConfig> context, BlockStateProvider decorationProvider, BlockArray stem, BlockArray canopy) {
+    protected void buildRoots(FeatureContext<BranchingPlantFeatureConfig> context) {}
+
+    @Override
+    protected void decorate(FeatureContext<BranchingPlantFeatureConfig> context, BlockStateProvider decorationProvider, BlockArray stem, BlockArray canopy) {
         for (BlockPos pos :
                 stem) {
             BlockPos test = new BlockPos(pos.toImmutable());

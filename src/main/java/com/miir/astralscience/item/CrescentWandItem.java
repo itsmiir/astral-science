@@ -4,14 +4,12 @@ import com.miir.astralscience.block.AstralBlocks;
 import com.miir.astralscience.block.StarlightCollectorBlock;
 import com.miir.astralscience.magic.rune.AstralRunes;
 import com.miir.astralscience.magic.spell.SpellParser;
-import com.miir.astralscience.screen.CrescentWandScreenHandler;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
@@ -20,7 +18,6 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -40,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class CrescentWandItem extends Item implements NamedScreenHandlerFactory  {
+public class CrescentWandItem extends Item {
     private static final int CHARGE_COLOR = MathHelper.packRgb(26, 160, 139);
     private static final int MAX_CHARGE = 500;
 
@@ -74,6 +71,8 @@ public class CrescentWandItem extends Item implements NamedScreenHandlerFactory 
     public int getItemBarStep(ItemStack stack) {
         return Math.min(getCharge(stack) / MAX_CHARGE * 13, 13);
     }
+
+
 
     private int getCharge(ItemStack stack) {
         NbtCompound tag = stack.getOrCreateNbt();
@@ -194,14 +193,4 @@ public class CrescentWandItem extends Item implements NamedScreenHandlerFactory 
         Inventories.writeNbt(tag, inventory);
     }
 
-    @Nullable
-    @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new CrescentWandScreenHandler(syncId, inv, player.getStackInHand(player.getActiveHand()));
-    }
-
-    @Override
-    public Text getDisplayName() {
-        return Text.translatable("item.astralscience.crescent_wand");
-    }
 }

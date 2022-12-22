@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "astralscience:items/dimensional_compass"
+    "layer0": "astralscience:item/dimensional_compass"
   }
 }

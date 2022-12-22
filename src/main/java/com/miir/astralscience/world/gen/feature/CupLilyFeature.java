@@ -3,23 +3,32 @@ package com.miir.astralscience.world.gen.feature;
 import com.miir.astralscience.block.AstralBlocks;
 import com.miir.astralscience.world.BlockArray;
 import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
-import com.miir.astralscience.world.gen.stateprovider.SimpleStateProvider;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 import java.util.function.Predicate;
 
 public class CupLilyFeature extends AbstractFeature {
+    private static final BlockState PURPLE = AstralBlocks.PURPLE_PETAL.getDefaultState();
+    private static final BlockState PINK = AstralBlocks.PINK_PETAL.getDefaultState();
+    private static final BlockState WHITE = AstralBlocks.WHITE_PETAL.getDefaultState();
+    private static final BlockState PEACH = AstralBlocks.PEACH_PETAL.getDefaultState();
+    private static final BlockState BLACK = AstralBlocks.BLACK_PETAL.getDefaultState();
+
+    public CupLilyFeature(Codec codec) {
+        super(codec);
+    }
+
     @Override
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+    public boolean generate(FeatureContext context) {
         StructureWorldAccess world = context.getWorld();
         net.minecraft.util.math.random.Random random = context.getRandom();
         BlockPos start = findWaterSurface(context);
@@ -71,24 +80,46 @@ public class CupLilyFeature extends AbstractFeature {
             default:
                 break;
         }
-        BlockArray water = flood(start, context.getRandom());
+        BlockArray water = this.flood(start, context.getRandom());
         BlockArray petals = new BlockArray();
-        petals.add(generatePetal(Direction.NORTH, start.up()));
-        petals.add(generatePetal(Direction.WEST, start.up()));
-        petals.add(generatePetal(Direction.EAST, start.up()));
-        petals.add(generatePetal(Direction.SOUTH, start.up()));
-        petals.add(generatePetal(start.up(), Direction.NORTH, Direction.WEST));
-        petals.add(generatePetal(start.up(), Direction.WEST, Direction.SOUTH));
-        petals.add(generatePetal(start.up(), Direction.SOUTH, Direction.EAST));
-        petals.add(generatePetal(start.up(), Direction.EAST, Direction.NORTH));
-
+        petals.add(this.generatePetal(Direction.NORTH, start.up()));
+        petals.add(this.generatePetal(Direction.WEST, start.up()));
+        petals.add(this.generatePetal(Direction.EAST, start.up()));
+        petals.add(this.generatePetal(Direction.SOUTH, start.up()));
+        petals.add(this.generatePetal(start.up(), Direction.NORTH, Direction.WEST));
+        petals.add(this.generatePetal(start.up(), Direction.WEST, Direction.SOUTH));
+        petals.add(this.generatePetal(start.up(), Direction.SOUTH, Direction.EAST));
+        petals.add(this.generatePetal(start.up(), Direction.EAST, Direction.NORTH));
 
         if (!(isClear(array, context) && isClear(petals, context))) {
             return false;
         }
-        array.build(context, new SimpleStateProvider(Blocks.GREEN_CONCRETE.getDefaultState()));
-        water.build(context, new CupLilyDecorationProvider());
-        petals.build(context, new CupLilyPetalProvider(random.nextFloat()));
+        array.build(context, new AdvancedBlockStateProvider((random1, pos1, array1) -> Blocks.GREEN_CONCRETE.getDefaultState()));
+        water.build(context, new AdvancedBlockStateProvider((random1, pos1, array1) -> {
+            if (array1.getFlags(pos1) == 1) {
+                return Blocks.LILY_PAD.getDefaultState();
+            } else return Blocks.WATER.getDefaultState();
+        }));
+        petals.build(context, new AdvancedBlockStateProvider((random1, pos1, array1) -> {
+            float f = random1.nextFloat();
+            BlockState petal = PINK;
+            if (f >= 0.6) {
+                petal = WHITE;
+                if (f >= 0.8) {
+                    petal = PURPLE;
+                    if (f >= 0.95) {
+                        petal = PEACH;
+                        if (f >= 0.99) {
+                            petal = BLACK;
+                        }
+                    }
+                }
+            }
+            int flag = array1.getFlags(pos1);
+            if (flag == 0) {
+                return Blocks.SEA_LANTERN.getDefaultState();
+            } else return petal;
+        }));
         return true;
     }
 
@@ -258,7 +289,7 @@ public class CupLilyFeature extends AbstractFeature {
         return petal;
     }
 
-    private BlockArray flood(BlockPos center, net.minecraft.util.math.random.Random random) {
+    private BlockArray flood(BlockPos center, Random random) {
         BlockArray water = new BlockArray();
         water
                 .add(center.up())
@@ -275,52 +306,5 @@ public class CupLilyFeature extends AbstractFeature {
         pads.setFlags(1);
         water.add(pads);
         return water;
-    }
-
-    private static class CupLilyPetalProvider extends AdvancedBlockStateProvider {
-        private CupLilyPetalProvider(float f) {
-            this.f = f;
-        }
-        private static final BlockState PURPLE = AstralBlocks.PURPLE_PETAL.getDefaultState();
-        private static final BlockState PINK = AstralBlocks.PINK_PETAL.getDefaultState();
-        private static final BlockState WHITE = AstralBlocks.WHITE_PETAL.getDefaultState();
-        private static final BlockState PEACH = AstralBlocks.PEACH_PETAL.getDefaultState();
-        private static final BlockState BLACK = AstralBlocks.BLACK_PETAL.getDefaultState();
-        private final float f;
-
-        @Override
-        public BlockState getBlockState(Random random, BlockPos pos, BlockArray array) {
-            BlockState petal = PINK;
-            if (f >= 0.6) {
-                petal = WHITE;
-                if (f >= 0.8) {
-                    petal = PURPLE;
-                    if (f >= 0.95) {
-                        petal = PEACH;
-                        if (f >= 0.99) {
-                            petal = BLACK;
-                        }
-                    }
-                }
-            }
-            int flag = array.getFlags(pos);
-            if (flag == 0) {
-                return Blocks.SEA_LANTERN.getDefaultState();
-            } else return petal;
-        }
-
-        @Override
-        public BlockState getBlockState(net.minecraft.util.math.random.Random random, BlockPos pos) {
-            return null;
-        }
-    }
-    private static class CupLilyDecorationProvider extends AdvancedBlockStateProvider {
-
-        @Override
-        public BlockState getBlockState(net.minecraft.util.math.random.Random random, BlockPos pos, BlockArray array) {
-            if (array.getFlags(pos) == 1) {
-                return Blocks.LILY_PAD.getDefaultState();
-            } else return Blocks.WATER.getDefaultState();
-        }
     }
 }

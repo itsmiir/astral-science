@@ -4,7 +4,7 @@
   "version": "0.1.0",
 
   "name": "Astral Science",
-  "description": "Space exploration has never been this easy!",
+  "description": "space exploration has never been this easy!",
   "authors": [
     "miir"
   ],
@@ -35,7 +35,7 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": "1.19.x"
+    "minecraft": "1.19.3"
   },
   "suggests": {
   },

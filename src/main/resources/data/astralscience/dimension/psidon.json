@@ -1,0 +1,28 @@
+{
+  "type": "astralscience:psidon",
+  "generator": {
+    "type": "astralscience:astral",
+    "function": "astralscience:psidon",
+    "default_block": "astralscience:limestone",
+    "sea_level": 0,
+    "world_height": 384,
+    "min_y": -64,
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "astralscience:psionic_sands",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        }
+      ]
+    }
+  }
+}

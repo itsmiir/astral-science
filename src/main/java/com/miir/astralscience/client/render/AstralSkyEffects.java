@@ -15,10 +15,11 @@ import org.jetbrains.annotations.Nullable;
 @Environment(EnvType.CLIENT)
 public abstract class AstralSkyEffects extends DimensionEffects {
 
-    public static final Object2ObjectMap<Identifier, ? extends AstralSkyEffects> BY_IDENTIFIER = Util.make(new Object2ObjectArrayMap(), (object2ObjectArrayMap) -> {
-            object2ObjectArrayMap.put(AstralScience.id("orbit"), new Airless());
-            object2ObjectArrayMap.put(AstralScience.id("cyri"), new Cyri());
-        object2ObjectArrayMap.put(AstralScience.id("phosphor"), new Phosphor());
+    public static final Object2ObjectArrayMap<Identifier, ? extends AstralSkyEffects> BY_IDENTIFIER = Util.make(new Object2ObjectArrayMap<>(), (map) -> {
+            map.put(AstralScience.id("orbit"), new Airless());
+            map.put(AstralScience.id("cyri"), new Cyri());
+        map.put(AstralScience.id("phosphor"), new Phosphor());
+        map.put(AstralScience.id("psidon"), new Psidon());
 
     });
 
@@ -59,13 +60,59 @@ public abstract class AstralSkyEffects extends DimensionEffects {
 
         @Override
         public Vec3d adjustFogColor(Vec3d color, float sunHeight) {
-            return color.multiply((double)(sunHeight * 0.94F + 0.06F), (double)(sunHeight * 0.94F + 0.06F), (double)(sunHeight * 0.91F + 0.09F));
+            return color.multiply(sunHeight * 0.94F + 0.06F, (double)(sunHeight * 0.94F + 0.06F), sunHeight * 0.91F + 0.09F);
         }
 
         @Override
         public boolean useThickFog(int camX, int camY) {
             return true;
         }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static class Psidon extends AstralSkyEffects {
+        public Psidon() {
+            super(-Float.NaN, true, SkyType.NORMAL, false, true);
+        }
+
+        @Override
+        public boolean isDarkened() {
+            return true;
+        }
+
+        public Vec3d adjustFogColor(Vec3d color, float sunHeight) {
+//            return color.multiply(sunHeight * 0.91f + 0.09f, sunHeight * 0.91f + 0.09f, sunHeight * 0.91f + 0.09f);
+            return color.multiply(sunHeight * sunHeight, sunHeight * sunHeight, sunHeight * sunHeight);
+//            return color;
+        }
+
+        @Override
+        @Nullable
+        public float[] getFogColorOverride(float skyAngle, float tickDelta) {
+//            return new float[]{0f, 0f, 0f, 0f};
+            return null;
+        }
+
+        @Override
+        public boolean useThickFog(int camX, int camY) {
+            return false;
+        }
+
+        @Override
+        public SkyType getSkyType() {
+            return SkyType.NORMAL;
+        }
+
+        @Override
+        public boolean isAlternateSkyColor() {
+            return true;
+        }
+
+        @Override
+        public float getCloudsHeight() {
+            return Float.NaN;
+        }
+
     }
 
     @Environment(EnvType.CLIENT)

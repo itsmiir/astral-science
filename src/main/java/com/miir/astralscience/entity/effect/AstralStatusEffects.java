@@ -2,7 +2,8 @@ package com.miir.astralscience.entity.effect;
 
 import com.miir.astralscience.AstralScience;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class AstralStatusEffects {
 
@@ -10,6 +11,6 @@ public class AstralStatusEffects {
     public static final StatusEffect GROUNDED = new GroundedStatusEffect();
 
     public static void register() {
-        Registry.register(Registry.STATUS_EFFECT, AstralScience.id("grounded"), GROUNDED);
+        Registry.register(Registries.STATUS_EFFECT, AstralScience.id("grounded"), GROUNDED);
     }
 }

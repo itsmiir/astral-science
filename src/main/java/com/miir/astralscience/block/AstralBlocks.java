@@ -3,7 +3,6 @@ package com.miir.astralscience.block;
 import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.block.entity.CascadicCoolerBlockEntity;
 import com.miir.astralscience.block.entity.CascadicHeaterBlockEntity;
-import com.miir.astralscience.block.entity.StarshipHelmBlockEntity;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricMaterialBuilder;
@@ -12,11 +11,13 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 
 public class AstralBlocks {
     private static final Object2ObjectArrayMap<Block, String> BLOCKS = new Object2ObjectArrayMap<>();
@@ -41,8 +42,6 @@ public class AstralBlocks {
     public static final Block STARLIGHT_COLLECTOR = new StarlightCollectorBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5f, 6.0f).requiresTool().sounds(BlockSoundGroup.STONE).nonOpaque().luminance((state) -> state.get(StarlightCollectorBlock.LIT) ? 14 : 0));
 
     public static final Block STARSHIP_HELM = new StarshipHelmBlock(FabricBlockSettings.of(METAL_CLONE).nonOpaque().requiresTool().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
-    public static BlockEntityType<StarshipHelmBlockEntity> STARSHIP_HELM_TYPE;
-    public static final Block STARSHIP_CONSTRUCTION_BLOCK = new StarshipConstructionBlock(FabricBlockSettings.of(METAL_CLONE).requiresTool().nonOpaque().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
 
     //    natural blocks
     public static final Block ANCIENT_ICE = new IceBlock(FabricBlockSettings.of(Material.ICE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
@@ -108,7 +107,7 @@ public class AstralBlocks {
     public static final Block BRAMBLEWOOD = new PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BLACK).strength(2.0F).sounds(BlockSoundGroup.WOOD));
     public static final Block BRAMBLEWOOD_LOG = new PillarBlock(FabricBlockSettings.of(Material.WOOD, (state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.BLACK : MapColor.LIGHT_GRAY).strength(2.0F).sounds(BlockSoundGroup.WOOD));
     public static final Block BRAMBLEWOOD_PLANKS = new Block(FabricBlockSettings.of(Material.WOOD, MapColor.LICHEN_GREEN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
-    public static final Block BRAMBLEWOOD_DOOR = new AstralDoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.LICHEN_GREEN).strength(3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block BRAMBLEWOOD_DOOR = new AstralDoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.LICHEN_GREEN).strength(3.0F).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_NETHER_WOOD_DOOR_CLOSE, SoundEvents.BLOCK_NETHER_WOOD_DOOR_OPEN    );
 
 
     public static final Block WORMWOOD = new PillarBlock(FabricBlockSettings.of(Material.WOOD).strength(1.5f, 6.0f).sounds(BlockSoundGroup.WOOD));
@@ -116,8 +115,8 @@ public class AstralBlocks {
 
 
     private static void registerSimpleBlock(Block block, String path) {
-        Registry.register(Registry.BLOCK, AstralScience.id(path), block);
-        Registry.register(Registry.ITEM, AstralScience.id(path), new BlockItem(block, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id(path), block);
+        Registry.register(Registries.ITEM, AstralScience.id(path), new BlockItem(block, new Item.Settings()));
     }
 
 
@@ -156,158 +155,155 @@ public class AstralBlocks {
 //            registerSimpleBlock(block, BLOCKS.get(block));
 //        }
 //        ore blocks
-        Registry.register(Registry.BLOCK, AstralScience.id("cascadium_block"), CASCADIUM_BLOCK);
-        Registry.register(Registry.ITEM, AstralScience.id("cascadium_block"), new BlockItem(CASCADIUM_BLOCK, new Item.Settings().rarity(Rarity.UNCOMMON)));
-        Registry.register(Registry.BLOCK, AstralScience.id("cascadium_ore"), CASCADIUM_ORE);
-        Registry.register(Registry.ITEM, AstralScience.id("cascadium_ore"), new BlockItem(CASCADIUM_ORE, new Item.Settings().rarity(Rarity.UNCOMMON)));
-        Registry.register(Registry.BLOCK, AstralScience.id("cascadic_bone"), CASCADIC_BONE);
-        Registry.register(Registry.ITEM, AstralScience.id("cascadic_bone"), new BlockItem(CASCADIC_BONE, new Item.Settings().rarity(Rarity.UNCOMMON)));
+        Registry.register(Registries.BLOCK, AstralScience.id("cascadium_block"), CASCADIUM_BLOCK);
+        Registry.register(Registries.ITEM, AstralScience.id("cascadium_block"), new BlockItem(CASCADIUM_BLOCK, new Item.Settings().rarity(Rarity.UNCOMMON)));
+        Registry.register(Registries.BLOCK, AstralScience.id("cascadium_ore"), CASCADIUM_ORE);
+        Registry.register(Registries.ITEM, AstralScience.id("cascadium_ore"), new BlockItem(CASCADIUM_ORE, new Item.Settings().rarity(Rarity.UNCOMMON)));
+        Registry.register(Registries.BLOCK, AstralScience.id("cascadic_bone"), CASCADIC_BONE);
+        Registry.register(Registries.ITEM, AstralScience.id("cascadic_bone"), new BlockItem(CASCADIC_BONE, new Item.Settings().rarity(Rarity.UNCOMMON)));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("nephryll_block"), NEPHRYLL_BLOCK);
-        Registry.register(Registry.ITEM, AstralScience.id("nephryll_block"), new BlockItem(NEPHRYLL_BLOCK, new Item.Settings().rarity(Rarity.UNCOMMON)));
+        Registry.register(Registries.BLOCK, AstralScience.id("nephryll_block"), NEPHRYLL_BLOCK);
+        Registry.register(Registries.ITEM, AstralScience.id("nephryll_block"), new BlockItem(NEPHRYLL_BLOCK, new Item.Settings().rarity(Rarity.UNCOMMON)));
 //        machine blocks
-        Registry.register(Registry.BLOCK, AstralScience.id("machine_chassis"), MACHINE_CHASSIS);
-        Registry.register(Registry.ITEM, AstralScience.id("machine_chassis"), new BlockItem(MACHINE_CHASSIS, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("cascadic_heater"), CASCADIC_HEATER);
-        Registry.register(Registry.ITEM, AstralScience.id("cascadic_heater"), new BlockItem(CASCADIC_HEATER, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("cascadic_cooler"), CASCADIC_COOLER);
-        Registry.register(Registry.ITEM, AstralScience.id("cascadic_cooler"), new BlockItem(CASCADIC_COOLER, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("starlight_collector"), STARLIGHT_COLLECTOR);
-        Registry.register(Registry.ITEM, AstralScience.id("starlight_collector"), new BlockItem(STARLIGHT_COLLECTOR, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("starship_construction_block"), STARSHIP_CONSTRUCTION_BLOCK);
-        Registry.register(Registry.ITEM, AstralScience.id("starship_construction_block"), new BlockItem(STARSHIP_CONSTRUCTION_BLOCK, new Item.Settings().rarity(Rarity.COMMON)));
-        Registry.register(Registry.BLOCK, AstralScience.id("starship_helm"), STARSHIP_HELM);
-        Registry.register(Registry.ITEM, AstralScience.id("starship_helm"), new BlockItem(STARSHIP_HELM, new Item.Settings().rarity(Rarity.COMMON)));
+        Registry.register(Registries.BLOCK, AstralScience.id("machine_chassis"), MACHINE_CHASSIS);
+        Registry.register(Registries.ITEM, AstralScience.id("machine_chassis"), new BlockItem(MACHINE_CHASSIS, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("cascadic_heater"), CASCADIC_HEATER);
+        Registry.register(Registries.ITEM, AstralScience.id("cascadic_heater"), new BlockItem(CASCADIC_HEATER, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("cascadic_cooler"), CASCADIC_COOLER);
+        Registry.register(Registries.ITEM, AstralScience.id("cascadic_cooler"), new BlockItem(CASCADIC_COOLER, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("starlight_collector"), STARLIGHT_COLLECTOR);
+        Registry.register(Registries.ITEM, AstralScience.id("starlight_collector"), new BlockItem(STARLIGHT_COLLECTOR, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("starship_helm"), STARSHIP_HELM);
+        Registry.register(Registries.ITEM, AstralScience.id("starship_helm"), new BlockItem(STARSHIP_HELM, new Item.Settings().rarity(Rarity.COMMON)));
 //        natural blocks
-        Registry.register(Registry.BLOCK, AstralScience.id("ancient_ice"), ANCIENT_ICE);
-        Registry.register(Registry.ITEM, AstralScience.id("ancient_ice"), new BlockItem(ANCIENT_ICE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("ancient_ice"), ANCIENT_ICE);
+        Registry.register(Registries.ITEM, AstralScience.id("ancient_ice"), new BlockItem(ANCIENT_ICE, new Item.Settings()));
 //        rocks
-        Registry.register(Registry.BLOCK, AstralScience.id("limestone"), LIMESTONE);
-        Registry.register(Registry.ITEM, AstralScience.id("limestone"), new BlockItem(LIMESTONE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("shale"), SHALE);
-        Registry.register(Registry.ITEM, AstralScience.id("shale"), new BlockItem(SHALE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("slate"), SLATE);
-        Registry.register(Registry.ITEM, AstralScience.id("slate"), new BlockItem(SLATE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("pumice"), PUMICE);
-        Registry.register(Registry.ITEM, AstralScience.id("pumice"), new BlockItem(PUMICE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("iron_rich_basalt"), IRON_RICH_BASALT);
-        Registry.register(Registry.ITEM, AstralScience.id("iron_rich_basalt"), new BlockItem(IRON_RICH_BASALT, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("fresh_blackstone"), FRESH_BLACKSTONE);
-        Registry.register(Registry.ITEM, AstralScience.id("fresh_blackstone"), new BlockItem(FRESH_BLACKSTONE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("magmatic_fresh_blackstone"), MAGMATIC_FRESH_BLACKSTONE);
-        Registry.register(Registry.ITEM, AstralScience.id("magmatic_fresh_blackstone"), new BlockItem(MAGMATIC_FRESH_BLACKSTONE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("limestone"), LIMESTONE);
+        Registry.register(Registries.ITEM, AstralScience.id("limestone"), new BlockItem(LIMESTONE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("shale"), SHALE);
+        Registry.register(Registries.ITEM, AstralScience.id("shale"), new BlockItem(SHALE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("slate"), SLATE);
+        Registry.register(Registries.ITEM, AstralScience.id("slate"), new BlockItem(SLATE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("pumice"), PUMICE);
+        Registry.register(Registries.ITEM, AstralScience.id("pumice"), new BlockItem(PUMICE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("iron_rich_basalt"), IRON_RICH_BASALT);
+        Registry.register(Registries.ITEM, AstralScience.id("iron_rich_basalt"), new BlockItem(IRON_RICH_BASALT, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("fresh_blackstone"), FRESH_BLACKSTONE);
+        Registry.register(Registries.ITEM, AstralScience.id("fresh_blackstone"), new BlockItem(FRESH_BLACKSTONE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("magmatic_fresh_blackstone"), MAGMATIC_FRESH_BLACKSTONE);
+        Registry.register(Registries.ITEM, AstralScience.id("magmatic_fresh_blackstone"), new BlockItem(MAGMATIC_FRESH_BLACKSTONE, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, new Identifier(AstralScience.MOD_ID, "regolith"), REGOLITH);
-        Registry.register(Registry.ITEM, new Identifier(AstralScience.MOD_ID, "regolith"), new BlockItem(REGOLITH, new Item.Settings()));
-        Registry.register(Registry.BLOCK, new Identifier(AstralScience.MOD_ID, "sylium"), SYLIUM);
-        Registry.register(Registry.ITEM, new Identifier(AstralScience.MOD_ID, "sylium"), new BlockItem(SYLIUM, new Item.Settings()));
+        Registry.register(Registries.BLOCK, new Identifier(AstralScience.MOD_ID, "regolith"), REGOLITH);
+        Registry.register(Registries.ITEM, new Identifier(AstralScience.MOD_ID, "regolith"), new BlockItem(REGOLITH, new Item.Settings()));
+        Registry.register(Registries.BLOCK, new Identifier(AstralScience.MOD_ID, "sylium"), SYLIUM);
+        Registry.register(Registries.ITEM, new Identifier(AstralScience.MOD_ID, "sylium"), new BlockItem(SYLIUM, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("phosphorite"), PHOSPHORITE);
-        Registry.register(Registry.ITEM, AstralScience.id("phosphorite"), new BlockItem(PHOSPHORITE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("phosphorite"), PHOSPHORITE);
+        Registry.register(Registries.ITEM, AstralScience.id("phosphorite"), new BlockItem(PHOSPHORITE, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("black_sand"), BLACK_SAND);
-        Registry.register(Registry.ITEM, AstralScience.id("black_sand"), new BlockItem(BLACK_SAND, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("black_sand"), BLACK_SAND);
+        Registry.register(Registries.ITEM, AstralScience.id("black_sand"), new BlockItem(BLACK_SAND, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("psionic_sand"), PSIONIC_SAND);
-        Registry.register(Registry.ITEM, AstralScience.id("psionic_sand"), new BlockItem(PSIONIC_SAND, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("psionic_sand"), PSIONIC_SAND);
+        Registry.register(Registries.ITEM, AstralScience.id("psionic_sand"), new BlockItem(PSIONIC_SAND, new Item.Settings()));
 //        produced blocks
-        Registry.register(Registry.BLOCK, AstralScience.id("polished_limestone"), POLISHED_LIMESTONE);
-        Registry.register(Registry.ITEM, AstralScience.id("polished_limestone"), new BlockItem(POLISHED_LIMESTONE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("polished_slate"), POLISHED_SLATE);
-        Registry.register(Registry.ITEM, AstralScience.id("polished_slate"), new BlockItem(POLISHED_SLATE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("polished_shale"), POLISHED_SHALE);
-        Registry.register(Registry.ITEM, AstralScience.id("polished_shale"), new BlockItem(POLISHED_SHALE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("polished_pumice"), POLISHED_PUMICE);
-        Registry.register(Registry.ITEM, AstralScience.id("polished_pumice"), new BlockItem(POLISHED_PUMICE, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("iron_rich_basalt_bricks"), IRON_RICH_BASALT_BRICKS);
-        Registry.register(Registry.ITEM, AstralScience.id("iron_rich_basalt_bricks"), new BlockItem(IRON_RICH_BASALT_BRICKS, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("polished_limestone"), POLISHED_LIMESTONE);
+        Registry.register(Registries.ITEM, AstralScience.id("polished_limestone"), new BlockItem(POLISHED_LIMESTONE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("polished_slate"), POLISHED_SLATE);
+        Registry.register(Registries.ITEM, AstralScience.id("polished_slate"), new BlockItem(POLISHED_SLATE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("polished_shale"), POLISHED_SHALE);
+        Registry.register(Registries.ITEM, AstralScience.id("polished_shale"), new BlockItem(POLISHED_SHALE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("polished_pumice"), POLISHED_PUMICE);
+        Registry.register(Registries.ITEM, AstralScience.id("polished_pumice"), new BlockItem(POLISHED_PUMICE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("iron_rich_basalt_bricks"), IRON_RICH_BASALT_BRICKS);
+        Registry.register(Registries.ITEM, AstralScience.id("iron_rich_basalt_bricks"), new BlockItem(IRON_RICH_BASALT_BRICKS, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("frost_mycelium"), FROST_MYCELIUM);
-        Registry.register(Registry.ITEM, AstralScience.id("frost_mycelium"), new BlockItem(FROST_MYCELIUM, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("frost_mycelium"), FROST_MYCELIUM);
+        Registry.register(Registries.ITEM, AstralScience.id("frost_mycelium"), new BlockItem(FROST_MYCELIUM, new Item.Settings()));
 
 //        plants
-        Registry.register(Registry.BLOCK, AstralScience.id("giant_leaves"), GIANT_LEAVES);
-        Registry.register(Registry.ITEM, AstralScience.id("giant_leaves"), new BlockItem(GIANT_LEAVES, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("giant_stem"), GIANT_STEM);
-        Registry.register(Registry.ITEM, AstralScience.id("giant_stem"), new BlockItem(GIANT_STEM, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("giant_leaves"), GIANT_LEAVES);
+        Registry.register(Registries.ITEM, AstralScience.id("giant_leaves"), new BlockItem(GIANT_LEAVES, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("giant_stem"), GIANT_STEM);
+        Registry.register(Registries.ITEM, AstralScience.id("giant_stem"), new BlockItem(GIANT_STEM, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("red_petal"), RED_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("red_petal"), new BlockItem(RED_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("cyan_petal"), CYAN_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("cyan_petal"), new BlockItem(CYAN_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("yellow_petal"), YELLOW_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("yellow_petal"), new BlockItem(YELLOW_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("black_petal"), BLACK_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("black_petal"), new BlockItem(BLACK_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("white_petal"), WHITE_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("white_petal"), new BlockItem(WHITE_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("blue_petal"), BLUE_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("blue_petal"), new BlockItem(BLUE_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("magenta_petal"), MAGENTA_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("magenta_petal"), new BlockItem(MAGENTA_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("pink_petal"), PINK_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("pink_petal"), new BlockItem(PINK_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("peach_petal"), PEACH_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("peach_petal"), new BlockItem(PEACH_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("purple_petal"), PURPLE_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("purple_petal"), new BlockItem(PURPLE_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("mint_petal"), MINT_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("mint_petal"), new BlockItem(MINT_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("lavender_petal"), LAVENDER_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("lavender_petal"), new BlockItem(LAVENDER_PETAL, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("orange_petal"), ORANGE_PETAL);
-        Registry.register(Registry.ITEM, AstralScience.id("orange_petal"), new BlockItem(ORANGE_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("red_petal"), RED_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("red_petal"), new BlockItem(RED_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("cyan_petal"), CYAN_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("cyan_petal"), new BlockItem(CYAN_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("yellow_petal"), YELLOW_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("yellow_petal"), new BlockItem(YELLOW_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("black_petal"), BLACK_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("black_petal"), new BlockItem(BLACK_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("white_petal"), WHITE_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("white_petal"), new BlockItem(WHITE_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("blue_petal"), BLUE_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("blue_petal"), new BlockItem(BLUE_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("magenta_petal"), MAGENTA_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("magenta_petal"), new BlockItem(MAGENTA_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("pink_petal"), PINK_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("pink_petal"), new BlockItem(PINK_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("peach_petal"), PEACH_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("peach_petal"), new BlockItem(PEACH_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("purple_petal"), PURPLE_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("purple_petal"), new BlockItem(PURPLE_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("mint_petal"), MINT_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("mint_petal"), new BlockItem(MINT_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("lavender_petal"), LAVENDER_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("lavender_petal"), new BlockItem(LAVENDER_PETAL, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("orange_petal"), ORANGE_PETAL);
+        Registry.register(Registries.ITEM, AstralScience.id("orange_petal"), new BlockItem(ORANGE_PETAL, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("wormwood"), WORMWOOD);
-        Registry.register(Registry.ITEM, AstralScience.id("wormwood"), new BlockItem(WORMWOOD, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("wormwood_log"), WORMWOOD_LOG);
-        Registry.register(Registry.ITEM, AstralScience.id("wormwood_log"), new BlockItem(WORMWOOD_LOG, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("wormwood"), WORMWOOD);
+        Registry.register(Registries.ITEM, AstralScience.id("wormwood"), new BlockItem(WORMWOOD, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("wormwood_log"), WORMWOOD_LOG);
+        Registry.register(Registries.ITEM, AstralScience.id("wormwood_log"), new BlockItem(WORMWOOD_LOG, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("bramblewood"), BRAMBLEWOOD);
-        Registry.register(Registry.ITEM, AstralScience.id("bramblewood"), new BlockItem(BRAMBLEWOOD, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("bramblewood_log"), BRAMBLEWOOD_LOG);
-        Registry.register(Registry.ITEM, AstralScience.id("bramblewood_log"), new BlockItem(BRAMBLEWOOD_LOG, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("bramblewood_planks"), BRAMBLEWOOD_PLANKS);
-        Registry.register(Registry.ITEM, AstralScience.id("bramblewood_planks"), new BlockItem(BRAMBLEWOOD_PLANKS, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("bramblewood_door"), BRAMBLEWOOD_DOOR);
-        Registry.register(Registry.ITEM, AstralScience.id("bramblewood_door"), new BlockItem(BRAMBLEWOOD_DOOR, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("bramblewood"), BRAMBLEWOOD);
+        Registry.register(Registries.ITEM, AstralScience.id("bramblewood"), new BlockItem(BRAMBLEWOOD, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("bramblewood_log"), BRAMBLEWOOD_LOG);
+        Registry.register(Registries.ITEM, AstralScience.id("bramblewood_log"), new BlockItem(BRAMBLEWOOD_LOG, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("bramblewood_planks"), BRAMBLEWOOD_PLANKS);
+        Registry.register(Registries.ITEM, AstralScience.id("bramblewood_planks"), new BlockItem(BRAMBLEWOOD_PLANKS, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("bramblewood_door"), BRAMBLEWOOD_DOOR);
+        Registry.register(Registries.ITEM, AstralScience.id("bramblewood_door"), new BlockItem(BRAMBLEWOOD_DOOR, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("nephrum"), NEPHRUM);
+        Registry.register(Registries.BLOCK, AstralScience.id("nephrum"), NEPHRUM);
 
-        Registry.register(Registry.BLOCK, AstralScience.id("ghost_vines"), GHOST_VINES);
-        Registry.register(Registry.ITEM, AstralScience.id("ghost_vines"), new BlockItem(GHOST_VINES, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("ghost_vines_plant"), GHOST_VINES_PLANT);
-        Registry.register(Registry.BLOCK, AstralScience.id("spear_fern"), SPEAR_FERN);
-        Registry.register(Registry.ITEM, AstralScience.id("spear_fern"), new BlockItem(SPEAR_FERN, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("ghost_vines"), GHOST_VINES);
+        Registry.register(Registries.ITEM, AstralScience.id("ghost_vines"), new BlockItem(GHOST_VINES, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("ghost_vines_plant"), GHOST_VINES_PLANT);
+        Registry.register(Registries.BLOCK, AstralScience.id("spear_fern"), SPEAR_FERN);
+        Registry.register(Registries.ITEM, AstralScience.id("spear_fern"), new BlockItem(SPEAR_FERN, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("firecap"), FIRECAP);
-        Registry.register(Registry.ITEM, AstralScience.id("firecap"), new BlockItem(FIRECAP, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("firecap_scales"), FIRECAP_SCALES);
-        Registry.register(Registry.ITEM, AstralScience.id("firecap_scales"), new BlockItem(FIRECAP_SCALES, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("firecap_gills"), FIRECAP_GILLS);
-        Registry.register(Registry.ITEM, AstralScience.id("firecap_gills"), new BlockItem(FIRECAP_GILLS, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("firecap_hyphae"), FIRECAP_HYPHAE);
-        Registry.register(Registry.ITEM, AstralScience.id("firecap_hyphae"), new BlockItem(FIRECAP_HYPHAE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("firecap"), FIRECAP);
+        Registry.register(Registries.ITEM, AstralScience.id("firecap"), new BlockItem(FIRECAP, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("firecap_scales"), FIRECAP_SCALES);
+        Registry.register(Registries.ITEM, AstralScience.id("firecap_scales"), new BlockItem(FIRECAP_SCALES, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("firecap_gills"), FIRECAP_GILLS);
+        Registry.register(Registries.ITEM, AstralScience.id("firecap_gills"), new BlockItem(FIRECAP_GILLS, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("firecap_hyphae"), FIRECAP_HYPHAE);
+        Registry.register(Registries.ITEM, AstralScience.id("firecap_hyphae"), new BlockItem(FIRECAP_HYPHAE, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("frostfur"), FROSTFUR);
-        Registry.register(Registry.ITEM, AstralScience.id("frostfur"), new BlockItem(FROSTFUR, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("frostfur"), FROSTFUR);
+        Registry.register(Registries.ITEM, AstralScience.id("frostfur"), new BlockItem(FROSTFUR, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("bluemoss"), BLUEMOSS);
-        Registry.register(Registry.ITEM, AstralScience.id("bluemoss"), new BlockItem(BLUEMOSS, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("bluemoss"), BLUEMOSS);
+        Registry.register(Registries.ITEM, AstralScience.id("bluemoss"), new BlockItem(BLUEMOSS, new Item.Settings()));
 
-        Registry.register(Registry.BLOCK, AstralScience.id("angler_kelp"), ANGLER_KELP);
-        Registry.register(Registry.ITEM, AstralScience.id("angler_kelp"), new BlockItem(ANGLER_KELP, new Item.Settings()));
-        Registry.register(Registry.BLOCK, AstralScience.id("angler_kelp_plant"), ANGLER_KELP_PLANT);
+        Registry.register(Registries.BLOCK, AstralScience.id("angler_kelp"), ANGLER_KELP);
+        Registry.register(Registries.ITEM, AstralScience.id("angler_kelp"), new BlockItem(ANGLER_KELP, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("angler_kelp_plant"), ANGLER_KELP_PLANT);
 
-        Registry.register(Registry.BLOCK, AstralScience.id("stale_cheese"), STALE_CHEESE);
-        Registry.register(Registry.ITEM, AstralScience.id("stale_cheese"), new BlockItem(STALE_CHEESE, new Item.Settings()));
+        Registry.register(Registries.BLOCK, AstralScience.id("stale_cheese"), STALE_CHEESE);
+        Registry.register(Registries.ITEM, AstralScience.id("stale_cheese"), new BlockItem(STALE_CHEESE, new Item.Settings()));
 
 
 
 //        block entities
-        CASCADIC_COOLER_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_cooler"), FabricBlockEntityTypeBuilder.create(CascadicCoolerBlockEntity::new, CASCADIC_COOLER).build());
-        CASCADIC_HEATER_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_heater"), FabricBlockEntityTypeBuilder.create(CascadicHeaterBlockEntity::new, CASCADIC_HEATER).build());
-        STARSHIP_HELM_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, AstralScience.id("starship_helm"), FabricBlockEntityTypeBuilder.create(StarshipHelmBlockEntity::new, STARSHIP_HELM).build());
+        CASCADIC_COOLER_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_cooler"), FabricBlockEntityTypeBuilder.create(CascadicCoolerBlockEntity::new, CASCADIC_COOLER).build());
+        CASCADIC_HEATER_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, AstralScience.id("cascadic_heater"), FabricBlockEntityTypeBuilder.create(CascadicHeaterBlockEntity::new, CASCADIC_HEATER).build());
     }
 
 }

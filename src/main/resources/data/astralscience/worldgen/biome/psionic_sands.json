@@ -1,0 +1,24 @@
+  {
+  "temperature": 0,
+  "downfall": 0,
+  "precipitation": "none",
+  "temperature_modifier": "frozen",
+  "creature_spawn_probability": 0,
+  "effects": {
+    "sky_color": 10040620,
+    "fog_color": 10040620,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "grass_color": 9417818,
+    "foliage_color": 6395965,
+    "ambient_sound": "astralscience:low_hum"
+  },
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [
+      "astralscience:wormwood_snag"
+    ]
+  ]
+}

@@ -1,28 +1,29 @@
 package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.block.AstralBlocks;
+import com.miir.astralscience.tag.AstralTags;
 import com.miir.astralscience.world.BlockArray;
-import com.miir.astralscience.world.gen.stateprovider.SimpleStateProvider;
+import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 public class GiantFlowerFeature extends AbstractBranchingPlantFeature {
 
 
-    public GiantFlowerFeature(int maxBranches, int maxTrunkSize, int avgTrunkSize, float branchChance, int minTrunkHeight, boolean canBend, float bendChance, float tallness, BlockStateProvider trunkProvider, BlockStateProvider canopyProvider, BlockStateProvider decorationProvider, TagKey<Block> replaceable) {
-        super(1, 15, 10, 0f, 6, true, 0.25f, 0.9f, new SimpleStateProvider(AstralBlocks.GIANT_STEM.getDefaultState()), new SimpleStateProvider(AstralBlocks.CYAN_PETAL.getDefaultState()), new SimpleStateProvider(Blocks.AIR.getDefaultState()), replaceable, false);
+    public GiantFlowerFeature(Codec<BranchingPlantFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+    public boolean generate(FeatureContext context) {
         BlockPos topPos = context.getWorld().getTopPosition(Heightmap.Type.WORLD_SURFACE, context.getOrigin());
         Direction offset = Direction.NORTH;
 
@@ -35,12 +36,15 @@ public class GiantFlowerFeature extends AbstractBranchingPlantFeature {
     }
 
     @Override
-    protected BlockPos start(FeatureContext<DefaultFeatureConfig> context) {
+    protected void buildRoots(FeatureContext<BranchingPlantFeatureConfig> context) {}
+
+    @Override
+    protected BlockPos start(FeatureContext<BranchingPlantFeatureConfig> context) {
         return null;
     }
 
     @Override
-    protected BlockArray buildCanopy(FeatureContext<DefaultFeatureConfig> context, BlockPos tip, BlockArray stem) {
+    protected BlockArray buildCanopy(FeatureContext<BranchingPlantFeatureConfig> context, BlockPos tip, BlockArray stem) {
         return null;
     }
 }

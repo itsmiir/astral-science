@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "astralscience:items/bramblewood_door"
+    "layer0": "astralscience:item/bramblewood_door"
   }
 }

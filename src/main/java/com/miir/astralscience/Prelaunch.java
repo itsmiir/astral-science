@@ -49,7 +49,6 @@ public class Prelaunch implements PreLaunchEntrypoint {
             "Now I'm mad!",
             "",
             "The G stands for Galactic!",
-            "Omeia is an ellipse?!",
             "Only a fraction of my true power!",
             "Over 4 confirmed downloads!",
             "Subscribe to my podcast!",
@@ -71,7 +70,7 @@ public class Prelaunch implements PreLaunchEntrypoint {
     @Override
     public void onPreLaunch() {
         MixinExtrasBootstrap.init();
-        LOGGER.info("Astral Science: " + STARTUP_MESSAGES[new Random().nextInt(STARTUP_MESSAGES.length)]);
+        LOGGER.info(STARTUP_MESSAGES[new Random().nextInt(STARTUP_MESSAGES.length)]);
 
     }
 }

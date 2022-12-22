@@ -75,8 +75,8 @@ public class StarlightCollectorBlock extends Block {
                     }
                 }
             }
-            super.onPlaced(world, pos, state, placer, itemStack);
         }
+        super.onPlaced(world, pos, state, placer, itemStack);
     }
 
     @Override
@@ -119,6 +119,22 @@ public class StarlightCollectorBlock extends Block {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (!state.get(LIT)) {
+            BlockArray array = MULTIBLOCK_SHAPE.copy().offset(pos);
+            for (BlockPos pos1 :
+                    array) {
+                if (checkPattern(pos1, world, pos)) {
+                    BlockArray array1 = MULTIBLOCK_SHAPE.copy().offset(pos1);
+                    for (BlockPos pos2 :
+                            array1) {
+                        if (world.getBlockState(pos2).isOf(AstralBlocks.STARLIGHT_COLLECTOR)) {
+                            world.setBlockState(pos2, world.getBlockState(pos2).with(LIT, true));
+                            world.playSound(pos1.getX(), pos1.getY(), pos1.getZ(), SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
+                        }
+                    }
+                }
+            }
+        }
         cycle(world, pos, !player.isSneaking());
         return ActionResult.SUCCESS;
     }

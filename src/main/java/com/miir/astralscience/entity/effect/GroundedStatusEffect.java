@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class GroundedStatusEffect extends StatusEffect {
     public GroundedStatusEffect() {
-        super(StatusEffectCategory.BENEFICIAL, 0x3d633d);
+        super(StatusEffectCategory.NEUTRAL, 0x3d633d);
     }
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier) {

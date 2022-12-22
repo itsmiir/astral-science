@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "astralscience:items/graphite_rod"
+    "layer0": "astralscience:item/graphite_rod"
   }
 }

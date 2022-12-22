@@ -1,7 +1,7 @@
 package com.miir.astralscience.world.biome.source;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;

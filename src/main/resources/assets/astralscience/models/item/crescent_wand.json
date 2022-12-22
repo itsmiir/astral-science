@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "astralscience:items/crescent_wand"
+    "layer0": "astralscience:item/crescent_wand"
   }
 }

@@ -2,7 +2,8 @@ package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.block.AstralBlocks;
 import com.miir.astralscience.tag.AstralTags;
-import net.minecraft.tag.BlockTags;
+import com.mojang.serialization.Codec;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.StructureWorldAccess;
@@ -12,9 +13,13 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 import static com.miir.astralscience.block.SpearFernBlock.SECTION;
 import static net.minecraft.block.Block.NOTIFY_LISTENERS;
 
-public class SpearFernFeature extends AbstractFeature {
+public class SpearFernFeature extends AbstractFeature<DefaultFeatureConfig> {
+    public SpearFernFeature(Codec<DefaultFeatureConfig> codec) {
+        super(codec);
+    }
+
     @Override
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+    public boolean generate(FeatureContext context) {
         try {
             StructureWorldAccess access = context.getWorld();
             BlockPos pos = context.getOrigin();

@@ -13,13 +13,13 @@ import net.minecraft.util.Lazy;
 
 import java.util.function.Supplier;
 
-public enum AstralMaterials implements ArmorMaterial {
-    LIGHT_COMPOSITE("light_composite", 15, new int[]{2, 5, 6, 2}, 9, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
-        return Ingredient.ofItems(AstralItems.LIGHT_COMPOSITE_SHEET);
-    }),
-    HEAVY_COMPOSITE("heavy_composite", 45, new int[]{3, 6, 8, 3}, 4, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, () -> {
-        return Ingredient.ofItems(Items.IRON_INGOT);
-    });
+public enum AstralMaterials implements ArmorMaterial {;
+//    LIGHT_COMPOSITE("light_composite", 15, new int[]{2, 5, 6, 2}, 9, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+//        return Ingredient.ofItems(AstralItems.LIGHT_COMPOSITE_SHEET);
+//    }),
+//    HEAVY_COMPOSITE("heavy_composite", 45, new int[]{3, 6, 8, 3}, 4, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, () -> {
+//        return Ingredient.ofItems(Items.IRON_INGOT);
+//    });
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
     private final String name;

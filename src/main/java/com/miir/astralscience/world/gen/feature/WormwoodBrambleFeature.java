@@ -1,28 +1,26 @@
 package com.miir.astralscience.world.gen.feature;
 
-import com.miir.astralscience.block.AstralBlocks;
+import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.world.BlockArray;
-import com.miir.astralscience.world.gen.stateprovider.SimpleStateProvider;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.tag.TagKey;
+import com.mojang.serialization.Codec;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 public class WormwoodBrambleFeature extends AbstractBranchingPlantFeature {
-    public WormwoodBrambleFeature(TagKey<Block> replaceable) {
-        super(13, 70, 40, 0.5f, 2, true, .5f, 0.5f, new SimpleStateProvider(AstralBlocks.WORMWOOD_LOG.getDefaultState()), new SimpleStateProvider(Blocks.AIR.getDefaultState()), new SimpleStateProvider(Blocks.AIR.getDefaultState()), replaceable, false);
+    public WormwoodBrambleFeature(Codec<BranchingPlantFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    protected BlockPos start(FeatureContext<DefaultFeatureConfig> context) {
-        return null;
+    protected void buildRoots(FeatureContext<BranchingPlantFeatureConfig> context) {}
+
+    @Override
+    protected BlockPos start(FeatureContext<BranchingPlantFeatureConfig> context) {
+        return AstralFeatures.findNextFloor(context);
     }
 
     @Override
-    protected BlockArray buildCanopy(FeatureContext<DefaultFeatureConfig> context, BlockPos tip, BlockArray stem) {
+    protected BlockArray buildCanopy(FeatureContext<BranchingPlantFeatureConfig> context, BlockPos tip, BlockArray stem) {
         return new BlockArray();
     }
 }

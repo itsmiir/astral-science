@@ -22,10 +22,11 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.*;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -33,8 +34,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,7 +109,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
     }
 
     private static void addFuel(Map<Item, Integer> fuelTimes, TagKey<Item> tag, int fuelTime) {
-        for (RegistryEntry<Item> registryEntry : Registry.ITEM.iterateEntries(tag)) {
+        for (RegistryEntry<Item> registryEntry : Registries.ITEM.iterateEntries(tag)) {
             fuelTimes.put(registryEntry.value(), fuelTime);
         }
     }
@@ -206,7 +207,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
                 ItemStack itemStack2 = (ItemStack)defaultedList.get(2);
                 if (itemStack2.isEmpty()) {
                     return true;
-                } else if (!itemStack2.isItemEqualIgnoreDamage(itemStack)) {
+                } else if (!itemStack2.isItemEqual(itemStack)) {
                     return false;
                 } else if (itemStack2.getCount() < i && itemStack2.getCount() < itemStack2.getMaxCount()) {
                     return true;
@@ -333,7 +334,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
 
     public void setStack(int slot, ItemStack stack) {
         ItemStack itemStack = this.inventory.get(slot);
-        boolean bl = !stack.isEmpty() && stack.isItemEqualIgnoreDamage(itemStack) && ItemStack.areNbtEqual(stack, itemStack);
+        boolean bl = !stack.isEmpty() && stack.isItemEqual(itemStack) && ItemStack.areNbtEqual(stack, itemStack);
         this.inventory.set(slot, stack);
         if (stack.getCount() > this.getMaxCountPerStack()) {
             stack.setCount(this.getMaxCountPerStack());

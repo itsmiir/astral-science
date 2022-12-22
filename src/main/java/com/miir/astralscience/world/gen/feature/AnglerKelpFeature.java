@@ -1,6 +1,7 @@
 package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.block.AstralBlocks;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,9 +13,13 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class AnglerKelpFeature extends AbstractFeature {
+public class AnglerKelpFeature extends AbstractFeature<DefaultFeatureConfig> {
+    public AnglerKelpFeature(Codec<DefaultFeatureConfig> codec) {
+        super(codec);
+    }
+
     @Override
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+    public boolean generate(FeatureContext context) {
         int i = 0;
         StructureWorldAccess structureWorldAccess = context.getWorld();
         BlockPos blockPos = context.getOrigin();

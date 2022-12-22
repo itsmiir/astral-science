@@ -1,0 +1,21 @@
+{
+  "type": "astralscience:wormwood_bramble",
+  "config": {
+    "max_branches": 11,
+    "max_trunk_size": 30,
+    "avg_trunk_size": 10,
+    "min_trunk_size": 5,
+    "branch_chance": 0.5,
+    "can_bend": true,
+    "bend_chance": 0.2,
+    "tallness": 0.1,
+    "trunk_provider": "astralscience:wormwood_log",
+    "canopy_provider": "minecraft:air",
+    "decoration_provider": "minecraft:air",
+    "root_provider": "minecraft:air",
+    "max_roots": 0,
+    "avg_roots": 0,
+    "root_branchiness": 0,
+    "adjacent_allowed": false
+  }
+}

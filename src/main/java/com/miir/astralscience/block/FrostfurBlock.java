@@ -1,18 +1,16 @@
 package com.miir.astralscience.block;
 
 import com.miir.astralscience.world.BlockArray;
-import com.miir.astralscience.world.gen.stateprovider.SimpleStateProvider;
+import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FernBlock;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 public class FrostfurBlock extends FernBlock {
     public FrostfurBlock(Settings settings) {
@@ -37,6 +35,6 @@ public class FrostfurBlock extends FernBlock {
                 array.add(testPos.up());
             }
         }
-        array.build(world, new SimpleStateProvider(AstralBlocks.FROSTFUR.getDefaultState()));
+        array.build(world, new AdvancedBlockStateProvider((random1, pos1, array1) -> AstralBlocks.FROSTFUR.getDefaultState()));
     }
 }

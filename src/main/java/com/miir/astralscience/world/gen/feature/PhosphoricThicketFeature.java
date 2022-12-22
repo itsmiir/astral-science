@@ -1,28 +1,34 @@
 package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.block.AstralBlocks;
-import com.miir.astralscience.tag.AstralTags;
 import com.miir.astralscience.world.BlockArray;
-import com.miir.astralscience.world.gen.stateprovider.PhosphoricThicketCanopyStateProvider;
-import com.miir.astralscience.world.gen.stateprovider.SimpleStateProvider;
+import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
+import com.mojang.serialization.Codec;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
 public class PhosphoricThicketFeature extends AbstractBranchingPlantFeature {
-    public PhosphoricThicketFeature() {
-        super(1, 100, 75, 0.1F, 4, false, 0.3f, 0.8f, new SimpleStateProvider(AstralBlocks.BRAMBLEWOOD_LOG.getDefaultState()), new PhosphoricThicketCanopyStateProvider(), new SimpleStateProvider(Blocks.AIR.getDefaultState()), AstralTags.GIANT_PLANT_REPLACEABLE, false);
+    private static final BlockState LEAVES = Blocks.JUNGLE_LEAVES.getDefaultState().with(LeavesBlock.DISTANCE, 1);
+    private static final BlockState GLOW_PODS = AstralBlocks.GHOST_VINES.getDefaultState();
+    public PhosphoricThicketFeature(Codec<BranchingPlantFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    protected BlockPos start(FeatureContext<DefaultFeatureConfig> context) {
+    protected void buildRoots(FeatureContext<BranchingPlantFeatureConfig> context) {}
+
+    @Override
+    protected BlockPos start(FeatureContext<BranchingPlantFeatureConfig> context) {
         return AstralFeatures.findNextFloor(context.getWorld(), context.getOrigin());
     }
 
     @Override
-    protected BlockArray buildCanopy(FeatureContext<DefaultFeatureConfig> context, BlockPos tip, BlockArray stem) {
+    protected BlockArray buildCanopy(FeatureContext<BranchingPlantFeatureConfig> context, BlockPos tip, BlockArray stem) {
         BlockArray canopy = new BlockArray();
         Random random = context.getRandom();
         int w = 0;

@@ -1,0 +1,14 @@
+{
+  "type": "astralscience:giant_treelike",
+  "config": {
+    "branch_length": 10,
+    "max_branches": 4,
+    "branch_variation": 4,
+    "depth": 2,
+    "init_thickness": 2,
+    "scale": 4,
+    "tallness": 0.5,
+    "wideness": 0.5,
+    "block": "astralscience:wormwood"
+  }
+}

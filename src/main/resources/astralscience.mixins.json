@@ -4,20 +4,18 @@
   "package": "com.miir.astralscience.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MarkBlocksAsCarvableMixin",
-    "ReentryMixin",
-    "gravity.ChickenGravityMixin",
-    "gravity.FallDamageModifier",
-    "gravity.GeneralGravityMixin",
-    "gravity.ItemGravityMixin",
-    "gravity.ParrotGravityMixin",
-    "tick.AstralEntityTickMixin",
-    "tick.AstralPlayerTickMixin",
-    "tick.PreventElytraMixin"
+    "CarverMixin",
+    "EntityMixin",
+    "MinecraftServerMixin",
+    "gravity.ChickenEntityMixin",
+    "gravity.ItemEntityMixin",
+    "gravity.ParrotEntityMixin",
+    "tick.LivingEntityMixin",
+    "tick.PlayerEntityMixin",
+    "tick.ServerPlayNetworkHandlerMixin"
   ],
   "client": [
-    "render.OrbitRenderMixin",
-    "render.StarMixin"
+    "render.WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

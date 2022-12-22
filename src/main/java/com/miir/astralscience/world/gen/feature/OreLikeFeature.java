@@ -1,17 +1,16 @@
 package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.world.BlockArray;
-import com.miir.astralscience.world.gen.stateprovider.SimpleStateProvider;
+import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import org.jetbrains.annotations.Nullable;
 
 public class OreLikeFeature extends AbstractFeature {
@@ -23,8 +22,8 @@ public class OreLikeFeature extends AbstractFeature {
     private final TagKey<Block> overwriteable;
     private final BlockState oreBlock;
 
-    public OreLikeFeature(Codec<DefaultFeatureConfig> configCodec, int minY, int maxY, int size, @Nullable TagKey<Block> replaceableBlocks, BlockState oreBlock) {
-        super();
+    public OreLikeFeature(Codec configCodec, int minY, int maxY, int size, @Nullable TagKey<Block> replaceableBlocks, BlockState oreBlock) {
+        super(configCodec);
         this.maxY = maxY;
         this.minY = minY;
         this.overwriteable = replaceableBlocks;
@@ -33,11 +32,11 @@ public class OreLikeFeature extends AbstractFeature {
     }
 
     @Override
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+    public boolean generate(FeatureContext context) {
         Random random = context.getRandom();
         BlockPos pos = new BlockPos(context.getOrigin().getX() + random.nextInt(15), this.minY + random.nextInt(this.maxY + 1 - this.minY), context.getOrigin().getZ() + random.nextInt(15));
         BlockArray blocks = makeBlob(context, pos);
-        blocks.build(context, new SimpleStateProvider(oreBlock));
+        blocks.build(context, new AdvancedBlockStateProvider((random1, pos1, array) -> oreBlock));
         return true;
     }
 
