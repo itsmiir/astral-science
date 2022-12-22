@@ -1,3 +1,3 @@
 # astral science
 
-a better* space mod
+a space mod for the modren era
