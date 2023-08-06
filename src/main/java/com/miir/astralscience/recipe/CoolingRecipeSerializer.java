@@ -53,11 +53,13 @@ public class CoolingRecipeSerializer implements RecipeSerializer<CoolingRecipe> 
     }
 
     @Override
-    public void write(PacketByteBuf buf, CoolingRecipe recipe) {
-        buf.writeString(recipe.getGroup());
-        recipe.getInput().write(buf);
-        buf.writeItemStack(recipe.getOutput());
-        buf.writeFloat(recipe.getExperience());
-        buf.writeInt(recipe.getCookTime());
+    public void write(PacketByteBuf packetByteBuf, CoolingRecipe recipe) {
+        packetByteBuf.writeString(recipe.getGroup());
+        packetByteBuf.writeEnumConstant(recipe.getCategory());
+        recipe.getInput().write(packetByteBuf);
+//        todo fixme
+//        packetByteBuf.writeItemStack(recipe.getOutput());
+        packetByteBuf.writeFloat(recipe.getExperience());
+        packetByteBuf.writeVarInt(recipe.getCookTime());
     }
 }

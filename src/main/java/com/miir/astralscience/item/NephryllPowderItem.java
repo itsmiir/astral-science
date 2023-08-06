@@ -20,7 +20,7 @@ public class NephryllPowderItem extends AliasedBlockItem {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        if (entity.world instanceof ServerWorld world) {
+        if (entity.getWorld() instanceof ServerWorld world) {
             if (!entity.hasNoGravity()) {
                 entity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 3, true, true, true));
                 BoneMealItem.createParticles(world, entity.getBlockPos(), world.random.nextBetween(3, 7));

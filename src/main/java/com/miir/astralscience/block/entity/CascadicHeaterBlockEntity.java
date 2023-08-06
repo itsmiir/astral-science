@@ -22,6 +22,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.*;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -152,7 +153,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
         if (cascadicHeaterBlockEntity.isBurning() || !itemStack.isEmpty() && !((ItemStack)cascadicHeaterBlockEntity.inventory.get(0)).isEmpty()) {
             Recipe recipe = world.getRecipeManager().getFirstMatch(cascadicHeaterBlockEntity.recipeType, cascadicHeaterBlockEntity, world).orElse(null);
             int i = cascadicHeaterBlockEntity.getMaxCountPerStack();
-            if (!cascadicHeaterBlockEntity.isBurning() && canAcceptRecipeOutput(recipe, cascadicHeaterBlockEntity.inventory, i)) {
+            if (!cascadicHeaterBlockEntity.isBurning() && canAcceptRecipeOutput(cascadicHeaterBlockEntity.getWorld().getRegistryManager(), recipe, cascadicHeaterBlockEntity.inventory, i)) {
                 cascadicHeaterBlockEntity.burnTime = cascadicHeaterBlockEntity.getFuelTime(itemStack);
                 cascadicHeaterBlockEntity.fuelTime = cascadicHeaterBlockEntity.burnTime;
                 if (cascadicHeaterBlockEntity.isBurning()) {
@@ -168,12 +169,12 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
                 }
             }
 
-            if (cascadicHeaterBlockEntity.isBurning() && canAcceptRecipeOutput(recipe, cascadicHeaterBlockEntity.inventory, i)) {
+            if (cascadicHeaterBlockEntity.isBurning() && canAcceptRecipeOutput(cascadicHeaterBlockEntity.getWorld().getRegistryManager(), recipe, cascadicHeaterBlockEntity.inventory, i)) {
                 ++cascadicHeaterBlockEntity.cookTime;
                 if (cascadicHeaterBlockEntity.cookTime == cascadicHeaterBlockEntity.cookTimeTotal) {
                     cascadicHeaterBlockEntity.cookTime = 0;
                     cascadicHeaterBlockEntity.cookTimeTotal = getCookTime(world, cascadicHeaterBlockEntity.recipeType, cascadicHeaterBlockEntity);
-                    if (craftRecipe(recipe, cascadicHeaterBlockEntity.inventory, i)) {
+                    if (craftRecipe(cascadicHeaterBlockEntity.getWorld().getRegistryManager(), recipe, cascadicHeaterBlockEntity.inventory, i)) {
                         cascadicHeaterBlockEntity.setLastRecipe(recipe);
                     }
 
@@ -198,16 +199,16 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
 
     }
 
-    private static boolean canAcceptRecipeOutput(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
+    private static boolean canAcceptRecipeOutput(DynamicRegistryManager manager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
         if (!((ItemStack)defaultedList.get(0)).isEmpty() && recipe != null) {
-            ItemStack itemStack = recipe.getOutput();
+            ItemStack itemStack = recipe.getOutput(manager);
             if (itemStack.isEmpty()) {
                 return false;
             } else {
                 ItemStack itemStack2 = (ItemStack)defaultedList.get(2);
                 if (itemStack2.isEmpty()) {
                     return true;
-                } else if (!itemStack2.isItemEqual(itemStack)) {
+                } else if (!itemStack2.itemMatches(itemStack.getRegistryEntry())) {
                     return false;
                 } else if (itemStack2.getCount() < i && itemStack2.getCount() < itemStack2.getMaxCount()) {
                     return true;
@@ -220,10 +221,10 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
         }
     }
 
-    private static boolean craftRecipe(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
-        if (recipe != null && canAcceptRecipeOutput(recipe, defaultedList, i)) {
+    private static boolean craftRecipe(DynamicRegistryManager manager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
+        if (recipe != null && canAcceptRecipeOutput(manager, recipe, defaultedList, i)) {
             ItemStack itemStack = (ItemStack)defaultedList.get(0);
-            ItemStack itemStack2 = recipe.getOutput();
+            ItemStack itemStack2 = recipe.getOutput(manager);
             ItemStack itemStack3 = (ItemStack)defaultedList.get(2);
             if (itemStack3.isEmpty()) {
                 defaultedList.set(2, itemStack2.copy());
@@ -334,7 +335,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
 
     public void setStack(int slot, ItemStack stack) {
         ItemStack itemStack = this.inventory.get(slot);
-        boolean bl = !stack.isEmpty() && stack.isItemEqual(itemStack) && ItemStack.areNbtEqual(stack, itemStack);
+        boolean bl = !stack.isEmpty() && stack.itemMatches(itemStack.getRegistryEntry()) && ItemStack.areItemsEqual(stack, itemStack);
         this.inventory.set(slot, stack);
         if (stack.getCount() > this.getMaxCountPerStack()) {
             stack.setCount(this.getMaxCountPerStack());

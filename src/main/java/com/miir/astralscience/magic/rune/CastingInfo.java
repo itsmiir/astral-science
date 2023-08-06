@@ -36,7 +36,7 @@ public class CastingInfo {
             this.state = null;
             this.pos = entity.getPos();
             this.isEntity = true;
-            this.world = entity.world;
+            this.world = entity.getWorld();
         }
         public Target(World world, BlockPos pos) {
             this.state = world.getBlockState(pos);

@@ -4,6 +4,7 @@ import com.miir.astralscience.item.AstralItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -42,14 +43,15 @@ public enum AstralMaterials implements ArmorMaterial {;
         this.repairIngredientSupplier = new Lazy<>(repairIngredientSupplier);
     }
 
-    public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * this.durabilityMultiplier;
+    public int getDurability(ArmorItem.Type slot) {
+        return BASE_DURABILITY[slot.ordinal()] * this.durabilityMultiplier;
     }
 
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return this.protectionAmounts[slot.getEntitySlotId()];
+    public int getProtection(ArmorItem.Type slot) {
+        return this.protectionAmounts[slot.ordinal()];
     }
 
+    @Override
     public int getEnchantability() {
         return this.enchantability;
     }

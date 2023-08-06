@@ -5,16 +5,15 @@ import com.miir.astralscience.block.entity.CascadicCoolerBlockEntity;
 import com.miir.astralscience.block.entity.CascadicHeaterBlockEntity;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricMaterialBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.Direction;
@@ -22,96 +21,95 @@ import net.minecraft.util.math.Direction;
 public class AstralBlocks {
     private static final Object2ObjectArrayMap<Block, String> BLOCKS = new Object2ObjectArrayMap<>();
 
-    private static final Material METAL_CLONE = new FabricMaterialBuilder(MapColor.GRAY).build();
     //    ore blocks
-    public static final Block CASCADIUM_BLOCK = new Block(FabricBlockSettings.of(METAL_CLONE).strength(10.0F, 20.0F).sounds(BlockSoundGroup.GLASS).requiresTool());
-    public static final Block CASCADIC_BONE = new PillarBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.BONE).strength(1.5F, 12.0F).requiresTool());
-    public static final Block CASCADIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).sounds(BlockSoundGroup.STONE).requiresTool());
+    public static final Block CASCADIUM_BLOCK = new Block(FabricBlockSettings.create().strength(10.0F, 20.0F).sounds(BlockSoundGroup.GLASS).requiresTool());
+    public static final Block CASCADIC_BONE = new PillarBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.BONE).strength(1.5F, 12.0F).requiresTool());
+    public static final Block CASCADIUM_ORE = new Block(FabricBlockSettings.create().strength(3.0F, 3.0F).sounds(BlockSoundGroup.STONE).requiresTool());
 
-    public static final Block NEPHRYLL_BLOCK = new Block(FabricBlockSettings.of(Material.ORGANIC_PRODUCT).strength(7.5F, 17.0F).sounds(BlockSoundGroup.METAL).requiresTool());
+    public static final Block NEPHRYLL_BLOCK = new Block(FabricBlockSettings.create().strength(7.5F, 17.0F).sounds(BlockSoundGroup.METAL).requiresTool());
 
     //    machine blocks
-    public static final Block MACHINE_CHASSIS = new Block(FabricBlockSettings.of(METAL_CLONE).hardness(5.0F).sounds(BlockSoundGroup.NETHERITE).nonOpaque().requiresTool());
+    public static final Block MACHINE_CHASSIS = new Block(FabricBlockSettings.create().hardness(5.0F).sounds(BlockSoundGroup.NETHERITE).nonOpaque().requiresTool());
 
-    public static final Block CASCADIC_HEATER = new CascadicHeaterBlock(FabricBlockSettings.of(METAL_CLONE).nonOpaque().sounds(BlockSoundGroup.NETHERITE).requiresTool().strength(1.5F, 6.0F).requiresTool());
+    public static final Block CASCADIC_HEATER = new CascadicHeaterBlock(FabricBlockSettings.create().nonOpaque().sounds(BlockSoundGroup.NETHERITE).requiresTool().strength(1.5F, 6.0F).requiresTool());
     public static BlockEntityType<CascadicHeaterBlockEntity> CASCADIC_HEATER_TYPE;
 
-    public static final Block CASCADIC_COOLER = new CascadicCoolerBlock(FabricBlockSettings.of(METAL_CLONE).requiresTool().nonOpaque().sounds(BlockSoundGroup.NETHERITE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block CASCADIC_COOLER = new CascadicCoolerBlock(FabricBlockSettings.create().requiresTool().nonOpaque().sounds(BlockSoundGroup.NETHERITE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
     public static BlockEntityType<CascadicCoolerBlockEntity> CASCADIC_COOLER_TYPE;
 
-    public static final Block STARLIGHT_COLLECTOR = new StarlightCollectorBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5f, 6.0f).requiresTool().sounds(BlockSoundGroup.STONE).nonOpaque().luminance((state) -> state.get(StarlightCollectorBlock.LIT) ? 14 : 0));
+    public static final Block STARLIGHT_COLLECTOR = new StarlightCollectorBlock(FabricBlockSettings.create().requiresTool().strength(1.5f, 6.0f).requiresTool().pistonBehavior(PistonBehavior.BLOCK).sounds(BlockSoundGroup.STONE).nonOpaque().luminance((state) -> state.get(StarlightCollectorBlock.LIT) ? 14 : 0));
 
-    public static final Block STARSHIP_HELM = new StarshipHelmBlock(FabricBlockSettings.of(METAL_CLONE).nonOpaque().requiresTool().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
+    public static final Block STARSHIP_HELM = new StarshipHelmBlock(FabricBlockSettings.create().nonOpaque().requiresTool().sounds(BlockSoundGroup.NETHERITE).strength(1.5F, 6.0F));
 
     //    natural blocks
-    public static final Block ANCIENT_ICE = new IceBlock(FabricBlockSettings.of(Material.ICE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block LIMESTONE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block SHALE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block SLATE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block PUMICE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block IRON_RICH_BASALT = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block FRESH_BLACKSTONE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block MAGMATIC_FRESH_BLACKSTONE = new MagmaBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.0F, 4.5F).sounds(BlockSoundGroup.STONE).luminance((state) -> 5).emissiveLighting((state, world, pos) -> true));
-    public static final Block REGOLITH = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block SYLIUM = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block STALE_CHEESE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.FUNGUS));
+    public static final Block ANCIENT_ICE = new IceBlock(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE).pistonBehavior(PistonBehavior.DESTROY));
+    public static final Block LIMESTONE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block SHALE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block SLATE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block PUMICE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block IRON_RICH_BASALT = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block FRESH_BLACKSTONE = new Block(FabricBlockSettings.create().requiresTool().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block MAGMATIC_FRESH_BLACKSTONE = new MagmaBlock(FabricBlockSettings.create().requiresTool().strength(1.0F, 4.5F).sounds(BlockSoundGroup.STONE).luminance((state) -> 5).emissiveLighting((state, world, pos) -> true));
+    public static final Block REGOLITH = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block SYLIUM = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block STALE_CHEESE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().burnable().sounds(BlockSoundGroup.FUNGUS));
 
-    public static final Block PHOSPHORITE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block PHOSPHORITE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
 
-    public static final Block BLACK_SAND = new SandBlock(0, FabricBlockSettings.of(Material.AGGREGATE, MapColor.BLACK).strength(0.5F).sounds(BlockSoundGroup.SAND));
+    public static final Block BLACK_SAND = new SandBlock(0, FabricBlockSettings.create().mapColor(MapColor.BLACK).strength(0.5F).sounds(BlockSoundGroup.SAND));
 
-    public static final Block PSIONIC_SAND = new SandBlock(8078591, FabricBlockSettings.of(Material.AGGREGATE, MapColor.PURPLE).strength(0.5F).sounds(BlockSoundGroup.SAND));
+    public static final Block PSIONIC_SAND = new SandBlock(8078591, FabricBlockSettings.create().mapColor(MapColor.PURPLE).strength(0.5F).sounds(BlockSoundGroup.SAND));
 
     //    produced blocks
-    public static final Block POLISHED_LIMESTONE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block IRON_RICH_BASALT_BRICKS = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block POLISHED_SHALE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block POLISHED_SLATE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
-    public static final Block POLISHED_PUMICE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block POLISHED_LIMESTONE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block IRON_RICH_BASALT_BRICKS = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block POLISHED_SHALE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block POLISHED_SLATE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
+    public static final Block POLISHED_PUMICE = new Block(FabricBlockSettings.create().requiresTool().strength(1.5F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE));
 
 
     //    plants
-    public static final Block GIANT_LEAVES = new Block(FabricBlockSettings.of(Material.LEAVES).requiresTool().strength(0.2F).sounds(BlockSoundGroup.GRASS));
-    public static final Block GIANT_STEM = new Block(FabricBlockSettings.of(Material.WOOD).requiresTool().strength(0.2F).sounds(BlockSoundGroup.STEM));
+    public static final Block GIANT_LEAVES = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).requiresTool().strength(0.2F).burnable().sounds(BlockSoundGroup.GRASS));
+    public static final Block GIANT_STEM = new Block(FabricBlockSettings.create().requiresTool().strength(0.2F).sounds(BlockSoundGroup.STEM).burnable());
 
-    public static final Block RED_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block CYAN_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block BLUE_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block YELLOW_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block MAGENTA_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block LAVENDER_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block MINT_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block ORANGE_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-
-
-
-    public static final Block FROST_MYCELIUM = new FrostMyceliumBlock(FabricBlockSettings.of(Material.SNOW_BLOCK).requiresTool().hardness(0.1F).sounds(BlockSoundGroup.FUNGUS));
-    public static final Block GHOST_VINES = new GhostVinesBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.WHITE).ticksRandomly().noCollision().breakInstantly().sounds(BlockSoundGroup.WEEPING_VINES).luminance((state) -> 12));
-    public static final Block GHOST_VINES_PLANT = new GhostVinesPlantBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.WHITE).noCollision().breakInstantly().sounds(BlockSoundGroup.WEEPING_VINES).luminance((state) -> 12));
-    public static final Block FROSTFUR = new FrostfurBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.WHITE).luminance((state) -> 6));
-    public static final Block BLUEMOSS = new GlowLichenBlock(AbstractBlock.Settings.of(Material.REPLACEABLE_PLANT, MapColor.PALE_PURPLE).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN).luminance(GlowLichenBlock.getLuminanceSupplier(7)));
-    public static final Block SPEAR_FERN = new SpearFernBlock(AbstractBlock.Settings.of(Material.ORGANIC_PRODUCT, MapColor.PALE_YELLOW).strength(0.2f).sounds(BlockSoundGroup.FUNGUS));
-    public static final Block FIRECAP = new FirecapPlantBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.SHROOMLIGHT).luminance((state) -> 10));
-    public static final Block FIRECAP_SCALES = new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC).sounds(BlockSoundGroup.FUNGUS).strength(0.2F).luminance((state) -> 10).mapColor(MapColor.PINK));
-    public static final Block FIRECAP_GILLS = new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC).sounds(BlockSoundGroup.FUNGUS).strength(0.2F).mapColor(MapColor.LICHEN_GREEN));
-    public static final Block FIRECAP_HYPHAE = new Block(FabricBlockSettings.of(Material.SOLID_ORGANIC).sounds(BlockSoundGroup.FUNGUS).strength(0.2F).mapColor(MapColor.LICHEN_GREEN));
-
-    public static final Block ANGLER_KELP = new AnglerKelpBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance((state) -> 15).noCollision().emissiveLighting((state, world, pos) -> true));
-    public static final Block ANGLER_KELP_PLANT = new AnglerKelpPlantBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().noCollision());
-    public static final Block PINK_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block PURPLE_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block PEACH_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block BLACK_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block WHITE_PETAL = new Block(FabricBlockSettings.of(Material.WOOL).strength(0.2F).sounds(BlockSoundGroup.WOOL));
-    public static final Block NEPHRUM = new NephrumBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).noCollision().mapColor(MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance(NephrumBlock::getLuminance).emissiveLighting((state, world, pos) -> NephrumBlock.getLuminance(state) > 0));
-    public static final Block BRAMBLEWOOD = new PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BLACK).strength(2.0F).sounds(BlockSoundGroup.WOOD));
-    public static final Block BRAMBLEWOOD_LOG = new PillarBlock(FabricBlockSettings.of(Material.WOOD, (state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.BLACK : MapColor.LIGHT_GRAY).strength(2.0F).sounds(BlockSoundGroup.WOOD));
-    public static final Block BRAMBLEWOOD_PLANKS = new Block(FabricBlockSettings.of(Material.WOOD, MapColor.LICHEN_GREEN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
-    public static final Block BRAMBLEWOOD_DOOR = new AstralDoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.LICHEN_GREEN).strength(3.0F).sounds(BlockSoundGroup.WOOD), SoundEvents.BLOCK_NETHER_WOOD_DOOR_CLOSE, SoundEvents.BLOCK_NETHER_WOOD_DOOR_OPEN    );
+    public static final Block RED_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
+    public static final Block CYAN_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
+    public static final Block BLUE_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
+    public static final Block YELLOW_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
+    public static final Block MAGENTA_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
+    public static final Block LAVENDER_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
+    public static final Block MINT_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
+    public static final Block ORANGE_PETAL = new Block(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).strength(0.2F).sounds(BlockSoundGroup.WOOL).burnable());
 
 
-    public static final Block WORMWOOD = new PillarBlock(FabricBlockSettings.of(Material.WOOD).strength(1.5f, 6.0f).sounds(BlockSoundGroup.WOOD));
-    public static final Block WORMWOOD_LOG = new PillarBlock(FabricBlockSettings.of(Material.WOOD).strength(1.5f, 6.0f).sounds(BlockSoundGroup.WOOD));
+
+    public static final Block FROST_MYCELIUM = new FrostMyceliumBlock(FabricBlockSettings.create().requiresTool().hardness(0.1F).sounds(BlockSoundGroup.FUNGUS));
+    public static final Block GHOST_VINES = new GhostVinesBlock(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.WHITE).ticksRandomly().noCollision().breakInstantly().sounds(BlockSoundGroup.WEEPING_VINES).luminance((state) -> 12));
+    public static final Block GHOST_VINES_PLANT = new GhostVinesPlantBlock(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.WHITE).noCollision().breakInstantly().sounds(BlockSoundGroup.WEEPING_VINES).luminance((state) -> 12));
+    public static final Block FROSTFUR = new FrostfurBlock(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.WHITE).luminance((state) -> 6));
+    public static final Block BLUEMOSS = new GlowLichenBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.PALE_PURPLE).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN).luminance(GlowLichenBlock.getLuminanceSupplier(7)));
+    public static final Block SPEAR_FERN = new SpearFernBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.PALE_YELLOW).strength(0.2f).sounds(BlockSoundGroup.FUNGUS));
+    public static final Block FIRECAP = new FirecapPlantBlock(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.ORANGE).noCollision().breakInstantly().sounds(BlockSoundGroup.SHROOMLIGHT).luminance((state) -> 10));
+    public static final Block FIRECAP_SCALES = new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.FUNGUS).strength(0.2F).burnable().luminance((state) -> 10).mapColor(MapColor.PINK));
+    public static final Block FIRECAP_GILLS = new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.FUNGUS).strength(0.2F).burnable().mapColor(MapColor.LICHEN_GREEN));
+    public static final Block FIRECAP_HYPHAE = new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.FUNGUS).strength(0.2F).burnable().mapColor(MapColor.LICHEN_GREEN));
+
+    public static final Block ANGLER_KELP = new AnglerKelpBlock(FabricBlockSettings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance((state) -> 15).noCollision().emissiveLighting((state, world, pos) -> true));
+    public static final Block ANGLER_KELP_PLANT = new AnglerKelpPlantBlock(FabricBlockSettings.create().mapColor(MapColor.GREEN).burnable().sounds(BlockSoundGroup.GRASS).breakInstantly().noCollision());
+    public static final Block PINK_PETAL = new Block(FabricBlockSettings.create().burnable().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.PINK).strength(0.2F).sounds(BlockSoundGroup.WOOL));
+    public static final Block PURPLE_PETAL = new Block(FabricBlockSettings.create().burnable().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.PURPLE).strength(0.2F).sounds(BlockSoundGroup.WOOL));
+    public static final Block PEACH_PETAL = new Block(FabricBlockSettings.create().burnable().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.DARK_DULL_PINK).strength(0.2F).sounds(BlockSoundGroup.WOOL));
+    public static final Block BLACK_PETAL = new Block(FabricBlockSettings.create().burnable().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.BLACK).strength(0.2F).sounds(BlockSoundGroup.WOOL));
+    public static final Block WHITE_PETAL = new Block(FabricBlockSettings.create().burnable().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.WHITE).strength(0.2F).sounds(BlockSoundGroup.WOOL));
+    public static final Block NEPHRUM = new NephrumBlock(FabricBlockSettings.create().burnable().pistonBehavior(PistonBehavior.DESTROY).noCollision().mapColor(MapColor.GREEN).sounds(BlockSoundGroup.GRASS).breakInstantly().luminance(NephrumBlock::getLuminance).emissiveLighting((state, world, pos) -> NephrumBlock.getLuminance(state) > 0));
+    public static final Block BRAMBLEWOOD = new PillarBlock(FabricBlockSettings.create().burnable().mapColor(MapColor.BLACK).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block BRAMBLEWOOD_LOG = new PillarBlock(FabricBlockSettings.create().burnable().mapColor((state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.BLACK : MapColor.LIGHT_GRAY).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block BRAMBLEWOOD_PLANKS = new Block(FabricBlockSettings.create().mapColor(MapColor.LICHEN_GREEN).burnable().strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block BRAMBLEWOOD_DOOR = new AstralDoorBlock(FabricBlockSettings.create().burnable().mapColor(MapColor.LICHEN_GREEN).strength(3.0F).sounds(BlockSoundGroup.WOOD));
+
+
+    public static final Block WORMWOOD = new PillarBlock(FabricBlockSettings.create().burnable().strength(1.5f, 6.0f).sounds(BlockSoundGroup.WOOD));
+    public static final Block WORMWOOD_LOG = new PillarBlock(FabricBlockSettings.create().burnable().strength(1.5f, 6.0f).sounds(BlockSoundGroup.WOOD));
 
 
     private static void registerSimpleBlock(Block block, String path) {

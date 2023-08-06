@@ -125,7 +125,7 @@ public class AstralChunkGenerator extends ChunkGenerator {
 //                    no need for lighting, water, or heightmap updates, or even to place the block at all
                     if (blockState == AIR || SharedConstants.isOutsideGenerationArea(chunk.getPos())) continue;
 //                    add the light source to the chunk if it's a ProtoChunk
-                    if (blockState.getLuminance() != 0 && chunk instanceof ProtoChunk) ((ProtoChunk) chunk).addLightSource(mutablePos);
+//                    if (blockState.getLuminance() != 0 && chunk instanceof ProtoChunk) ((ProtoChunk) chunk).(mutablePos);
 //                    set the blockstate
                     int chunkSectionIndex = chunk.getSectionIndex(y);
                     ChunkSection chunkSection = chunk.getSection(chunkSectionIndex);

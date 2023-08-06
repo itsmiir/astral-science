@@ -4,13 +4,13 @@
   "version": "0.1.0",
 
   "name": "Astral Science",
-  "description": "space exploration has never been this easy!",
+  "description": "the wonders of the cosmos and the power of the stars!",
   "authors": [
     "miir"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/itsmiir/",
+    "sources": "https://github.com/itsmiir/astral-science"
   },
 
   "license": "CC0-1.0",
@@ -35,7 +35,7 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": "1.19.3"
+    "minecraft": ">=1.20"
   },
   "suggests": {
   },

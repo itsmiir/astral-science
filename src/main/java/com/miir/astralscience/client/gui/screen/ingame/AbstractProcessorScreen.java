@@ -2,6 +2,7 @@ package com.miir.astralscience.client.gui.screen.ingame;
 
 import com.miir.astralscience.screen.AbstractProcessorScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.recipebook.AbstractFurnaceRecipeBookScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
@@ -35,7 +36,7 @@ public class AbstractProcessorScreen<T extends AbstractProcessorScreenHandler> e
         this.addDrawableChild(new TexturedButtonWidget(this.x + 20, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE, (button) -> {
             this.recipeBook.toggleOpen();
             this.x = this.recipeBook.findLeftEdge(this.width, this.backgroundWidth);
-            ((TexturedButtonWidget)button).setPos(this.x + 20, this.height / 2 - 49);
+            ((TexturedButtonWidget)button).setPosition(this.x + 20, this.height / 2 - 49);
         }));
         this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
     }
@@ -45,7 +46,7 @@ public class AbstractProcessorScreen<T extends AbstractProcessorScreenHandler> e
 //        this.recipeBook.update();
 //    }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         if (this.recipeBook.isOpen() && this.narrow) {
             this.drawBackground(matrices, delta, mouseX, mouseY);
@@ -60,21 +61,20 @@ public class AbstractProcessorScreen<T extends AbstractProcessorScreenHandler> e
         this.recipeBook.drawTooltip(matrices, this.x, this.y, mouseX, mouseY);
     }
 
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, this.background);
         int i = this.x;
         int j = this.y;
-        this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        context.drawTexture(this.background, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
         int l;
         if (this.handler.isBurning()) {
             l = this.handler.getFuelProgress();
-            this.drawTexture(matrices, i + 56, j + 36 + 12 - l, 176, 12 - l, 14, l + 1);
+            context.drawTexture(this.background, i + 56, j + 36 + 12 - l, 176, 12 - l, 14, l + 1);
         }
 
         l = this.handler.getCookProgress();
-        this.drawTexture(matrices, i + 79, j + 34, 176, 14, l + 1, 16);
+        context.drawTexture(this.background, i + 79, j + 34, 176, 14, l + 1, 16);
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {

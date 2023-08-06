@@ -1,9 +1,7 @@
 package com.miir.astralscience;
 
-import com.miir.astralscience.client.entity.HologramEntityRenderer;
 import com.miir.astralscience.client.render.AstralSkyEffects;
 import com.miir.astralscience.client.render.Render;
-import com.miir.astralscience.entity.InteractableHologramEntity;
 import com.miir.astralscience.util.AstralText;
 import com.miir.astralscience.world.dimension.AstralDimensions;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -11,13 +9,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
@@ -120,7 +116,6 @@ public class AstralClient implements ClientModInitializer {
     public void onInitializeClient() {
 //        ClientNetworking.register();
         Render.register();
-        EntityRendererRegistry.register(InteractableHologramEntity.HOLOGRAM, HologramEntityRenderer::new);
         DimensionEffects.BY_IDENTIFIER.putAll(AstralSkyEffects.BY_IDENTIFIER);
         AstralScience.LOGGER.info("Successfully initialized Astral Science version " + AstralScience.VERSION + " in client mode!");
         DimensionRenderingRegistry.registerSkyRenderer(

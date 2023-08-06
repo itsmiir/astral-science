@@ -128,7 +128,7 @@ public abstract class SpellParser {
             double y = target.getPos().getY();
             double z = target.getPos().getZ();
             playerEntity.requestTeleport(x, y, z);
-            playerEntity.world.playSound(x, y, z, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.PLAYERS, 1.0f, 1.0f, true);
+            playerEntity.getWorld().playSound(x, y, z, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.PLAYERS, 1.0f, 1.0f, true);
             return true;
         }
         return false;
@@ -169,7 +169,7 @@ public abstract class SpellParser {
         Box box = player.getBoundingBox().expand(r, r, r);
         if (world instanceof ServerWorld) {
 
-            List<Entity> entities = player.world.getNonSpectatingEntities(
+            List<Entity> entities = player.getWorld().getNonSpectatingEntities(
                     Entity.class,
                     box
             );
@@ -197,7 +197,7 @@ public abstract class SpellParser {
         Box box = player.getBoundingBox().expand(r, r, r);
         if (world instanceof ServerWorld) {
 
-            List<Entity> entities = player.world.getNonSpectatingEntities(
+            List<Entity> entities = player.getWorld().getNonSpectatingEntities(
                     Entity.class,
                     box
             );

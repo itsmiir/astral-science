@@ -33,88 +33,87 @@ public class AstralScience implements ModInitializer {
         return new Identifier(MOD_ID, path);
     }
 
-    public static final ItemGroup ASTRAL_SCIENCE = FabricItemGroup.builder(
-            id("astralscience"))
-            .displayName(Text.of("Astral Science"))
+    public static final ItemGroup ASTRAL_SCIENCE = FabricItemGroup.builder()
+            .displayName(Text.translatable(id("group").toTranslationKey()))
             .icon(() -> new ItemStack(AstralItems.RECORDER))
-            .entries((enabledFeatures, stacks, operatorEnabled) -> {
+            .entries((context, entries) -> {
 //tools
-                stacks.add(new ItemStack(AstralItems.RECORDER));
-//                stacks.add(new ItemStack(AstralItems.SCREWDRIVER));
-                stacks.add(new ItemStack(AstralItems.GPS));
-                stacks.add(new ItemStack(AstralItems.GALACTIC_MAP));
+                entries.add(new ItemStack(AstralItems.RECORDER));
+//                entries.add(new ItemStack(AstralItems.SCREWDRIVER));
+                entries.add(new ItemStack(AstralItems.GPS));
+                entries.add(new ItemStack(AstralItems.GALACTIC_MAP));
 
-//                stacks.add(new ItemStack(AstralItems.FLIGHT_HELMET));
-                stacks.add(new ItemStack(AstralItems.NEPHRYLL_BOOTS));
+//                entries.add(new ItemStack(AstralItems.FLIGHT_HELMET));
+                entries.add(new ItemStack(AstralItems.NEPHRYLL_BOOTS));
 //item
-//                stacks.add(new ItemStack(AstralItems.GRAPHITE_ROD));
-                stacks.add(new ItemStack(AstralItems.STARDUST));
-                stacks.add(new ItemStack(AstralItems.CASCADIUM_SHARD));
-                stacks.add(new ItemStack(AstralItems.NEPHRYLL_POWDER));
-                stacks.add(new ItemStack(AstralItems.NEPHRYLL_PEARL));
-                stacks.add(new ItemStack(AstralItems.SPEAR_SEED));
-//                stacks.add(new ItemStack(AstralItems.LIGHT_COMPOSITE_SHEET));
-//                stacks.add(new ItemStack(AstralItems.THERMAL_COMPOSITE_SHEET));
-//                stacks.add(new ItemStack(AstralItems.HEAVY_COMPOSITE_PLATE));
+//                entries.add(new ItemStack(AstralItems.GRAPHITE_ROD));
+                entries.add(new ItemStack(AstralItems.STARDUST));
+                entries.add(new ItemStack(AstralItems.CASCADIUM_SHARD));
+                entries.add(new ItemStack(AstralItems.NEPHRYLL_POWDER));
+                entries.add(new ItemStack(AstralItems.NEPHRYLL_PEARL));
+                entries.add(new ItemStack(AstralItems.SPEAR_SEED));
+//                entries.add(new ItemStack(AstralItems.LIGHT_COMPOSITE_SHEET));
+//                entries.add(new ItemStack(AstralItems.THERMAL_COMPOSITE_SHEET));
+//                entries.add(new ItemStack(AstralItems.HEAVY_COMPOSITE_PLATE));
 
 //blocks
-                stacks.add(new ItemStack(AstralBlocks.CASCADIC_BONE));
-                stacks.add(new ItemStack(AstralBlocks.CASCADIUM_BLOCK));
-                stacks.add(new ItemStack(AstralBlocks.NEPHRYLL_BLOCK));
-                stacks.add(new ItemStack(AstralBlocks.ANCIENT_ICE));
+                entries.add(new ItemStack(AstralBlocks.CASCADIC_BONE));
+                entries.add(new ItemStack(AstralBlocks.CASCADIUM_BLOCK));
+                entries.add(new ItemStack(AstralBlocks.NEPHRYLL_BLOCK));
+                entries.add(new ItemStack(AstralBlocks.ANCIENT_ICE));
 
-                stacks.add(new ItemStack(AstralBlocks.FRESH_BLACKSTONE));
-                stacks.add(new ItemStack(AstralBlocks.MAGMATIC_FRESH_BLACKSTONE));
-                stacks.add(new ItemStack(AstralBlocks.LIMESTONE));
-                stacks.add(new ItemStack(AstralBlocks.POLISHED_LIMESTONE));
-                stacks.add(new ItemStack(AstralBlocks.SLATE));
-                stacks.add(new ItemStack(AstralBlocks.POLISHED_SLATE));
-                stacks.add(new ItemStack(AstralBlocks.SHALE));
-                stacks.add(new ItemStack(AstralBlocks.POLISHED_SHALE));
-                stacks.add(new ItemStack(AstralBlocks.PUMICE));
-                stacks.add(new ItemStack(AstralBlocks.POLISHED_PUMICE));
-                stacks.add(new ItemStack(AstralBlocks.IRON_RICH_BASALT));
-                stacks.add(new ItemStack(AstralBlocks.IRON_RICH_BASALT_BRICKS));
-                stacks.add(new ItemStack(AstralBlocks.REGOLITH));
-                stacks.add(new ItemStack(AstralBlocks.SYLIUM));
-                stacks.add(new ItemStack(AstralBlocks.PSIONIC_SAND));
+                entries.add(new ItemStack(AstralBlocks.FRESH_BLACKSTONE));
+                entries.add(new ItemStack(AstralBlocks.MAGMATIC_FRESH_BLACKSTONE));
+                entries.add(new ItemStack(AstralBlocks.LIMESTONE));
+                entries.add(new ItemStack(AstralBlocks.POLISHED_LIMESTONE));
+                entries.add(new ItemStack(AstralBlocks.SLATE));
+                entries.add(new ItemStack(AstralBlocks.POLISHED_SLATE));
+                entries.add(new ItemStack(AstralBlocks.SHALE));
+                entries.add(new ItemStack(AstralBlocks.POLISHED_SHALE));
+                entries.add(new ItemStack(AstralBlocks.PUMICE));
+                entries.add(new ItemStack(AstralBlocks.POLISHED_PUMICE));
+                entries.add(new ItemStack(AstralBlocks.IRON_RICH_BASALT));
+                entries.add(new ItemStack(AstralBlocks.IRON_RICH_BASALT_BRICKS));
+                entries.add(new ItemStack(AstralBlocks.REGOLITH));
+                entries.add(new ItemStack(AstralBlocks.SYLIUM));
+                entries.add(new ItemStack(AstralBlocks.PSIONIC_SAND));
 
 
 //machines
-                stacks.add(new ItemStack(AstralBlocks.MACHINE_CHASSIS));
-//                stacks.add(new ItemStack(AstralBlocks.STARSHIP_CONSTRUCTION_BLOCK));
-                stacks.add(new ItemStack(AstralBlocks.STARSHIP_HELM));
-                stacks.add(new ItemStack(AstralBlocks.CASCADIC_COOLER));
-                stacks.add(new ItemStack(AstralBlocks.CASCADIC_HEATER));
+                entries.add(new ItemStack(AstralBlocks.MACHINE_CHASSIS));
+//                entries.add(new ItemStack(AstralBlocks.STARSHIP_CONSTRUCTION_BLOCK));
+                entries.add(new ItemStack(AstralBlocks.STARSHIP_HELM));
+                entries.add(new ItemStack(AstralBlocks.CASCADIC_COOLER));
+                entries.add(new ItemStack(AstralBlocks.CASCADIC_HEATER));
 //plants
-                stacks.add(new ItemStack(AstralBlocks.FROST_MYCELIUM));
-                stacks.add(new ItemStack(AstralBlocks.GIANT_STEM));
-                stacks.add(new ItemStack(AstralBlocks.GIANT_LEAVES));
-                stacks.add(new ItemStack(AstralBlocks.GHOST_VINES));
-                stacks.add(new ItemStack(AstralBlocks.FIRECAP));
-                stacks.add(new ItemStack(AstralBlocks.FIRECAP_GILLS));
-                stacks.add(new ItemStack(AstralBlocks.FIRECAP_SCALES));
-                stacks.add(new ItemStack(AstralBlocks.FIRECAP_HYPHAE));
-                stacks.add(new ItemStack(AstralBlocks.FROSTFUR));
+                entries.add(new ItemStack(AstralBlocks.FROST_MYCELIUM));
+                entries.add(new ItemStack(AstralBlocks.GIANT_STEM));
+                entries.add(new ItemStack(AstralBlocks.GIANT_LEAVES));
+                entries.add(new ItemStack(AstralBlocks.GHOST_VINES));
+                entries.add(new ItemStack(AstralBlocks.FIRECAP));
+                entries.add(new ItemStack(AstralBlocks.FIRECAP_GILLS));
+                entries.add(new ItemStack(AstralBlocks.FIRECAP_SCALES));
+                entries.add(new ItemStack(AstralBlocks.FIRECAP_HYPHAE));
+                entries.add(new ItemStack(AstralBlocks.FROSTFUR));
 
-                stacks.add(new ItemStack(AstralBlocks.BRAMBLEWOOD_LOG));
-                stacks.add(new ItemStack(AstralBlocks.BRAMBLEWOOD_PLANKS));
-                stacks.add(new ItemStack(AstralBlocks.WORMWOOD_LOG));
+                entries.add(new ItemStack(AstralBlocks.BRAMBLEWOOD_LOG));
+                entries.add(new ItemStack(AstralBlocks.BRAMBLEWOOD_PLANKS));
+                entries.add(new ItemStack(AstralBlocks.WORMWOOD_LOG));
 
 //petals
-                stacks.add(new ItemStack(AstralBlocks.RED_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.ORANGE_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.YELLOW_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.MINT_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.CYAN_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.BLUE_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.PEACH_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.PINK_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.LAVENDER_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.MAGENTA_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.PURPLE_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.WHITE_PETAL));
-                stacks.add(new ItemStack(AstralBlocks.BLACK_PETAL));
+                entries.add(new ItemStack(AstralBlocks.RED_PETAL));
+                entries.add(new ItemStack(AstralBlocks.ORANGE_PETAL));
+                entries.add(new ItemStack(AstralBlocks.YELLOW_PETAL));
+                entries.add(new ItemStack(AstralBlocks.MINT_PETAL));
+                entries.add(new ItemStack(AstralBlocks.CYAN_PETAL));
+                entries.add(new ItemStack(AstralBlocks.BLUE_PETAL));
+                entries.add(new ItemStack(AstralBlocks.PEACH_PETAL));
+                entries.add(new ItemStack(AstralBlocks.PINK_PETAL));
+                entries.add(new ItemStack(AstralBlocks.LAVENDER_PETAL));
+                entries.add(new ItemStack(AstralBlocks.MAGENTA_PETAL));
+                entries.add(new ItemStack(AstralBlocks.PURPLE_PETAL));
+                entries.add(new ItemStack(AstralBlocks.WHITE_PETAL));
+                entries.add(new ItemStack(AstralBlocks.BLACK_PETAL));
             })
             .build();
 

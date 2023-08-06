@@ -36,7 +36,7 @@ public class AstralItems {
 //    public static final Item FLIGHT_HELMET = new ArmorItem(AstralMaterials.LIGHT_COMPOSITE, EquipmentSlot.HEAD, new Item.Settings().rarity(Rarity.COMMON).group(ItemGroup.COMBAT));
 //    public static final Item FLIGHT_SUIT = new ArmorItem(LIGHT_COMPOSITE, EquipmentSlot.CHEST, new Item.Settings().rarity(Rarity.COMMON));
 //    public static final Item FLIGHT_SUIT_PANTS = new ArmorItem(LIGHT_COMPOSITE, EquipmentSlot.LEGS, new Item.Settings().rarity(Rarity.COMMON));
-    public static final Item NEPHRYLL_BOOTS = new ArmorItem(NEPHRYLL, EquipmentSlot.FEET, new Item.Settings().rarity(Rarity.UNCOMMON).fireproof());
+    public static final Item NEPHRYLL_BOOTS = new ArmorItem(NEPHRYLL, ArmorItem.Type.BOOTS, new Item.Settings().rarity(Rarity.UNCOMMON).fireproof());
 
     public static void register() {
         Registry.register(Registries.ITEM, AstralScience.id("recorder"), RECORDER);

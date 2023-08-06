@@ -61,7 +61,7 @@ public class CascadicHeaterBlock extends BlockWithEntity {
     }
 
     public BlockState getPlacementState(ItemPlacementContext context) {
-        return (BlockState) this.getDefaultState().with(FACING, context.getPlayerFacing());
+        return (BlockState) this.getDefaultState().with(FACING, context.getPlayerLookDirection());
     }
 
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {

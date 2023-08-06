@@ -58,7 +58,7 @@ public class CascadicCoolerBlock extends BlockWithEntity {
     }
 
     public BlockState getPlacementState(ItemPlacementContext context) {
-        return this.getDefaultState().with(FACING, context.getPlayerFacing());
+        return this.getDefaultState().with(FACING, context.getPlayerLookDirection());
     }
 
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {

@@ -148,11 +148,6 @@ public class StarlightCollectorBlock extends Block {
         super.randomDisplayTick(state, world, pos, random);
     }
 
-    @Override
-    public PistonBehavior getPistonBehavior(BlockState state) {
-        return PistonBehavior.BLOCK;
-    }
-
     public static boolean hasStarlight(World world, BlockPos pos) {
 //        apparently world.isNight() simply does not work :) perhaps i have broken something
 //        (or maybe it doesn't work on the logical client?)

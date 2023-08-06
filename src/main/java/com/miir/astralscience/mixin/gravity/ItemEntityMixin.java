@@ -28,9 +28,9 @@ public abstract class ItemEntityMixin extends Entity {
     )
     private void setItemGravity(ItemEntity self, Vec3d velocity) {
         double multiplier = 1.0D;
-        if (this.world != null &! ((ItemEntity)(Object)this).getStack().isIn(AstralTags.GRAVITY_AGNOSTIC) && AstralDimensions.isAstralDimension(this.world)) {
+        if (this.getWorld() != null &! ((ItemEntity)(Object)this).getStack().isIn(AstralTags.GRAVITY_AGNOSTIC) && AstralDimensions.isAstralDimension(this.getWorld())) {
             double gConstant = Config.GRAVITY_OMEIA;
-            if (AstralDimensions.isOrbit(this.world)) {
+            if (AstralDimensions.isOrbit(this.getWorld())) {
                 gConstant = Config.GRAVITY_ORBIT;
             }
             double gravity = 1 / gConstant;

@@ -21,8 +21,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         super(world, pos, yaw, gameProfile);
     }
 //    @Shadow public abstract ServerWorld getServerWorld();
-
-    @Shadow public abstract ServerWorld getWorld();
+//    @Shadow public abstract ServerWorld getWorld();
 
     @Inject(
             method = "setSpawnPoint",

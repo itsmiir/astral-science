@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class OmeiaBiomeSource extends BiomeSource {
     protected OmeiaBiomeSource(Stream<RegistryEntry<Biome>> biomeStream) {
-        super(biomeStream);
+        super();
     }
 //    private long seed;
 //    private Identifier polarBiome;
@@ -46,7 +46,13 @@ public class OmeiaBiomeSource extends BiomeSource {
     protected Codec<? extends BiomeSource> getCodec() {
         return CODEC;
     }
-//
+
+    @Override
+    protected Stream<RegistryEntry<Biome>> biomeStream() {
+        return null;
+    }
+
+    //
     @Override
     public RegistryEntry<Biome> getBiome(int x, int y, int z, MultiNoiseUtil.MultiNoiseSampler noise) {
         return null;

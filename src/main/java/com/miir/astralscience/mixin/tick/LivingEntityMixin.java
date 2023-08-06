@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
@@ -41,14 +42,14 @@ public abstract class LivingEntityMixin extends Entity {
     }
     @Inject(at = @At("HEAD"), method = "tick")
     public void updateDeepFreeze(CallbackInfo ci) {
-        if (!(this.world == null)) {
-            if (!(this.world.isClient && !((LivingEntity) (Object) this).isDead())) {
-                if (AstralDimensions.isSuperCold(this.world, this.getBlockPos()) && AstralDimensions.canDeepFreeze((LivingEntity) (Object) this)) {
+        if (!(this.getWorld() == null)) {
+            if (!(this.getWorld().isClient && !((LivingEntity) (Object) this).isDead())) {
+                if (AstralDimensions.isSuperCold(this.getWorld(), this.getBlockPos()) && AstralDimensions.canDeepFreeze((LivingEntity) (Object) this)) {
                     this.setFrozenTicks(400);
                 }
             }
-            if (!(this.world.isClient && (this.age % 40 == 0 && (this.getFrozenTicks() > 300 && AstralDimensions.canDeepFreeze(((LivingEntity)(Object)this)))))) {
-                this.damage(DamageSource.FREEZE, 1);
+            if (!(this.getWorld().isClient && (this.age % 40 == 0 && (this.getFrozenTicks() > 300 && AstralDimensions.canDeepFreeze(((LivingEntity)(Object)this)))))) {
+                this.damage(this.getWorld().getDamageSources().freeze(), 1);
             }
         }
     }
@@ -64,12 +65,12 @@ public abstract class LivingEntityMixin extends Entity {
 //            indices: double d (gravity constant) = 2
     )
     private double gravity(double original) {
-        if (this.world != null) {
-            if (AstralDimensions.isAstralDimension(this.world)) {
+        if (this.getWorld() != null) {
+            if (AstralDimensions.isAstralDimension(this.getWorld())) {
                 try {
                     if (!(this.activeStatusEffects.containsKey(AstralStatusEffects.GROUNDED))) {
 //        orbital dimensions have a set gravity
-                        if (AstralDimensions.isOrbit(world)) {
+                        if (AstralDimensions.isOrbit(this.getWorld())) {
                             return original / Config.GRAVITY_ORBIT;
                         }
                         double gravity = Config.GRAVITY_OMEIA;

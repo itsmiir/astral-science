@@ -125,7 +125,7 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature<Bran
                         this.unbakedMap.add(tip.toImmutable());
                     }
                 }
-                this.tips.add(new TreeTip(tip.toImmutable(), Direction.fromVector(offset)));
+                this.tips.add(new TreeTip(tip.toImmutable(), Direction.fromVector(offset.getX(), offset.getY(), offset.getZ())));
             } else {
                 ArrayList<TreeTip> newTips = new ArrayList<>();
                 for (TreeTip tip :
@@ -133,7 +133,7 @@ public abstract class AbstractBranchingPlantFeature extends AbstractFeature<Bran
                     BlockPos offset = this.pushOut(random, tip, true, config.tallness());
                     BlockPos newTip = tip.getPos().add(offset);
                     this.unbakedMap.add(newTip);
-                    newTips.add(new TreeTip(newTip, Direction.fromVector(offset)));
+                    newTips.add(new TreeTip(newTip, Direction.fromVector(offset.getX(), offset.getY(), offset.getZ())));
                 }
                 this.tips = newTips;
             }

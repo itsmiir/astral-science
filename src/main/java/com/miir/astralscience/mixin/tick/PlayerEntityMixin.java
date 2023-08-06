@@ -28,7 +28,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void astralTicks(CallbackInfo ci) {
-        World world = this.world;
+        World world = this.getWorld();
         if (!AstralDimensions.hasAtmosphere(world, false)) {
             if (this.isFallFlying()) {
                 this.stopFallFlying();

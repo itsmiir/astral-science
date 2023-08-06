@@ -27,7 +27,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
             )
     )
     private void parrotGravity(ChickenEntity self, Vec3d velocity) {
-        if (AstralDimensions.isOrbit(self.world)) {
+        if (AstralDimensions.isOrbit(self.getWorld())) {
             self.setVelocity(self.getVelocity());
         }
     }

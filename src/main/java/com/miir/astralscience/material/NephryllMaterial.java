@@ -1,6 +1,7 @@
 package com.miir.astralscience.material;
 
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -13,13 +14,13 @@ public class NephryllMaterial implements ArmorMaterial {
     private static final int DURABILITY_MODIFIER = 37;
     private static final int ENCHANTABILITY = 15;
     @Override
-    public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * DURABILITY_MODIFIER;
+    public int getDurability(ArmorItem.Type slot) {
+        return BASE_DURABILITY[slot.ordinal()] * DURABILITY_MODIFIER;
     }
 
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return PROTECTION_VALUES[slot.getEntitySlotId()];
+    public int getProtection(ArmorItem.Type slot) {
+        return PROTECTION_VALUES[slot.ordinal()];
     }
 
     @Override

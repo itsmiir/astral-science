@@ -15,8 +15,8 @@ public class ServerPlayNetworkHandlerMixin {
     @Shadow public ServerPlayerEntity player;
     @Inject(at = @At("TAIL"), method = "onClientCommand(Lnet/minecraft/network/packet/c2s/play/ClientCommandC2SPacket;)V")
     public void mixin(ClientCommandC2SPacket packet, CallbackInfo ci) {
-        if (this.player.world != null) {
-            if (!AstralDimensions.hasAtmosphere(this.player.world, false)) {
+        if (this.player.getWorld() != null) {
+            if (!AstralDimensions.hasAtmosphere(this.player.getWorld(), false)) {
                 this.player.stopFallFlying();
             }
         }

@@ -349,7 +349,7 @@ public class BlockArray implements Iterable<BlockPos>, Cloneable {
         BlockPos min = this.min();
         BlockPos max = this.max();
         BlockPos delta = max.subtract(min);
-        return new BlockPos(delta.getX() / 2.0, delta.getY() / 2.0, delta.getZ() / 2.0).add(min);
+        return new BlockPos((int) (delta.getX() / 2.0), (int) (delta.getY() / 2.0), (int) (delta.getZ() / 2.0)).add(min);
     }
     public BlockPos centerOfMass() {
 //        whoa i actually did it

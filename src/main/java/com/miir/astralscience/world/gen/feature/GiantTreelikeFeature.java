@@ -10,6 +10,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import org.joml.Quaternionf;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class GiantTreelikeFeature extends Feature<GiantTreelikeFeatureConfig> {
@@ -59,21 +60,23 @@ public class GiantTreelikeFeature extends Feature<GiantTreelikeFeatureConfig> {
                 Vector3f unit = vec1.normalize().toVector3f();
                 do {
                     Vector3f radial = new Vector3f(unit).cross(new Vector3f(1, 0, 0)).normalize(); // we just need ANY vector that's perp. to unit
-                    BlockPos pos = new BlockPos(new Vec3d(new Vector3f(unit).mul(l))).add(o);
+                    Vec3d vec3d = new Vec3d(new Vector3f(unit).mul(l));
+                    BlockPos pos = BlockPos.ofFloored(vec3d.x, vec3d.y, vec3d.z).add(o);
                     float t = thickness; // todo: implement taper that doesnt look like shit
                     array.add(pos, (int) thickness);
                     Quaternionf quat = RotationAxis.of(unit).rotationDegrees(360 / n);
                     for (int j = 0; j < n; j++) {
                         radial = quat.transform(radial);
                         for (int k = 1; k <= t; k++) {
-                            BlockPos pos1 = new BlockPos(new Vec3d(new Vector3f(radial).mul(k).add(new Vector3f(unit).mul(l)))).add(o);
+                            Vec3d vec3d1 = new Vec3d(new Vector3f(radial).mul(k).add(new Vector3f(unit).mul(l)));
+                            BlockPos pos1 = BlockPos.ofFloored(vec3d1.x, vec3d1.y, vec3d1.z) .add(o);
                             array.add(pos1, (int) thickness);
                         }
                     }
 
                     l += .5;
                 } while (l < vec1.length());
-                o = o.add(new Vec3i(vec1.x, vec1.y, vec1.z));
+                o = o.add(new Vec3i((int) vec1.x, (int) vec1.y, (int) vec1.z));
                 Vec3i diff = o.subtract(origin);
                 double x = (diff.getX() > 0) ? random.nextBetween(0, branchLength)*width : random.nextBetween(-branchLength, 0)*width; // ensure that branches always go outward
                 double z = (diff.getZ() > 0) ? random.nextBetween(0, branchLength)*width : random.nextBetween(-branchLength, 0)*width;

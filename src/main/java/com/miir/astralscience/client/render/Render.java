@@ -59,7 +59,6 @@ public class Render {
 
 
             if (AstralDimensions.isOrbit(world)) {
-                RenderSystem.enableTexture();
                 float angle = world.getSkyAngle(tickDelta);
                 float lightLevel = ((Math.abs(angle - .5F)) % .5F) * 2;
                 if (world.getTimeOfDay() % 24000 == 6000) {
@@ -69,7 +68,6 @@ public class Render {
             } else if (
                     cameraHeight >= Config.ATMOSPHERIC_FOG_HEIGHT && ((AstralDimensions.isAstralDimension(world)) ||
                             world.getRegistryKey().equals(World.OVERWORLD))) {
-                RenderSystem.enableTexture();
                 world.getTimeOfDay();
                 float opacity = 1.0F;
                 if (cullHeight > cameraHeight && cameraHeight > Config.ATMOSPHERIC_FOG_HEIGHT) {
@@ -92,7 +90,6 @@ public class Render {
 
 
             if (AstralDimensions.isOrbit(world)) {
-                RenderSystem.enableTexture();
                 float angle = world.getSkyAngle(tickDelta);
                 float lightLevel = ((Math.abs(angle - .5F)) % .5F) * 2;
                 if (world.getTimeOfDay() % 24000 == 6000) {
@@ -102,7 +99,6 @@ public class Render {
             } else if (
                     cameraHeight >= fogHeight/2 && ((AstralDimensions.isAstralDimension(world)) ||
                             world.getRegistryKey().equals(World.OVERWORLD))) {
-                RenderSystem.enableTexture();
                 float angle = world.getSkyAngle(tickDelta);
                 float lightLevel = ((Math.abs(angle - .5F)) % .5F) * 2;
                 if (world.getTimeOfDay() % 24000 == 6000) {
@@ -126,7 +122,6 @@ public class Render {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            RenderSystem.enableTexture();
             RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferBuilder = tessellator.getBuffer();
@@ -205,7 +200,6 @@ public class Render {
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
-        RenderSystem.enableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.depthMask(true);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -217,7 +211,7 @@ public class Render {
 //            if (color == null) {
 //                color = new float[] {0, 0, 0};
 //            }
-            Vec3i clr = new Vec3i(RenderSystem.getShaderFogColor()[0] * 255, RenderSystem.getShaderFogColor()[1] * 255, RenderSystem.getShaderFogColor()[2] * 255);
+            Vec3i clr = new Vec3i((int) (RenderSystem.getShaderFogColor()[0] * 255), (int) (RenderSystem.getShaderFogColor()[1] * 255), (int) (RenderSystem.getShaderFogColor()[2] * 255));
             int r = clr.getX();//(int)color[0]*255;
             int g = clr.getY();//(int)color[1]*255;
             int b = clr.getZ();//(int)color[2]*255;
@@ -293,7 +287,6 @@ public class Render {
         if (cameraSubmersionType == CameraSubmersionType.POWDER_SNOW || cameraSubmersionType == CameraSubmersionType.LAVA) {
             return;
         }
-        RenderSystem.disableTexture();
         Vec3d vec3d = /*Vec3d.ZERO; */world.getSkyColor(context.camera().getPos(), tickDelta);
         float f = (float) vec3d.x;
         float g = (float) vec3d.y;
@@ -308,7 +301,6 @@ public class Render {
         float[] fs = world.getDimensionEffects().getFogColorOverride(world.getSkyAngle(tickDelta), tickDelta);
         if (fs != null) {
             RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-            RenderSystem.disableTexture();
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             matrices.push();
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
@@ -330,7 +322,6 @@ public class Render {
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
             matrices.pop();
         }
-        RenderSystem.enableTexture();
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
         matrices.push();
         i = 1.0f - world.getRainGradient(tickDelta);
@@ -371,18 +362,15 @@ public class Render {
         bufferBuilder.vertex(matrix4f2, k, -100.0f, -k).texture(t, o).next();
         bufferBuilder.vertex(matrix4f2, -k, -100.0f, -k).texture(p, o).next();
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-        RenderSystem.disableTexture();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.disableBlend();
         matrices.pop();
-        RenderSystem.disableTexture();
         RenderSystem.setShaderColor(0.0f, 0.0f, 0.0f, 1.0f);
         if (world.getDimensionEffects().isAlternateSkyColor()) {
             RenderSystem.setShaderColor(f * 0.2f + 0.04f, g * 0.2f + 0.04f, h * 0.6f + 0.1f, 1.0f);
         } else {
             RenderSystem.setShaderColor(f, g, h, 1.0f);
         }
-        RenderSystem.enableTexture();
         RenderSystem.depthMask(true);
     }
 }

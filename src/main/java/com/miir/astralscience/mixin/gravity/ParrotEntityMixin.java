@@ -23,7 +23,7 @@ public abstract class ParrotEntityMixin extends TameableShoulderEntity {
             )
     )
     private void parrotGravity(ParrotEntity self, Vec3d velocity) {
-        if (AstralDimensions.isOrbit(self.world)) {
+        if (AstralDimensions.isOrbit(self.getWorld())) {
             self.setVelocity(self.getVelocity());
         }
     }
