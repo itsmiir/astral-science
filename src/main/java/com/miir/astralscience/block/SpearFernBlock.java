@@ -3,13 +3,12 @@ package com.miir.astralscience.block;
 import com.miir.astralscience.item.AstralItems;
 import com.miir.astralscience.tag.AstralTags;
 import net.minecraft.block.*;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -43,7 +42,7 @@ public class SpearFernBlock extends PlantBlock implements Fertilizable {
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
-    
+
     @Override
     public boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
         return floor.isIn(BlockTags.DIRT) || floor.isIn(BlockTags.SNOW);

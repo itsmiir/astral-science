@@ -61,7 +61,7 @@ public class CascadicHeaterBlock extends BlockWithEntity {
     }
 
     public BlockState getPlacementState(ItemPlacementContext context) {
-        return (BlockState) this.getDefaultState().with(FACING, context.getPlayerLookDirection());
+        return this.getDefaultState().with(FACING, context.getPlayerLookDirection());
     }
 
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
@@ -77,9 +77,10 @@ public class CascadicHeaterBlock extends BlockWithEntity {
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof CascadicHeaterBlockEntity) {
+            if (blockEntity instanceof CascadicHeaterBlockEntity chbe) {
                 if (world instanceof ServerWorld) {
-                    ItemScatterer.spawn(world, (BlockPos)pos, (Inventory)((CascadicHeaterBlockEntity)blockEntity));
+                    // todo do i even want these blocks in the mod?
+//                    ItemScatterer.spawn(world, pos, chbe.);
                     ((CascadicHeaterBlockEntity)blockEntity).method_27354((ServerWorld)world, Vec3d.ofCenter(pos));
                 }
 
@@ -103,11 +104,11 @@ public class CascadicHeaterBlock extends BlockWithEntity {
     }
 
     public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation((Direction)state.get(FACING)));
+        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     public BlockEntity createBlockEntity(BlockPos blockPos, BlockState blockState) {
@@ -127,15 +128,15 @@ public class CascadicHeaterBlock extends BlockWithEntity {
 
     @Environment(EnvType.CLIENT)
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if ((Boolean)state.get(LIT)) {
+        if (state.get(LIT)) {
             double d = (double)pos.getX() + 0.5D;
-            double e = (double)pos.getY();
+            double e = pos.getY();
             double f = (double)pos.getZ() + 0.5D;
             if (random.nextDouble() < 0.1D) {
                 world.playSound(d, e, f, SoundEvents.BLOCK_BEACON_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
             }
 
-            Direction direction2 = (Direction)state.get(FACING);
+            Direction direction2 = state.get(FACING);
             Direction direction = direction2.getOpposite();
             Direction.Axis axis = direction.getAxis();
             double h = random.nextDouble() * 0.6D - 0.3D;

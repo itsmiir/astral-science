@@ -2,7 +2,6 @@ package com.miir.astralscience.client.render;
 
 import com.miir.astralscience.AstralScience;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.DimensionEffects;
@@ -43,7 +42,7 @@ public abstract class AstralSkyEffects extends DimensionEffects {
 
          @Override
          public Vec3d adjustFogColor(Vec3d color, float sunHeight) {
-             return color.multiply((double)(sunHeight * 0.4F + 0.09F), (double)(sunHeight * 0.4F + 0.09F), (double)(sunHeight * 0.91F + 0.06F));
+             return color.multiply(sunHeight * 0.4F + 0.09F, sunHeight * 0.4F + 0.09F, sunHeight * 0.91F + 0.06F);
          }
 
          @Override
@@ -60,7 +59,7 @@ public abstract class AstralSkyEffects extends DimensionEffects {
 
         @Override
         public Vec3d adjustFogColor(Vec3d color, float sunHeight) {
-            return color.multiply(sunHeight * 0.94F + 0.06F, (double)(sunHeight * 0.94F + 0.06F), sunHeight * 0.91F + 0.09F);
+            return color.multiply(sunHeight * 0.94F + 0.06F, sunHeight * 0.94F + 0.06F, sunHeight * 0.91F + 0.09F);
         }
 
         @Override
@@ -87,8 +86,7 @@ public abstract class AstralSkyEffects extends DimensionEffects {
         }
 
         @Override
-        @Nullable
-        public float[] getFogColorOverride(float skyAngle, float tickDelta) {
+        public float @Nullable [] getFogColorOverride(float skyAngle, float tickDelta) {
 //            return new float[]{0f, 0f, 0f, 0f};
             return null;
         }
@@ -138,8 +136,7 @@ public abstract class AstralSkyEffects extends DimensionEffects {
         }
 
         @Override
-        @Nullable
-        public float[] getFogColorOverride(float skyAngle, float tickDelta) {
+        public float @Nullable [] getFogColorOverride(float skyAngle, float tickDelta) {
             return new float[]{0f, 0f, 0f, 0f};
         }
 

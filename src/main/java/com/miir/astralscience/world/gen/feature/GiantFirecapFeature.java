@@ -2,24 +2,17 @@ package com.miir.astralscience.world.gen.feature;
 
 import com.miir.astralscience.block.AstralBlocks;
 import com.miir.astralscience.world.BlockArray;
-import com.miir.astralscience.world.gen.stateprovider.AdvancedBlockStateProvider;
 import com.mojang.serialization.Codec;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MultifaceGrowthBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 public class GiantFirecapFeature extends AbstractBranchingPlantFeature {
     public static float VINE_CHANCE = 0.95F;
-    private static final BlockState CROWN = AstralBlocks.FIRECAP_SCALES.getDefaultState();
-    private static final BlockState MIDDLE = AstralBlocks.FIRECAP_GILLS.getDefaultState();
-    private static final BlockState TRUNK = AstralBlocks.FIRECAP_HYPHAE.getDefaultState();
-    private static final BlockState BLUEMOSS = AstralBlocks.BLUEMOSS.getDefaultState();
 
     public GiantFirecapFeature(Codec<BranchingPlantFeatureConfig> codec) {
         super(codec);
@@ -96,6 +89,7 @@ public class GiantFirecapFeature extends AbstractBranchingPlantFeature {
 //                    ^^ epic loop exit (doubles as a random way to getFlags slightly wacky trees lol)
 
 //                    future em here. not sure what that^ means. leaving it for posterity.
+//                    futurer miriam here. oh god i used to go by em.
                     direction = Direction.random(context.getRandom());
                     offset = test.offset(direction);
                     i++;

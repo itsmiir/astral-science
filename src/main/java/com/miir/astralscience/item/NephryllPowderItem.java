@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 
 public class NephryllPowderItem extends AliasedBlockItem {
     public NephryllPowderItem(Block block, Settings settings) {

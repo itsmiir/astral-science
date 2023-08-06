@@ -116,7 +116,7 @@ public abstract class AbstractProcessorScreenHandler extends AbstractRecipeScree
     }
 
     protected boolean isSmeltable(ItemStack itemStack) {
-        return this.world.getRecipeManager().getFirstMatch(this.recipeType, new SimpleInventory(new ItemStack[]{itemStack}), this.world).isPresent();
+        return this.world.getRecipeManager().getFirstMatch(this.recipeType, new SimpleInventory(itemStack), this.world).isPresent();
     }
 
     @Override

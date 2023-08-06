@@ -243,12 +243,12 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
             return 0;
         } else {
             Item item = fuel.getItem();
-            return (Integer)createFuelTimeMap().getOrDefault(item, 0);
+            return createFuelTimeMap().getOrDefault(item, 0);
         }
     }
 
     private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
-        return (Integer)world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+        return world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
     }
 
     public static boolean canUseAsFuel(ItemStack stack) {
@@ -290,7 +290,7 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
     }
 
     public ItemStack getStack(int slot) {
-        return (ItemStack)this.inventory.get(slot);
+        return this.inventory.get(slot);
     }
 
     public ItemStack removeStack(int slot, int amount) {
@@ -359,9 +359,9 @@ public class CascadicCoolerBlockEntity extends LockableContainerBlockEntity impl
         List<Recipe<?>> list = Lists.newArrayList();
 
         for (Object2IntMap.Entry<Identifier> identifierEntry : this.recipesUsed.object2IntEntrySet()) {
-            serverWorld.getRecipeManager().get(((Object2IntMap.Entry<Identifier>) (Object2IntMap.Entry) identifierEntry).getKey()).ifPresent((recipe) -> {
+            serverWorld.getRecipeManager().get(((Object2IntMap.Entry<Identifier>) identifierEntry).getKey()).ifPresent((recipe) -> {
                 list.add(recipe);
-                dropExperience(serverWorld, vec3d, ((Object2IntMap.Entry<Identifier>) (Object2IntMap.Entry) identifierEntry).getIntValue(), ((AbstractCookingRecipe) recipe).getExperience());
+                dropExperience(serverWorld, vec3d, ((Object2IntMap.Entry<Identifier>) identifierEntry).getIntValue(), ((AbstractCookingRecipe) recipe).getExperience());
             });
         }
 

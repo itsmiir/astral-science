@@ -149,8 +149,8 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
             --cascadicHeaterBlockEntity.burnTime;
         }
 
-        ItemStack itemStack = (ItemStack)cascadicHeaterBlockEntity.inventory.get(1);
-        if (cascadicHeaterBlockEntity.isBurning() || !itemStack.isEmpty() && !((ItemStack)cascadicHeaterBlockEntity.inventory.get(0)).isEmpty()) {
+        ItemStack itemStack = cascadicHeaterBlockEntity.inventory.get(1);
+        if (cascadicHeaterBlockEntity.isBurning() || !itemStack.isEmpty() && !cascadicHeaterBlockEntity.inventory.get(0).isEmpty()) {
             Recipe recipe = world.getRecipeManager().getFirstMatch(cascadicHeaterBlockEntity.recipeType, cascadicHeaterBlockEntity, world).orElse(null);
             int i = cascadicHeaterBlockEntity.getMaxCountPerStack();
             if (!cascadicHeaterBlockEntity.isBurning() && canAcceptRecipeOutput(cascadicHeaterBlockEntity.getWorld().getRegistryManager(), recipe, cascadicHeaterBlockEntity.inventory, i)) {
@@ -189,7 +189,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
 
         if (bl != cascadicHeaterBlockEntity.isBurning()) {
             bl2 = true;
-            blockState = (BlockState)blockState.with(AbstractFurnaceBlock.LIT, cascadicHeaterBlockEntity.isBurning());
+            blockState = blockState.with(AbstractFurnaceBlock.LIT, cascadicHeaterBlockEntity.isBurning());
             world.setBlockState(blockPos, blockState, 3);
         }
 
@@ -200,12 +200,12 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
     }
 
     private static boolean canAcceptRecipeOutput(DynamicRegistryManager manager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
-        if (!((ItemStack)defaultedList.get(0)).isEmpty() && recipe != null) {
+        if (!defaultedList.get(0).isEmpty() && recipe != null) {
             ItemStack itemStack = recipe.getOutput(manager);
             if (itemStack.isEmpty()) {
                 return false;
             } else {
-                ItemStack itemStack2 = (ItemStack)defaultedList.get(2);
+                ItemStack itemStack2 = defaultedList.get(2);
                 if (itemStack2.isEmpty()) {
                     return true;
                 } else if (!itemStack2.itemMatches(itemStack.getRegistryEntry())) {
@@ -223,9 +223,9 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
 
     private static boolean craftRecipe(DynamicRegistryManager manager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> defaultedList, int i) {
         if (recipe != null && canAcceptRecipeOutput(manager, recipe, defaultedList, i)) {
-            ItemStack itemStack = (ItemStack)defaultedList.get(0);
+            ItemStack itemStack = defaultedList.get(0);
             ItemStack itemStack2 = recipe.getOutput(manager);
-            ItemStack itemStack3 = (ItemStack)defaultedList.get(2);
+            ItemStack itemStack3 = defaultedList.get(2);
             if (itemStack3.isEmpty()) {
                 defaultedList.set(2, itemStack2.copy());
             } else if (itemStack3.isOf(itemStack2.getItem())) {
@@ -243,12 +243,12 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
             return 0;
         } else {
             Item item = fuel.getItem();
-            return (Integer)createFuelTimeMap().getOrDefault(item, 0);
+            return createFuelTimeMap().getOrDefault(item, 0);
         }
     }
 
     private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
-        return (Integer)world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+        return world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
     }
 
     public static boolean canUseAsFuel(ItemStack stack) {
@@ -270,7 +270,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
         this.burnTime = nbt.getShort("BurnTime");
         this.cookTime = nbt.getShort("CookTime");
         this.cookTimeTotal = nbt.getShort("CookTimeTotal");
-        this.fuelTime = this.getFuelTime((ItemStack)this.inventory.get(1));
+        this.fuelTime = this.getFuelTime(this.inventory.get(1));
         NbtCompound nbtCompound = nbt.getCompound("RecipesUsed");
         Iterator var3 = nbtCompound.getKeys().iterator();
 
@@ -322,7 +322,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
     }
 
     public ItemStack getStack(int slot) {
-        return (ItemStack)this.inventory.get(slot);
+        return this.inventory.get(slot);
     }
 
     public ItemStack removeStack(int slot, int amount) {
@@ -393,7 +393,7 @@ public class CascadicHeaterBlockEntity extends LockableContainerBlockEntity impl
 
         while(var4.hasNext()) {
             Object2IntMap.Entry<Identifier> entry = (Object2IntMap.Entry)var4.next();
-            serverWorld.getRecipeManager().get((Identifier)entry.getKey()).ifPresent((recipe) -> {
+            serverWorld.getRecipeManager().get(entry.getKey()).ifPresent((recipe) -> {
                 list.add(recipe);
                 dropExperience(serverWorld, vec3d, entry.getIntValue(), ((AbstractCookingRecipe)recipe).getExperience());
             });

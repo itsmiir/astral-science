@@ -2,7 +2,6 @@ package com.miir.astralscience.item;
 
 import com.miir.astralscience.AstralScience;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,17 +26,14 @@ public class GPSItem extends Item {
         if (world instanceof ServerWorld) {
             if (!world.getRegistryKey().getValue().getNamespace().equals(AstralScience.MOD_ID)) {
                 switch (world.getRegistryKey().getValue().getPath()) {
-                    case "overworld":
+                    case "overworld" -> {
                         user.sendMessage(Text.of("[§6GPS§r] You are on planet §6Overworld§r."), false);
                         user.sendMessage(Text.of("[§6GPS§r] Local gravity: §69.81§rm/s^2."), false);
-                        break;
-                    case "the_nether":
-                    case "the_end":
-                        user.sendMessage(Text.of("[§6GPS§r] §4Local galactic coordinates are outside the universe!§r"), false);
-                        break;
-                    default:
-                        user.sendMessage(Text.of("[§6GPS§r] §4Local CMB radiation does not match any known region of space! Are you lost?§r"), false);
-                        break;
+                    }
+                    case "the_nether", "the_end" ->
+                            user.sendMessage(Text.of("[§6GPS§r] §4Local galactic coordinates are outside the universe!§r"), false);
+                    default ->
+                            user.sendMessage(Text.of("[§6GPS§r] §4Local CMB radiation does not match any known region of space! Are you lost?§r"), false);
                 }
             } else {
                 if (world.getRegistryKey().getValue().getPath().equals("overworld_orbit")) {

@@ -7,8 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.registry.Registry;
-import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionOptions;
 
 public class AstralTags {

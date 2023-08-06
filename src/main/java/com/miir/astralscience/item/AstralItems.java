@@ -2,13 +2,14 @@ package com.miir.astralscience.item;
 
 import com.miir.astralscience.AstralScience;
 import com.miir.astralscience.block.AstralBlocks;
-import com.miir.astralscience.material.AstralMaterials;
 import com.miir.astralscience.material.NephryllMaterial;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.AliasedBlockItem;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.Rarity;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Rarity;
 
 public class AstralItems {
 //    MATERIALS

@@ -118,7 +118,7 @@ public class AstralScience implements ModInitializer {
             .build();
 
     public static boolean isSuffocating(LivingEntity entity, World world) {
-        return (!entity.getType().isIn(AstralTags.ANAEROBIC)) && (!hasAir(world, entity.getPos())) || false;
+        return (!entity.getType().isIn(AstralTags.ANAEROBIC)) && (!hasAir(world, entity.getPos()));
     }
 
     private static boolean hasAir(World world, Vec3d pos) {
